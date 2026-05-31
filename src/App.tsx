@@ -6,6 +6,7 @@ import ProteinDetailsDashboard from './pages/ProteinDetailsDashboard';
 import ProteinCatalog from './pages/ProteinCatalog';
 import AboutUs from './pages/AboutUs';
 import HowItWorks from './pages/HowItWorks';
+import Ceacam5Report from './pages/Ceacam5Report';
 import Layout from './components/Layout';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<ProteinDetailsDashboard />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/ceacam5" element={<Ceacam5Report />} />
         </Route>
       </Routes>
     </Router>

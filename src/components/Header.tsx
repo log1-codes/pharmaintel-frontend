@@ -1,45 +1,54 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const location = useLocation();
-  const path = location.pathname;
-
-  const navLink = (to: string, label: string) => {
-    const isActive = path === to;
-    return (
-      <Link
-        to={to}
-        className={`transition-colors duration-200 ${
-          isActive
-            ? 'text-blue-700 font-semibold border-b-2 border-blue-600'
-            : 'text-slate-600 hover:text-blue-600'
-        }`}
-      >
-        {label}
-      </Link>
-    );
-  };
-
   return (
-    <header className="fixed top-0 w-full flex justify-between items-center px-8 h-16 bg-white/70 backdrop-blur-xl z-50 border-b border-slate-200/20 font-['Manrope'] tracking-tight">
-      <div className="text-xl font-bold tracking-tighter text-blue-800">
-        <Link to="/">PharmaIntel</Link>
-      </div>
-      <nav className="hidden md:flex items-center gap-8">
-        {navLink('/about', 'About')}
-        {navLink('/how-it-works', 'How it Works')}
-        {navLink('/proteins', 'Proteins')}
-        {navLink('/pricing', 'Plans')}
-      </nav>
-      <div className="flex items-center gap-4">
-        <Link to="/login">
-          <button className="text-slate-600 hover:text-blue-600 transition-colors duration-200 px-4 py-2 text-sm font-medium">Login</button>
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#132035] bg-[#0E1520]/90 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+            <span className="text-white font-bold text-xl">P</span>
+          </div>
+          <span className="font-semibold tracking-tight text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            PharmaIntel
+          </span>
         </Link>
-        <Link to="/login">
-          <button className="bg-primary text-on-primary px-6 py-2 rounded-lg text-sm font-bold uppercase tracking-wider hover:opacity-90 active:scale-95 transition-all">Sign Up</button>
-        </Link>
+
+        {/* Nav */}
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/about" className="nav-link">About Us</Link>
+          <a href="/#newsletter" className="nav-link">Newsletter</a>
+          <a href="/#takestwo" className="nav-link">Takes Two</a>
+
+          {/* Reports Dropdown */}
+          <div className="relative dropdown">
+            <button className="nav-link flex items-center gap-2 text-slate-300 hover:text-white">
+              Reports
+              <i className="fas fa-chevron-down text-xs"></i>
+            </button>
+            <div className="dropdown-menu absolute top-full left-0 mt-4 w-56 rounded-2xl border border-[#132035] bg-[#0E1520]/95 backdrop-blur-xl shadow-2xl overflow-hidden z-50">
+              <Link to="/ceacam5" className="block px-5 py-4 text-sm text-slate-300 hover:bg-[#132035] hover:text-white transition">
+                Ceacam5
+              </Link>
+              <a href="/#upcoming" className="block px-5 py-4 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition border-t border-white/5">
+                Upcoming
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex items-center gap-4">
+          <Link to="/login" className="btn px-6 py-3 text-sm font-semibold rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center text-white transition">
+            Login
+          </Link>
+          <Link to="/login" className="btn px-6 py-3 text-sm font-semibold rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white shadow-lg shadow-purple-500/20 inline-flex items-center justify-center transition">
+            Sign Up Free
+          </Link>
+        </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
