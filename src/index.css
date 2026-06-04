@@ -23,6 +23,11 @@
   --color-lock-red: #8B2020;
   --color-lock-bg: rgba(139,32,32,0.08);
   --color-chapter-bg: #F7F5F0;
+
+  /* Chapter Book Colors */
+  --color-offwhite: #FAFAFA;
+  --color-vermilion: #E34234;
+  --color-amethyst: #9966CC;
   
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Libre Franklin', sans-serif;

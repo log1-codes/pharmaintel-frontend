@@ -8,6 +8,9 @@ import AboutUs from './pages/AboutUs';
 import HowItWorks from './pages/HowItWorks';
 import Ceacam5Report from './pages/Ceacam5Report';
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
+import ChapterIndex from './pages/ChapterIndex';
+import Chapter1 from './pages/Chapter1';
 
 function App() {
   return (
@@ -22,6 +25,12 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/ceacam5" element={<Ceacam5Report />} />
+          
+          {/* Protected Chapter Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/book-index" element={<ChapterIndex />} />
+            <Route path="/chapter-1" element={<Chapter1 />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

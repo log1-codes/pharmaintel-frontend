@@ -1,6 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const Header = () => {
+  const [user, setUser] = useState<{ name: string } | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        setUser(JSON.parse(userData));
+      } catch (e) {
+        console.error('Failed to parse user data');
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/');
+    window.location.reload(); // Force full reload to clear any protected state
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#132035] bg-[#0E1520]/90 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
@@ -20,6 +43,7 @@ const Header = () => {
           <Link to="/about" className="nav-link">About Us</Link>
           <a href="/#newsletter" className="nav-link">Newsletter</a>
           <a href="/#takestwo" className="nav-link">Takes Two</a>
+          <Link to="/book-index" className="nav-link">Book Index</Link>
 
           {/* Reports Dropdown */}
           <div className="relative dropdown">
@@ -40,12 +64,25 @@ const Header = () => {
 
         {/* Buttons */}
         <div className="flex items-center gap-4">
-          <Link to="/login" className="btn px-6 py-3 text-sm font-semibold rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center text-white transition">
-            Login
-          </Link>
-          <Link to="/login" className="btn px-6 py-3 text-sm font-semibold rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white shadow-lg shadow-purple-500/20 inline-flex items-center justify-center transition">
-            Sign Up Free
-          </Link>
+          {user ? (
+            <div className="flex items-center gap-6">
+              <span className="text-slate-200 font-medium tracking-wide">
+                Welcome, <span className="text-white font-bold">{user.name}</span>
+              </span>
+              <button
+                onClick={handleLogout}
+                className="btn px-5 py-2 text-sm font-semibold rounded-2xl border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 text-slate-300 transition-all cursor-pointer"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link to="/login" className="btn px-6 py-3 text-sm font-semibold rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center text-white transition">
+                Login
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
