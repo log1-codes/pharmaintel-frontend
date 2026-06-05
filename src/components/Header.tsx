@@ -29,11 +29,9 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-            <span className="text-white font-bold text-xl">P</span>
-          </div>
+          <img src="/logo.jpeg" alt="AmethIntel Logo" className="h-10 object-contain" />
           <span className="font-semibold tracking-tight text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            PharmaIntel
+            AmethIntel
           </span>
         </Link>
 
@@ -43,7 +41,6 @@ const Header = () => {
           <Link to="/about" className="nav-link">About Us</Link>
           <a href="/#newsletter" className="nav-link">Newsletter</a>
           <a href="/#takestwo" className="nav-link">Takes Two</a>
-          <Link to="/book-index" className="nav-link">Book Index</Link>
 
           {/* Reports Dropdown */}
           <div className="relative dropdown">

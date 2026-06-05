@@ -6,10 +6,10 @@ const Chapter1 = () => {
     <div className="min-h-screen bg-offwhite text-slate-800 font-serif pt-32 pb-16 px-6 relative">
       {/* Navigation */}
       <div className="max-w-4xl mx-auto mb-12 flex items-center justify-between font-sans text-sm">
-        <Link to="/book-index" className="text-amethyst hover:text-vermilion transition-colors flex items-center gap-2">
-          <i className="fas fa-arrow-left"></i> Back to Index
+        <Link to="/ceacam5#chapters" className="text-amethyst hover:text-vermilion transition-colors flex items-center gap-2">
+          <i className="fas fa-arrow-left"></i> Back to Report
         </Link>
-        <span className="text-slate-400 uppercase tracking-widest font-semibold">Chapter 1</span>
+        <span className="text-slate-400 uppercase tracking- font-semibold">Chapter 1</span>
       </div>
 
       {/* Header */}
@@ -22,7 +22,7 @@ const Chapter1 = () => {
 
       {/* Main Content Area */}
       <div className="max-w-4xl mx-auto relative flex flex-col lg:flex-row gap-16">
-        
+
         {/* Main Text Column */}
         <div className="flex-1 space-y-8 text-lg leading-[1.8] text-slate-700">
           <p className="text-xl leading-relaxed text-slate-800 font-medium">
@@ -78,7 +78,7 @@ const Chapter1 = () => {
           <p>Extensive studies have elucidated the protein structure summarized in <strong>Exhibit 1</strong>.</p>
 
           <h2 className="text-3xl font-bold mt-12 mb-6 text-slate-900" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Challenges in Designing a CEACAM5 Therapy</h2>
-          
+
           <p>
             While highly druggable biological profile, the glycosylation pattern, which makes the structures highly variable, and mechanism of the protein, not being an active enzyme with an active site which can be blocked, limit the design of small molecules. However 32 small molecule trials have been conducted, and have yielded useful information.
           </p>
@@ -113,7 +113,7 @@ const Chapter1 = () => {
 
         {/* Right Sidebar for Exhibits */}
         <div className="lg:w-72 flex-shrink-0 space-y-8 font-sans">
-          
+
           {/* Exhibit 1 */}
           <div className="bg-amethyst/5 border-l-4 border-amethyst p-6 rounded-r-xl">
             <h4 className="font-bold text-amethyst uppercase tracking-widest text-xs mb-3">Exhibit 1</h4>
@@ -140,12 +140,12 @@ const Chapter1 = () => {
 
           {/* Key References */}
           <div className="p-6 border border-slate-200 rounded-xl bg-white">
-             <h4 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider">Key References</h4>
-             <ul className="text-xs text-slate-500 space-y-3 leading-relaxed">
-               <li>Beauchemin N, et al. Redefined nomenclature for members of the carcinoembryonic antigen family. <em className="text-slate-700">Exp Cell Res.</em> 1999</li>
-               <li>Gazzah A, et al. Safety, pharmacokinetics, and antitumor activity of the anti-CEACAM5–DM4 ADC... <em className="text-slate-700">Ann Oncol.</em> 2022</li>
-               <li>Tabernero J, et al. A phase Ia/Ib study of cibisatamab... <em className="text-slate-700">J Immunother Cancer.</em> 2021</li>
-             </ul>
+            <h4 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wider">Key References</h4>
+            <ul className="text-xs text-slate-500 space-y-3 leading-relaxed">
+              <li>Beauchemin N, et al. Redefined nomenclature for members of the carcinoembryonic antigen family. <em className="text-slate-700">Exp Cell Res.</em> 1999</li>
+              <li>Gazzah A, et al. Safety, pharmacokinetics, and antitumor activity of the anti-CEACAM5–DM4 ADC... <em className="text-slate-700">Ann Oncol.</em> 2022</li>
+              <li>Tabernero J, et al. A phase Ia/Ib study of cibisatamab... <em className="text-slate-700">J Immunother Cancer.</em> 2021</li>
+            </ul>
           </div>
 
         </div>

@@ -3,8 +3,8 @@ const Footer = () => {
     <footer className="w-full bg-slate-950 border-t border-white/10 font-['Inter'] text-sm text-slate-400 py-12">
       <div className="w-full max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col gap-4">
-          <div className="font-bold text-white text-xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>PharmaIntel</div>
-          <p>© 2026 PharmaIntel. All rights reserved.</p>
+          <div className="font-bold text-white text-xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</div>
+          <p>© 2026 AmethIntel. All rights reserved.</p>
         </div>
         <nav className="flex flex-wrap justify-center gap-8">
           <a className="hover:text-white transition-colors" href="#">Privacy Policy</a>

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Ceacam5Report = () => {
   const [tocActive, setTocActive] = useState(false);
@@ -14,9 +14,20 @@ const Ceacam5Report = () => {
   const submitRequest = () => { alert("Request submitted successfully!"); closeModal(); };
   const closeModalOutside = (e: any) => { if (e.target.id === 'modal') closeModal(); };
 
+  const navigate = useNavigate();
+
+  const handleReadChapter = (chapterRoute: string) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("Please login & subscribe to see the chapter content.");
+    } else {
+      navigate(chapterRoute);
+    }
+  };
+
   return (
     <>
-      
+
       <div className="pt-[104px] min-h-screen" style={{ background: 'var(--ink)', color: 'var(--fog)', fontFamily: 'var(--sans)' }}>
 
 
@@ -25,12 +36,12 @@ const Ceacam5Report = () => {
         {/*  HERO  */}
         <section className="pt-[56px] pb-[48px]">
           <div className="max-w-[1040px] mx-auto px-12" style={{ "paddingLeft": "0", "paddingRight": "0" }}>
-            <div className="font-mono text-[11px] text-steel uppercase tracking-[0.1em] mb-[3px]">PharmaIntel · Oncology Intelligence Series · 2026</div>
+            <div className="font-mono text-[11px] text-steel uppercase tracking-[0.1em] mb-[3px]">AmethIntel · Oncology Intelligence Series · 2026</div>
             <h1 className="font-serif text-[42px] font-normal text-cream leading-[1.2] my-6">CEACAM5: Oncology Target and<br /><em className="font-serif italic text-accent-light">Ramifications for Target Selection Strategy</em></h1>
             <p className="font-sans text-[12px] uppercase tracking-[0.05em] font-semibold text-accent-light mb-1">A decision-grade intelligence review integrating clinical trial triage, failure attribution, patent landscape, payload and linker analysis, and 2026 deal structure benchmarks — structured for R&amp;D heads, BD leaders, and oncology investment teams.</p>
 
             <div className="flex items-center gap-3 font-mono text-[11px] tracking-[0.1em] text-steel uppercase">
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-[0.1em]">Publisher</div><div className="font-sans text-[13px] text-fog">PharmaIntel</div></div>
+              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-[0.1em]">Publisher</div><div className="font-sans text-[13px] text-fog">AmethIntel</div></div>
               <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-[0.1em]">Pages</div><div className="font-sans text-[13px] text-fog">~80 pp</div></div>
               <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-[0.1em]">Chapters</div><div className="font-sans text-[13px] text-fog">8 + Appendix</div></div>
               <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-[0.1em]">Updated</div><div className="font-sans text-[13px] text-fog">May 2026</div></div>
@@ -90,7 +101,7 @@ const Ceacam5Report = () => {
               </p>
 
               <p>
-                This report is part of a broader PharmaIntel precision medicine series examining how biology, translational infrastructure, platform technology, intellectual property accessibility, licensing geography, clinical strategy, and payer dynamics interact to shape modern therapeutic markets. CEACAM5 provides an unusually rich case study because the field combines extensive clinical precedent, evolving ADC technologies, multiple therapeutic modalities, significant translational infrastructure, and increasingly global licensing dynamics.
+                This report is part of a broader AmethIntel precision medicine series examining how biology, translational infrastructure, platform technology, intellectual property accessibility, licensing geography, clinical strategy, and payer dynamics interact to shape modern therapeutic markets. CEACAM5 provides an unusually rich case study because the field combines extensive clinical precedent, evolving ADC technologies, multiple therapeutic modalities, significant translational infrastructure, and increasingly global licensing dynamics.
               </p>
 
               <p>
@@ -229,324 +240,105 @@ const Ceacam5Report = () => {
 
             {/*  CH 1  */}
             <div className="mb-2" id="ch-1">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-1') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter1')}>
                 <div className="font-mono text-[12px] text-accent">01</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Target Biology &amp; Expression Landscape</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">What CEACAM5 is, where it is expressed, and what that means for therapeutic window design</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — key findings</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Domain architecture resolved at 3.11 Å:</strong> the October 2024 cryo-EM structure (PDB 8BW0, Sanofi/Nature Comms) reveals tusamitamab binds a discontinuous epitope in the A3-B3 domains incorporating an N-linked mannose at Asn612 — the first atomic-resolution epitope map of any CEACAM5 antibody</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Expression frequency by tumour type:</strong> CRC 90–95% any IHC; high-expression (≥2+/≥50% cells) in ~60–70% mCRC. NSCLC adenocarcinoma: 24.3% HE in primary tumours, rising to 35.3% in metastases. Gastric: 55–70%. PDAC: ~90%</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>The polarity shift is the therapeutic window:</strong> in normal colonic epithelium CEACAM5 is strictly apical-surface; in adenocarcinoma polarity is lost and expression becomes circumferential — basolateral surface accessible to vascular-delivered agents</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter includes: complete IHC frequency tables with H-score distributions · KRAS-CEACAM5 molecular correlations in NSCLC · serum CEA dynamics by tumour type · shedding sink quantification · domain surface exposure by tumour type vs. normal tissue · 9 peer-reviewed citations</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2">$500</div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 1: Target Biology') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 2  */}
             <div className="mb-2" id="ch-2">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-2') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter2')}>
                 <div className="font-mono text-[12px] text-accent">02</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Active Clinical Trial Landscape</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">260+ trials — tiered by what actually matters to a BD or investment decision</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — key findings</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Tier A — three programmes with imminent data:</strong> BMS-986490 (NCT06730750, Phase 2a with ramucirumab, CRC), IBI3020 (NCT06963281, Chinese-origin dual-payload ADC), NILK-2301 (NCT06663839). Each has a meaningfully different linker and patient selection approach from tusamitamab</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>The outlier with highest near-term commercial probability:</strong> SGM-101 surgical fluorescence imaging agent for CRC margin detection — bypasses systemic shedding sink, separate regulatory pathway, Phase 3 data expected 2026–26. Underrepresented in standard competitive databases due to modality categorisation</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Sponsor commitment divergence:</strong> Chinese biotechs (Innovent, Henlius) are advancing capital; Western large pharma has retreated. This geographic divergence is a licensing arbitrage signal, not a biology signal</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter includes: complete Tier A/B/C trial triage with readout timelines · cross-trial patient selection heterogeneity analysis · kinetic energy scoring by programme · sponsor commitment signal methodology · CAR-T and vaccine programme assessment · full NCT reference index (in Appendix)</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2">$500</div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 2: Clinical Trial Landscape') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 3  */}
             <div className="mb-2" id="ch-3">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-3') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter3')}>
                 <div className="font-mono text-[12px] text-accent">03</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Programme Failure Attribution</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">A diagnostic, not a graveyard — every terminated programme assigned to one of four root causes</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — key findings</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Tusamitamab: two distinct failure causes, not one:</strong> the corneal DLT (keratopathy in 25% of Phase 3 patients, dose-limiting at 120 mg/m²) is a DM4 maytansinoid payload class effect — Cause II, modality-intrinsic. The Phase 3 efficacy failure is Cause III, trial design — no serum CEA stratification, PFS primary endpoint in a population where OS trend was positive</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Roche's full CEA portfolio exit (cibisatamab, cergutuzumab, CEA-IL2v) is Cause IV — strategic:</strong> the termination language in public filings does not cite biology failure. The CRS events in cibisatamab are Cause II — T-cell redirector format against a target with normal tissue expression in GI epithelium</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Cross-cutting finding:</strong> every programme that survived longest shared one feature — either biomarker-selected enrolment or a surgical/diagnostic application that bypasses systemic exposure entirely</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter includes: complete four-cause taxonomy with scoring criteria · every major terminated programme classified with evidence · labetuzumab govitecan SN-38 bystander analysis · MEDI-565 BiTE immunogenicity dissection · NCI TCR-engineered PBL colitis case · full attribution table (30 programmes)</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2">$500</div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 3: Failure Attribution') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 4  */}
             <div className="mb-2" id="ch-4">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-4') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter4')}>
                 <div className="font-mono text-[12px] text-accent">04</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Patent Landscape</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">Where entry is blocked, where it is open, and where the real barriers now concentrate</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — selected signals</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>The antibody is commoditised:</strong> A1-B1 and A2-B2 IgV-loop space is densely claimed. The A3-B3 space — where tusamitamab binds — now has a publicly deposited cryo-EM structure (PDB 8BW0) enabling rational design of adjacent-epitope antibodies by any competitor</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>N-terminal domain remains relatively open:</strong> limited assignee concentration, NCI public domain contributions available as FTO starting points — specific sequences and method-of-use claims identified in full chapter</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter: complete domain-level assignee map · Synaffix/BI $1.3B linker deal analysis · biomarker and CDx IP layer · NCI FTO pathways · white space identification by domain and modality · strategic entry pathway for new entrant</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2">$500</div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 4: Patent Landscape') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 5  */}
             <div className="mb-2" id="ch-5">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-5') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter5')}>
                 <div className="font-mono text-[12px] text-accent">05</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Payload Landscape</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">Why maytansinoid gave way to Topo1i — and what the data says about the next transition</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — selected signals</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>DM4 corneal toxicity is a class effect, not a CEACAM5 effect:</strong> identical keratopathy/keratitis profile documented in mirvetuximab soravtansine (FOLR1-DM4) and trastuzumab emtansine (HER2-DM1). Corneal epithelial cells take up maytansinoid ADCs via non-specific endocytosis independent of target expression</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Topo1i bystander killing is mechanistically superior for CEACAM5:</strong> heterogeneous expression in CRC and NSCLC means not every tumour cell expresses CEACAM5. DXd and exatecan derivatives with larger bystander killing radius compensate — DM4's bystander radius is insufficient for this target profile</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter: DXd vs. SN-38 vs. exatecan clinical comparison · patent landscape by payload class · dual-payload platform IP (IBI3020) · combination payload hypotheses with mechanistic rationale · payload selection framework for next-generation CEACAM5 ADC</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2">$500</div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 5: Payload Landscape') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 6  */}
             <div className="mb-2" id="ch-6">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-6') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter6')}>
                 <div className="font-mono text-[12px] text-accent">06</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Linker Landscape</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">The linker is where this field will be won — the clinical evidence and the deal data agree</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — selected signals</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Tusamitamab's SPDB linker is cleavable — but at the wrong site:</strong> lysine conjugation produces DAR heterogeneity (DAR 3.8 average, wide distribution). Site-specific conjugation at engineered cysteines or glycan anchors produces homogeneous DAR — directly improving the shedding sink survival ratio</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>The $1.3B signal:</strong> Boehringer Ingelheim acquired Synaffix specifically for glycan-anchor site-specific conjugation — not for an antibody, not for a target. The linker platform itself commanded the deal value. This is the most important pricing signal in CEACAM5-adjacent IP in 2024</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter: shedding sink PK competition modelling · plasma half-life data across all CEACAM5 ADC programmes · site-specific conjugation IP landscape · DAR optimisation for high-shedding targets · white space in linker IP · patient selection solution derived from linker analysis</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2"></div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 6: Linker Landscape') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 7  */}
             <div className="mb-2" id="ch-7">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-7') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter7')}>
                 <div className="font-mono text-[12px] text-accent">07</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">Differentiation for Long-Term Dominance</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">The three-variable framework — and the population sizing that determines the commercial ceiling</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — selected signals</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>All three errors must be corrected simultaneously:</strong> a programme with Topo1i payload but no serum CEA stratification repeats the patient selection error. A programme with site-specific conjugation but A3-B3 epitope targeting remains vulnerable to shed ectodomain competition. Sequential optimisation is insufficient</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>SGM-101 is the underappreciated exception:</strong> surgical fluorescence guidance for CRC margin detection bypasses every systemic problem. Highest near-term commercial probability in the field. Distinct licensing model from ADC programmes — closer to medical device than oncology drug</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter: dual-criterion patient population sizing (IHC + serum CEA) in CRC, gastric, NSCLC · commercial ceiling by indication · four-scenario risk matrix with probability weights · decision triggers by scenario · combination strategy with mechanistic rationale</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2"></div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 7: Differentiation Framework') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
             {/*  CH 8  */}
             <div className="mb-2" id="ch-8">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => { toggleChapter('ch-8') }}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter8')}>
                 <div className="font-mono text-[12px] text-accent">08</div>
                 <div className="flex flex-col">
                   <div className="font-serif text-[18px] text-cream">2026 Deal Structure Analysis</div>
                   <div className="text-[12px] text-steel mt-[3px] italic">Where capital is moving — and what a CEACAM5 ADC at Phase 1 POC would actually license for</div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span>or included in full</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">+</div>
-              </div>
-              <div className="bg-navy-mid border-x border-b border-rule rounded-b-[3px] hidden">
-                <div className="pt-5 pr-5 pb-0 pl-[76px]">
-                  <div className="font-mono text-[11px] text-free-green uppercase tracking-[0.1em] mb-3 flex items-center gap-2">Free preview — selected signals</div>
-                  <div className="flex flex-col gap-4 mb-5">
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Licensing overtook M&amp;A as primary value driver in 2026:</strong> $250B+ across 516 transactions. For CEACAM5, this means a Phase 1 POC asset is a licensing play, not an acquisition target — and the deal structure must account for the Sanofi Phase 3 failure discount in narrative positioning</div></div>
-                    <div className="font-sans text-[15px] leading-[1.7] text-mist mb-6"><div className="absolute left-0 top-[8px] w-1 h-1 bg-accent rounded-full"></div><div><strong>Chinese-origin out-licensing trajectory:</strong> Innovent/Takeda $11.4B deal structure is the template. Three active Chinese-origin CEACAM5 programmes (IBI3020, DNP002, NILK-2301) are all potential licensing candidates to Western pharma within 24–36 months of Phase 2 data</div></div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 bg-ink border border-rule rounded-[3px] p-5 px-6 mx-5 mb-5 ml-[76px]">
-                  <div className="flex-1">
-                    <div className="font-mono text-[11px] text-lock-red uppercase tracking-[0.1em] mb-[6px] flex items-center gap-2">Full content locked</div>
-                    <div className="flex flex-col gap-3">
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                      <div className="h-[14px] bg-rule rounded-[2px] opacity-50"></div>
-                    </div>
-                    <div style={{ "fontSize": "11px", "color": "var(--steel)", "marginTop": "10px" }}>Full chapter: complete 2024–25 ADC deal comparables table · upfront/milestone/royalty benchmarks by stage · geo-split norms · the Sanofi failure discount — how to position against it · surgical fluorescence licensing model · non-ADC deal angles</div>
-                  </div>
-                  <div className="flex-shrink-0 text-center">
-                    <div className="font-mono text-[22px] font-medium text-accent mb-2"></div>
-                    <div className="text-[11px] text-steel mb-3">Single chapter licence</div>
-                    <button className="bg-accent hover:bg-accent-light text-ink border-none px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full transition-colors cursor-pointer" onClick={() => { openModal('Chapter 8: Deal Structure Analysis') }}>Unlock Chapter</button>
-                    <button className="bg-transparent hover:bg-accent-dim text-accent border border-accent px-[22px] py-[9px] font-sans text-[12px] font-semibold tracking-[0.06em] uppercase rounded-[2px] w-full mt-[6px] transition-colors cursor-pointer" onClick={() => { openModal('full') }}>Full Report — $10,000</button>
-                  </div>
-                </div>
+                <div className="font-mono text-[12px] text-steel mt-[3px] text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>
 
@@ -578,7 +370,7 @@ const Ceacam5Report = () => {
                 <div className="text-[13px] text-mist mb-[18px] leading-[1.6] pb-4 border-b border-rule">Complete report including all 8 chapters, Appendix (30-programme reference table, deal comparables, patent assignee summary), and one 60-minute analyst briefing call.</div>
                 <div className="flex flex-col gap-2 mb-5">
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">All 8 chapters + full Appendix</div>
-                  <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">60-minute Q&amp;A briefing with PharmaIntel analysts</div>
+                  <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">60-minute Q&amp;A briefing with AmethIntel analysts</div>
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">Unlimited internal use, one organisation</div>
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">PDF + web access + printable version</div>
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">6-month update notification</div>
@@ -589,7 +381,7 @@ const Ceacam5Report = () => {
               <div className="bg-navy-mid border border-rule rounded-[3px] p-6">
                 <div className="font-mono text-[10px] text-steel tracking-[0.1em] uppercase mb-[10px]">Enterprise + Bespoke</div>
                 <div className="font-serif text-[32px] text-cream font-medium mb-1"><sub className="text-[14px] font-sans text-steel font-normal">custom</sub></div>
-                <div className="text-[13px] text-mist mb-[18px] leading-[1.6] pb-4 border-b border-rule">Custom target analysis applying the PharmaIntel methodology to a target of your choosing, or multi-report series subscription including microbiology intelligence series (2026–26).</div>
+                <div className="text-[13px] text-mist mb-[18px] leading-[1.6] pb-4 border-b border-rule">Custom target analysis applying the AmethIntel methodology to a target of your choosing, or multi-report series subscription including microbiology intelligence series (2026–26).</div>
                 <div className="flex flex-col gap-2 mb-5">
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">Bespoke target analysis — your choice of target</div>
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-[1.5]">Series subscription: oncology + microbiology</div>

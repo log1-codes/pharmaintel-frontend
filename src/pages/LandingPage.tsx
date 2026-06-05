@@ -34,7 +34,7 @@ const LandingPage = () => {
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16">
                     <div className="max-w-3xl">
                         <div className="flex items-center gap-3 font-mono text-[11px] tracking-[0.1em] text-steel uppercase">
-                            <span>PHARMAINTEL</span>
+                            <span>AmethIntel</span>
                             <span>·</span>
                             <span>INTELLIGENCE LAYER</span>
                         </div>
@@ -43,7 +43,7 @@ const LandingPage = () => {
                             Connecting Scientific Signals<br /><em className="font-serif italic text-accent-light">to Support Strategy</em>
                         </h1>
                         <p className="font-sans text-[20px] leading-[1.6] text-mist max-w-[700px] mb-12">
-                            PharmaIntel is a fast way for in-depth collection of publications, patents, clinical development, regulatory intelligence, investment and business activity, and adjacent scientific landscapes to identify strategic opportunities.
+                            AmethIntel is a fast way for in-depth collection of publications, patents, clinical development, regulatory intelligence, investment and business activity, and adjacent scientific landscapes to identify strategic opportunities.
                         </p>
                         <div className="flex flex-wrap gap-5 mt-12">
                             <a href="#waitlist" className="bg-navy hover:bg-navy-mid text-accent border border-accent/30 font-serif px-8 py-4 text-lg flex items-center gap-3 transition-colors">
@@ -87,7 +87,7 @@ const LandingPage = () => {
                     <div className="max-w-5xl mb-24">
                         <span className="inline-flex items-center gap-2 px-5 py-2 bg-purple-500/10 border border-purple-500/20 text-purple-300 rounded-full text-sm tracking-wide uppercase font-medium">
                             <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
-                            About PharmaIntel
+                            About AmethIntel
                         </span>
                         <h2 className="mt-8 text-3xl md:text-5xl leading-[1.2] tracking-tight font-semibold max-w-4xl">
                             <span className="block text-[#ff5b4d] glow-text" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Intelligence Layer for Biotech / Pharma</span>
@@ -102,18 +102,18 @@ const LandingPage = () => {
                                 Connected intelligence Showcases Real World Scenario
                             </h3>
                             <div className="space-y-8 text-slate-300 text-lg leading-[1.95]">
-                                <p>In drug development, the biggest threats and opportunities often hide at the intersection of multiple signals, while typical analysis gets steered by a few weighted points. PharmaIntel was founded with a thesis: true success demands seeing how scientific, competitive, regulatory, commercial, and clinical forces interact — in real time.</p>
+                                <p>In drug development, the biggest threats and opportunities often hide at the intersection of multiple signals, while typical analysis gets steered by a few weighted points. AmethIntel was founded with a thesis: true success demands seeing how scientific, competitive, regulatory, commercial, and clinical forces interact — in real time.</p>
                                 <p>What if we create a dashboard of various signals – loud and weak – visible on the radar screen at the same time? What if the implications of each signal are available a single click away?</p>
                                 <p>Today’s reality of drug development is integrated. A promising clinical trial can be undermined by aggressive fast-followers, the barriers to entry from a good patent portfolio can be weakened by a new development in technology, shifting Big Pharma interest, or changing reimbursement dynamics. Success depends on continuously tracking and projecting the combined impact of these forces on both your program and patient outcomes.</p>
-                                <p><b>Our Mission</b> PharmaIntel integrates signals from diverse dimensions — scientific, competitive, regulatory, commercial, and clinical — to project their collective effect on drug development programs and, ultimately, patient health. We transform fragmented data into clear, actionable foresight.</p>
+                                <p><b>Our Mission</b> AmethIntel integrates signals from diverse dimensions — scientific, competitive, regulatory, commercial, and clinical — to project their collective effect on drug development programs and, ultimately, patient health. We transform fragmented data into clear, actionable foresight.</p>
                                 <p><b>What We Deliver</b></p>
                                 <ul className="space-y-4 pl-5">
                                     <li>• Holistic Signal Intelligence: Early detection of emerging fast followers, competitive aggression, licensing & M&A signals from major pharma, patent vulnerabilities, and clinical momentum.</li>
                                     <li>• Predictive Modeling: AI-powered simulations that reveal how multiple signals interact, helping you anticipate risks, quantify opportunities, and model downstream effects on timelines, valuation, and patient benefit.</li>
                                     <li>• Decision-Ready Insights: Visual, scenario-based intelligence built for portfolio strategists, business development teams, and R&D leaders who need clarity in a noisy environment.</li>
                                 </ul>
-                                <p>Backed by deep, hands-on experience in global pharma R&D and manufacturing operations, PharmaIntel brings together rigorous data science with real-world industry judgment. We believe superior intelligence doesn’t just de-risk programs — it fundamentally accelerates the delivery of better medicines to patients.</p>
-                                <p>Whether you are steering a biotech or healthtech pipeline, evaluating strategic partnerships, or positioning assets for maximum impact, PharmaIntel gives you the edge to see what others miss — and act before they do.</p>
+                                <p>Backed by deep, hands-on experience in global pharma R&D and manufacturing operations, AmethIntel brings together rigorous data science with real-world industry judgment. We believe superior intelligence doesn’t just de-risk programs — it fundamentally accelerates the delivery of better medicines to patients.</p>
+                                <p>Whether you are steering a biotech or healthtech pipeline, evaluating strategic partnerships, or positioning assets for maximum impact, AmethIntel gives you the edge to see what others miss — and act before they do.</p>
 
                                 <p className="text-white font-semibold flex flex-wrap items-center gap-3">
                                     Ready to see the signals others miss?
@@ -148,7 +148,7 @@ const LandingPage = () => {
                             <div className="relative z-10">
                                 <div className="flex items-center gap-3 mb-8">
                                     <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl">💎</div>
-                                    <h3 className="text-3xl font-semibold" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Why PharmaIntel?</h3>
+                                    <h3 className="text-3xl font-semibold" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Why AmethIntel?</h3>
                                 </div>
                                 <div className="space-y-6 text-slate-300 leading-relaxed text-[17px]">
                                     <p>Amethyst is a precious stone, which the Greeks believed prevents from being drunk. Today too much information is intoxicating and suffocating, biotech and healthtech unicorns need an Amethyst to prevent being drunk.</p>
@@ -255,7 +255,7 @@ const LandingPage = () => {
                                     <li>• understand emerging scientific gravity</li>
                                     <li>• make grounded strategic decisions before consensus forms</li>
                                 </ul>
-                                <p>PharmaIntel is being built to support this transition.</p>
+                                <p>AmethIntel is being built to support this transition.</p>
                                 <p>Our long-term vision is to create an institutional-grade intelligence layer for modern biotech and healthtech strategy.</p>
                             </div>
                         </div>
@@ -275,7 +275,7 @@ const LandingPage = () => {
                                     <li>• recognize white spaces</li>
                                     <li>• convert fragmented knowledge into strategic insight</li>
                                 </ul>
-                                <p>PharmaIntel exists to help make those connections visible.</p>
+                                <p>AmethIntel exists to help make those connections visible.</p>
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@ const LandingPage = () => {
             <section id="newsletter" className="py-32 bg-slate-900 border-t border-white/10">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <h2 className="text-5xl font-semibold mb-6">Newsletter</h2>
-                    <p className="text-slate-400 text-xl max-w-3xl mx-auto">Stay updated with scientific signals, biotech intelligence, emerging opportunities, and strategic insights from PharmaIntel.</p>
+                    <p className="text-slate-400 text-xl max-w-3xl mx-auto">Stay updated with scientific signals, biotech intelligence, emerging opportunities, and strategic insights from AmethIntel.</p>
                 </div>
             </section>
 
@@ -821,7 +821,7 @@ const LandingPage = () => {
             <section id="waitlist" className="py-24 bg-gradient-to-r from-purple-900/30 to-pink-900/30 border-t border-b border-purple-500/20">
                 <div className="max-w-4xl mx-auto text-center px-6">
                     <h2 className="text-5xl font-semibold mb-6">Be among the first to experience the future of biotech intelligence</h2>
-                    <p className="text-xl text-slate-300 mb-10">Join a select group of biotech innovators getting early access to PharmaIntel.</p>
+                    <p className="text-xl text-slate-300 mb-10">Join a select group of biotech innovators getting early access to AmethIntel.</p>
                     <form id="waitlistForm" onSubmit={handleWaitlistSubmit} className="max-w-md mx-auto">
                         <div className="flex flex-col sm:flex-row gap-4 items-center">
                             <input type="email" id="email" placeholder="your@company.com" required className="flex-1 bg-slate-900 border border-white/20 rounded-3xl px-6 py-5 outline-none focus:border-purple-400" />

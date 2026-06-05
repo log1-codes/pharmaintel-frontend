@@ -6,7 +6,7 @@ const HowItWorks = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
         <div className="max-w-7xl mx-auto px-8 text-center relative z-10">
           <span className="text-purple-400 font-bold text-xs uppercase tracking-widest mb-4 block">The Pipeline</span>
-          <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>How PharmaIntel Works</h1>
+          <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>How AmethIntel Works</h1>
           <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
             Our three-stage data-to-insight pipeline transforms complex biological data into strategic pharmaceutical intelligence.
           </p>

@@ -13,7 +13,7 @@ const LoginSignup = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      navigate('/dashboard');
+      navigate('/');
     }
   }, [navigate]);
 
@@ -67,7 +67,7 @@ const LoginSignup = () => {
       <section className="w-full md:w-[45%] flex items-center justify-center p-8 lg:p-16 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-slate-950"></div>
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[100px] pointer-events-none"></div>
-        
+
         <div className="w-full max-w-md relative z-10">
           <div className="mb-12 text-center md:text-left">
             <h1 className="text-4xl font-semibold text-white mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -85,8 +85,8 @@ const LoginSignup = () => {
             <button
               onClick={() => { setActiveTab('login'); setError(''); }}
               className={`px-8 py-2.5 text-xs font-semibold uppercase tracking-widest rounded-full transition-all duration-300 ${activeTab === 'login'
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg'
+                : 'text-slate-400 hover:text-white'
                 }`}
             >
               Login
@@ -94,8 +94,8 @@ const LoginSignup = () => {
             <button
               onClick={() => { setActiveTab('register'); setError(''); }}
               className={`px-8 py-2.5 text-xs font-semibold uppercase tracking-widest rounded-full transition-all duration-300 ${activeTab === 'register'
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg'
+                : 'text-slate-400 hover:text-white'
                 }`}
             >
               Register
@@ -104,8 +104,8 @@ const LoginSignup = () => {
 
           {error && (
             <div className={`mb-8 p-4 rounded-xl text-sm font-medium border ${error.includes('successful')
-                ? 'bg-green-900/20 border-green-500/30 text-green-400'
-                : 'bg-red-900/20 border-red-500/30 text-red-400'
+              ? 'bg-green-900/20 border-green-500/30 text-green-400'
+              : 'bg-red-900/20 border-red-500/30 text-red-400'
               }`}>
               {error}
             </div>
@@ -217,7 +217,7 @@ const LoginSignup = () => {
             </div>
             <h2 className="text-4xl font-semibold text-white tracking-tight mb-5 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Unlocking the molecular blueprint of therapy.</h2>
             <p className="text-slate-300 text-lg leading-relaxed mb-10">
-              PharmaIntel provides real-time access to the Protein Navigator, integrating IP landscapes with clinical trial trajectory analysis for rapid drug discovery.
+              AmethIntel provides real-time access to the Protein Navigator, integrating IP landscapes with clinical trial trajectory analysis for rapid drug discovery.
             </p>
             <div className="flex gap-10">
               <div>

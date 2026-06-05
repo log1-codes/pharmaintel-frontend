@@ -9,8 +9,8 @@ import HowItWorks from './pages/HowItWorks';
 import Ceacam5Report from './pages/Ceacam5Report';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
-import ChapterIndex from './pages/ChapterIndex';
 import Chapter1 from './pages/Chapter1';
+import ChapterPlaceholder from './pages/ChapterPlaceholder';
 
 function App() {
   return (
@@ -28,8 +28,8 @@ function App() {
           
           {/* Protected Chapter Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/book-index" element={<ChapterIndex />} />
-            <Route path="/chapter-1" element={<Chapter1 />} />
+            <Route path="/chapters/chapter1" element={<Chapter1 />} />
+            <Route path="/chapters/:chapterId" element={<ChapterPlaceholder />} />
           </Route>
         </Route>
       </Routes>

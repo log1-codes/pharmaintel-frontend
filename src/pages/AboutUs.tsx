@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center p-7 pt-32 text-[#E6EAF2] font-['Inter'] overflow-x-hidden"
       style={{
         backgroundImage: `linear-gradient(90deg, rgba(2,6,23,0.86) 0%, rgba(2,6,23,0.72) 35%, rgba(2,6,23,0.62) 60%, rgba(2,6,23,0.82) 100%), url('/Gemini_Generated_Image_k4it8mk4it8mk4it (4).png')`,
@@ -12,7 +12,7 @@ const AboutUs = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <main 
+      <main
         className="w-full max-w-[980px] rounded-[20px] p-6 sm:p-7 backdrop-blur-[10px]"
         style={{
           background: 'rgba(2, 6, 23, 0.68)',
@@ -23,7 +23,7 @@ const AboutUs = () => {
         <div className="flex items-center justify-between gap-4 flex-wrap mb-4 sm:mb-5">
           <div className="flex flex-col gap-1.5">
             <small className="text-white/75 tracking-[0.14em] uppercase font-semibold text-xs">
-              PharmaIntel
+              AmethIntel
             </small>
             <h1 className="text-[clamp(22px,3.2vw,34px)] leading-[1.15] tracking-[-0.02em]">
               <span className="text-[#E6EAF2]" style={{ textShadow: '0 0 16px rgba(192, 38, 211, 0.22), 0 0 32px rgba(255, 91, 77, 0.12)' }}>
@@ -32,8 +32,8 @@ const AboutUs = () => {
             </h1>
           </div>
 
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="inline-flex items-center gap-2.5 no-underline px-4 py-3 rounded-full border border-[#C026D3]/60 bg-[#C026D3]/15 text-white font-bold transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#C026D3]/25 hover:border-[#C026D3]/85 whitespace-nowrap w-full sm:w-auto justify-center"
           >
             <span aria-hidden="true">←</span>
