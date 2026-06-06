@@ -45,7 +45,7 @@ const LoginSignup = () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         // Force a full reload so the Header component immediately picks up the new localStorage state
-        window.location.href = '/dashboard';
+        window.location.href = '/';
       } else {
         setActiveTab('login');
         setError('Registration successful! Please sign in with your new credentials.');
