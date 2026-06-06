@@ -173,8 +173,8 @@ const Ceacam5Report = () => {
 
           </section>
 
-          {/*  TOC — FREE  */}
-          <section className="py-[56px] pb-[48px] border-b border-rule" id="toc">
+
+          <section className="hidden py-[56px] pb-[48px] border-b border-rule" id="toc">
             <div className="font-mono text-[10px] text-accent uppercase tracking-[0.12em] mb-3 flex flex-col gap-3 before:content-[''] before:block before:w-6 before:h-[1px] before:bg-accent">Free access <span className="bg-free-bg border border-[rgba(27,107,74,0.3)] text-[#5DCAA5] font-mono text-[10px] uppercase tracking-[0.1em] px-2 py-[2px] rounded-[2px]" style={{ "marginLeft": "8px" }}>Open</span></div>
             <h2 className="font-serif text-[22px] font-medium text-cream mb-5">Table of Contents</h2>
 
