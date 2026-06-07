@@ -13,7 +13,7 @@ const AboutUs = () => {
       }}
     >
       <main
-        className="w-full max-w-[980px] rounded-[20px] p-6 sm:p-7 backdrop-blur-[10px]"
+        className="w-full max-w-245 rounded-[20px] p-6 sm:p-7 backdrop-blur-[10px]"
         style={{
           background: 'rgba(2, 6, 23, 0.68)',
           border: '1px solid rgba(255, 255, 255, 0.12)',

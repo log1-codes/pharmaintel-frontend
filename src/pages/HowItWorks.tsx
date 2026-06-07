@@ -3,7 +3,7 @@ const HowItWorks = () => {
     <main className="pt-24 bg-slate-950 font-['Inter']">
       {/* Hero Section */}
       <section className="py-24 bg-slate-900 border-b border-white/10 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
+        <div className="absolute inset-0 bg-linear-to-r from-purple-900/20 to-pink-900/20"></div>
         <div className="max-w-7xl mx-auto px-8 text-center relative z-10">
           <span className="text-purple-400 font-bold text-xs uppercase tracking-widest mb-4 block">The Pipeline</span>
           <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>How AmethIntel Works</h1>
@@ -47,8 +47,8 @@ const HowItWorks = () => {
               </ul>
             </div>
             <div className="bg-slate-900 border border-white/10 p-8 rounded-3xl relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-              <div className="aspect-video bg-slate-950 border border-white/5 rounded-2xl overflow-hidden flex items-center justify-center relative relative">
+              <div className="absolute -inset-1 bg-linear-to-r from-purple-600 to-pink-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+              <div className="aspect-video bg-slate-950 border border-white/5 rounded-2xl overflow-hidden flex items-center justify-center  relative">
                 <div className="text-center p-8 w-full">
                   <i className="fas fa-cloud-upload-alt text-purple-500 text-5xl mb-6 block"></i>
                   <div className="space-y-3 w-2/3 mx-auto">
@@ -64,13 +64,13 @@ const HowItWorks = () => {
 
           {/* Connector */}
           <div className="flex justify-center mb-16">
-            <div className="w-[2px] h-16 bg-gradient-to-b from-purple-500/50 to-pink-500/50 rounded-full"></div>
+            <div className="w-0.5  h-16 bg-linear-to-b from-purple-500/50 to-pink-500/50 rounded-full"></div>
           </div>
 
           {/* Step 2 */}
           <div className="grid md:grid-cols-2 gap-16 items-center mb-24">
             <div className="order-2 md:order-1 bg-slate-900 border border-white/10 p-8 rounded-3xl relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-blue-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-linear-to-r from-pink-500 to-blue-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
               <div className="aspect-video bg-slate-950 border border-white/5 rounded-2xl overflow-hidden flex items-center justify-center relative">
                 <div className="p-8 w-full">
                   {/* Node diagram mockup */}
@@ -78,23 +78,23 @@ const HowItWorks = () => {
                     <div className="w-12 h-12 rounded-full bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.3)]">
                       <span className="material-symbols-outlined text-sm">hub</span>
                     </div>
-                    <div className="w-16 h-[1px] bg-gradient-to-r from-pink-500/50 to-blue-500/50"></div>
+                    <div className="w-16 h-1px bg-linear-to-r from-pink-500/50 to-blue-500/50"></div>
                     <div className="w-16 h-16 rounded-full bg-purple-500/30 border border-purple-500/40 flex items-center justify-center text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]">
                       <span className="material-symbols-outlined">share</span>
                     </div>
-                    <div className="w-16 h-[1px] bg-gradient-to-r from-purple-500/50 to-blue-500/50"></div>
+                    <div className="w-16 h-px bg-linear-to-r from-purple-500/50 to-blue-500/50"></div>
                     <div className="w-12 h-12 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
                       <span className="material-symbols-outlined text-sm">hub</span>
                     </div>
                   </div>
                   <div className="flex justify-center mt-4">
-                    <div className="w-[1px] h-8 bg-purple-500/30"></div>
+                    <div className="w-px h-8 bg-purple-500/30"></div>
                   </div>
                   <div className="flex items-center justify-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-slate-400">
                       <span className="material-symbols-outlined text-sm">science</span>
                     </div>
-                    <div className="w-12 h-[1px] bg-white/10"></div>
+                    <div className="w-12 h-px bg-white/10"></div>
                     <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400">
                       <span className="material-symbols-outlined text-sm">hub</span>
                     </div>
@@ -135,7 +135,7 @@ const HowItWorks = () => {
 
           {/* Connector */}
           <div className="flex justify-center mb-16">
-            <div className="w-[2px] h-16 bg-gradient-to-b from-pink-500/50 to-blue-500/50 rounded-full"></div>
+            <div className="w-0.5 h-16 bg-linear-to-b from-pink-500/50 to-blue-500/50 rounded-full"></div>
           </div>
 
           {/* Step 3 */}
@@ -169,7 +169,7 @@ const HowItWorks = () => {
               </ul>
             </div>
             <div className="bg-slate-900 border border-white/10 p-8 rounded-3xl relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-linear-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
               <div className="aspect-video bg-slate-950 border border-white/5 rounded-2xl overflow-hidden p-6 relative">
                 {/* Dashboard mockup */}
                 <div className="space-y-4">
@@ -181,7 +181,7 @@ const HowItWorks = () => {
                     <div className="flex-1 bg-blue-500/40 rounded-t-lg h-[30%] border border-blue-500/50 border-b-0"></div>
                     <div className="flex-1 bg-purple-500/50 rounded-t-lg h-[60%] border border-purple-500/50 border-b-0"></div>
                     <div className="flex-1 bg-pink-500/60 rounded-t-lg h-[80%] border border-pink-500/50 border-b-0"></div>
-                    <div className="flex-1 bg-gradient-to-t from-purple-500 to-pink-500 rounded-t-lg h-[45%] shadow-[0_0_10px_rgba(236,72,153,0.3)]"></div>
+                    <div className="flex-1 bg-linear-to-t from-purple-500 to-pink-500 rounded-t-lg h-[45%] shadow-[0_0_10px_rgba(236,72,153,0.3)]"></div>
                     <div className="flex-1 bg-blue-500/30 rounded-t-lg h-[55%] border border-blue-500/40 border-b-0"></div>
                   </div>
                   <div className="flex gap-4">
@@ -239,11 +239,11 @@ const HowItWorks = () => {
 
       {/* CTA */}
       <section className="py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-purple-900/30 to-transparent"></div>
         <div className="max-w-4xl mx-auto px-8 text-center relative z-10">
           <h2 className="text-4xl font-semibold text-white mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Start analyzing today</h2>
           <p className="text-slate-300 text-xl mb-12">Experience the power of clinical-grade pharmaceutical intelligence.</p>
-          <button className="bg-gradient-to-r from-purple-600 to-pink-500 text-white px-12 py-5 rounded-full font-bold uppercase tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] hover:-translate-y-1 transition-all">
+          <button className="bg-linear-to-r from-purple-600 to-pink-500 text-white px-12 py-5 rounded-full font-bold uppercase tracking-widest shadow-[0_0_30px_rgba(168,85,247,0.4)] hover:shadow-[0_0_40px_rgba(168,85,247,0.6)] hover:-translate-y-1 transition-all">
             Get Started Free
           </button>
         </div>

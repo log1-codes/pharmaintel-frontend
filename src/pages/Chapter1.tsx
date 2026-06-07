@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ChapterFooter from '../components/ChapterFooter';
@@ -156,12 +156,79 @@ const ExhibitShell = ({ label, title, children }: { label: string; title?: strin
 );
 
 const Chapter1 = () => {
+  const lastCaptureWarningRef = useRef(0);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    const showCaptureWarning = () => {
+      const now = Date.now();
+
+      if (now - lastCaptureWarningRef.current < 1200) {
+        return;
+      }
+
+      lastCaptureWarningRef.current = now;
+      window.alert('Screenshots and screen recording are not allowed on this page.');
+    };
+
+    const blockEvent = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      showCaptureWarning();
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      const isPrintScreen = key === 'printscreen';
+      const isWindowsSnip = event.metaKey && event.shiftKey && key === 's';
+      const isMacScreenshot = event.metaKey && event.shiftKey && ['3', '4', '5'].includes(key);
+      const isSaveOrScreenRecordShortcut = (event.ctrlKey || event.metaKey) && event.shiftKey && key === 's';
+
+      if (isPrintScreen || isWindowsSnip || isMacScreenshot || isSaveOrScreenRecordShortcut) {
+        blockEvent(event);
+      }
+    };
+
+    const handleBeforePrint = () => {
+      showCaptureWarning();
+    };
+
+    const mediaDevices = navigator.mediaDevices as
+      | (MediaDevices & { getDisplayMedia?: MediaDevices['getDisplayMedia'] })
+      | undefined;
+    const originalGetDisplayMedia = mediaDevices?.getDisplayMedia?.bind(mediaDevices);
+
+    if (mediaDevices && originalGetDisplayMedia) {
+      mediaDevices.getDisplayMedia = (() => {
+        showCaptureWarning();
+        return Promise.reject(new DOMException('Screen capture is not allowed on this page.', 'NotAllowedError'));
+      }) as MediaDevices['getDisplayMedia'];
+    }
+
+    document.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('contextmenu', blockEvent, true);
+    document.addEventListener('copy', blockEvent, true);
+    document.addEventListener('cut', blockEvent, true);
+    window.addEventListener('beforeprint', handleBeforePrint);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('contextmenu', blockEvent, true);
+      document.removeEventListener('copy', blockEvent, true);
+      document.removeEventListener('cut', blockEvent, true);
+      window.removeEventListener('beforeprint', handleBeforePrint);
+
+      if (mediaDevices && originalGetDisplayMedia) {
+        mediaDevices.getDisplayMedia = originalGetDisplayMedia;
+      }
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-offwhite px-4 pb-16 pt-32 font-serif text-slate-800 md:px-8">
+    <div className="chapter-capture-guard min-h-screen bg-offwhite px-4 pb-16 pt-32 font-serif text-slate-800 md:px-8">
       <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm">
         <Link to="/ceacam5#chapters" className="inline-flex items-center gap-2 text-amethyst transition-colors hover:text-vermilion">
           <ArrowLeft size={16} aria-hidden="true" />

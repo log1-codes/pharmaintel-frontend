@@ -98,7 +98,7 @@ const ProteinCatalog = () => {
                     {protein.category}
                   </span>
                 </div>
-                <p className="text-sm text-slate-400 leading-relaxed mb-6 flex-grow">{protein.description}</p>
+                <p className="text-sm text-slate-400 leading-relaxed mb-6 grow">{protein.description}</p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="p-4 bg-white/5 border border-white/5 rounded-2xl">
                     <div className="text-[10px] text-slate-500 font-bold uppercase mb-1.5 tracking-widest">Market Cap</div>
@@ -139,7 +139,7 @@ const ProteinCatalog = () => {
           ))}
         </nav>
         <div className="mt-auto px-6 py-4">
-          <div className="bg-gradient-to-br from-purple-900/40 to-pink-900/40 border border-purple-500/20 rounded-3xl p-5 text-white">
+          <div className="bg-linear-to-br from-purple-900/40 to-pink-900/40 border border-purple-500/20 rounded-3xl p-5 text-white">
             <p className="text-[10px] font-bold uppercase tracking-widest text-purple-300 mb-1">Catalog Stats</p>
             <p className="text-xs text-slate-300 leading-relaxed"><strong className="text-white">{proteins.length}</strong> proteins indexed across <strong className="text-white">{categories.length - 1}</strong> strategic categories.</p>
           </div>

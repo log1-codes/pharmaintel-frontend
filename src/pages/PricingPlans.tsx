@@ -22,7 +22,7 @@ const PricingPlans = () => {
             <span className="text-4xl font-semibold text-white tracking-tight">$49</span>
             <span className="text-slate-500 text-sm">/mo</span>
           </div>
-          <ul className="space-y-4 mb-10 flex-grow text-slate-300">
+          <ul className="space-y-4 mb-10 grow text-slate-300">
             <li className="flex items-start gap-3 text-sm">
               <i className="fas fa-check-circle text-purple-500 mt-0.5"></i>
               <span>Basic Molecule Search</span>
@@ -41,7 +41,7 @@ const PricingPlans = () => {
 
         {/* Plan 2: Pro (Most Popular) */}
         <div className="relative bg-slate-900 border border-purple-500/50 rounded-3xl p-8 flex flex-col transform lg:-translate-y-4 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
-          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">Most Popular</div>
+          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-linear-to-r from-purple-600 to-pink-500 text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">Most Popular</div>
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-2 text-purple-400" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Pro</h3>
             <p className="text-slate-400 text-sm h-10">Advanced analytics for professional biotech consulting teams.</p>
@@ -50,7 +50,7 @@ const PricingPlans = () => {
             <span className="text-4xl font-semibold text-white tracking-tight">$199</span>
             <span className="text-slate-500 text-sm">/mo</span>
           </div>
-          <ul className="space-y-4 mb-10 flex-grow text-white">
+          <ul className="space-y-4 mb-10 grow text-white">
             <li className="flex items-start gap-3 text-sm font-medium">
               <i className="fas fa-check-circle text-purple-400 mt-0.5"></i>
               <span>Unlimited Compound Lookups</span>
@@ -68,7 +68,7 @@ const PricingPlans = () => {
               <span>Priority Email Support</span>
             </li>
           </ul>
-          <button className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold text-xs uppercase tracking-widest rounded-full transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]">Subscribe</button>
+          <button className="w-full py-3 px-4 bg-linear-to-r from-purple-600 to-pink-500 text-white font-semibold text-xs uppercase tracking-widest rounded-full transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]">Subscribe</button>
         </div>
 
         {/* Plan 3: Enterprise */}
@@ -81,7 +81,7 @@ const PricingPlans = () => {
             <span className="text-4xl font-semibold text-white tracking-tight">$599</span>
             <span className="text-slate-500 text-sm">/mo</span>
           </div>
-          <ul className="space-y-4 mb-10 flex-grow text-slate-300">
+          <ul className="space-y-4 mb-10 grow text-slate-300">
             <li className="flex items-start gap-3 text-sm">
               <i className="fas fa-check-circle text-purple-500 mt-0.5"></i>
               <span>All Pro Features</span>
@@ -103,7 +103,7 @@ const PricingPlans = () => {
         </div>
 
         {/* Plan 4: Platinum */}
-        <div className="bg-gradient-to-b from-slate-800 to-slate-900 border border-white/20 rounded-3xl p-8 flex flex-col transition-all duration-300 hover:border-purple-400 hover:-translate-y-2">
+        <div className="bg-linear-to-b from-slate-800 to-slate-900 border border-white/20 rounded-3xl p-8 flex flex-col transition-all duration-300 hover:border-purple-400 hover:-translate-y-2">
           <div className="mb-8">
             <h3 className="text-xl font-semibold mb-2 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Platinum</h3>
             <p className="text-slate-300 text-sm h-10">Tailored data pipes and high-touch support for global leaders.</p>
@@ -111,7 +111,7 @@ const PricingPlans = () => {
           <div className="mb-8">
             <span className="text-4xl font-semibold text-white tracking-tight">Custom</span>
           </div>
-          <ul className="space-y-4 mb-10 flex-grow text-white">
+          <ul className="space-y-4 mb-10 grow text-white">
             <li className="flex items-start gap-3 text-sm">
               <i className="fas fa-star text-pink-400 mt-0.5"></i>
               <span>Custom API Integration</span>
@@ -143,7 +143,7 @@ const PricingPlans = () => {
             </p>
           </div>
           <div className="w-full md:w-1/2 aspect-video bg-slate-950 rounded-2xl overflow-hidden border border-white/5 relative">
-            <div className="absolute inset-0 bg-gradient-to-tr from-purple-900/20 to-transparent mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-linear-to-tr from-purple-900/20 to-transparent mix-blend-overlay"></div>
             <img
               alt="Cybersecurity lab"
               className="w-full h-full object-cover grayscale opacity-40 mix-blend-screen"
@@ -151,7 +151,7 @@ const PricingPlans = () => {
             />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-purple-600 to-pink-500 p-10 rounded-3xl text-white flex flex-col justify-center relative overflow-hidden">
+        <div className="bg-linear-to-br from-purple-600 to-pink-500 p-10 rounded-3xl text-white flex flex-col justify-center relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="relative z-10">
             <div className="text-5xl font-semibold mb-4 tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>99.9%</div>

@@ -148,3 +148,9 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+.chapter-capture-guard {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}

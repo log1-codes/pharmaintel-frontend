@@ -85,7 +85,7 @@ const LoginSignup = () => {
             <button
               onClick={() => { setActiveTab('login'); setError(''); }}
               className={`px-8 py-2.5 text-xs font-semibold uppercase tracking-widest rounded-full transition-all duration-300 ${activeTab === 'login'
-                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg'
+                ? 'bg-linear-to-r from-purple-600 to-pink-500 text-white shadow-lg'
                 : 'text-slate-400 hover:text-white'
                 }`}
             >
@@ -94,7 +94,7 @@ const LoginSignup = () => {
             <button
               onClick={() => { setActiveTab('register'); setError(''); }}
               className={`px-8 py-2.5 text-xs font-semibold uppercase tracking-widest rounded-full transition-all duration-300 ${activeTab === 'register'
-                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg'
+                ? 'bg-linear-to-r from-purple-600 to-pink-500 text-white shadow-lg'
                 : 'text-slate-400 hover:text-white'
                 }`}
             >
@@ -164,7 +164,7 @@ const LoginSignup = () => {
               </div>
             )}
             <button
-              className="w-full h-14 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold uppercase tracking-widest text-xs rounded-full hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 mt-4"
+              className="w-full h-14 bg-linear-to-r from-purple-600 to-pink-500 text-white font-bold uppercase tracking-widest text-xs rounded-full hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 mt-4"
               type="submit"
               disabled={loading}
             >
@@ -204,7 +204,7 @@ const LoginSignup = () => {
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQvD1DzTWFy-n3gGZcaTghbBVEiMoxBDCzBWie8IfrGawAHK456GzGUBwIF_tsgn4y7y5PDwu5nPJf914dbw5lV46iB3vYQbKParBFN-D95eJmr_LMx_cljiSDHJ_whtGu5b9DCTU3r9JJqCYpA_aNIaXIWMfltxihSSuxq-zn6FxyWkBnvGgxtA9yLQfWQ-EZKAtpfAhTxoF9vJeAfZj06_ZTKCv0emjJng4PpeIVtAe0o_Q9rczjFAVteACvrK_nplb__uAUHvP1"
         />
         {/* Glass Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-slate-950/80 via-purple-900/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-tr from-slate-950/80 via-purple-900/30 to-transparent"></div>
         {/* Content Over Glass */}
         <div className="absolute inset-0 flex flex-col items-start justify-end p-16 lg:p-24 z-10">
           <div className="bg-slate-950/40 backdrop-blur-md p-10 rounded-3xl border border-white/10 max-w-xl shadow-2xl">
@@ -212,7 +212,7 @@ const LoginSignup = () => {
               <div className="w-12 h-12 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400">
                 <span className="material-symbols-outlined text-2xl">biotech</span>
               </div>
-              <div className="h-[1px] w-12 bg-purple-500/50"></div>
+              <div className="h-px w-12 bg-purple-500/50"></div>
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-300">Clinical Insights v4.2</span>
             </div>
             <h2 className="text-4xl font-semibold text-white tracking-tight mb-5 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Unlocking the molecular blueprint of therapy.</h2>

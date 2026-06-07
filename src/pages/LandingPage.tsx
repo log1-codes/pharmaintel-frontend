@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
     const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
@@ -29,20 +28,20 @@ const LandingPage = () => {
     return (
         <>
 
-            <header id="home" className="hero-bg min-h-screen flex items-center relative overflow-hidden pt-[104px]">
+            <header id="home" className="hero-bg min-h-screen flex items-center relative overflow-hidden pt-26">
                 <div className="absolute inset-0 bg-ink/60"></div>
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16">
                     <div className="max-w-3xl">
-                        <div className="flex items-center gap-3 font-mono text-[11px] tracking-[0.1em] text-steel uppercase">
+                        <div className="flex items-center gap-3 font-mono text-[11px] tracking-widest text-steel uppercase">
                             <span>AmethIntel</span>
                             <span>·</span>
                             <span>INTELLIGENCE LAYER</span>
                         </div>
-                        <div className="w-[48px] h-[1px] bg-accent mt-4 mb-5"></div>
+                        <div className="w-12 h-px bg-accent mt-4 mb-5"></div>
                         <h1 className="font-serif text-[56px] font-normal text-cream leading-[1.1] my-6">
                             Connecting Scientific Signals<br /><em className="font-serif italic text-accent-light">to Support Strategy</em>
                         </h1>
-                        <p className="font-sans text-[20px] leading-[1.6] text-mist max-w-[700px] mb-12">
+                        <p className="font-sans text-[20px] leading-[1.6] text-mist max-w-175 mb-12">
                             AmethIntel is a fast way for in-depth collection of publications, patents, clinical development, regulatory intelligence, investment and business activity, and adjacent scientific landscapes to identify strategic opportunities.
                         </p>
                         <div className="flex flex-wrap gap-5 mt-12">
@@ -79,9 +78,9 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            <section id="about" className="py-32 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-t border-white/10 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/10 blur-[140px] rounded-full"></div>
-                <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-pink-500/10 blur-[120px] rounded-full"></div>
+            <section id="about" className="py-32 bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 border-t border-white/10 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-125 h-125 bg-purple-600/10 blur-[140px] rounded-full"></div>
+                <div className="absolute bottom-0 right-0 w-100 h-100 bg-pink-500/10 blur-[120px] rounded-full"></div>
 
                 <div className="relative z-10 max-w-7xl mx-auto px-6">
                     <div className="max-w-5xl mb-24">
@@ -124,8 +123,8 @@ const LandingPage = () => {
                             </div>
 
 
-                            <div id="demoModal" className={`fixed ${isDemoModalOpen ? "flex" : "hidden"} inset-0 bg-black/70 backdrop-blur-sm items-center justify-center z-[999] px-6`}>
-                                <div className="bg-slate-950 border border-white/10 rounded-[32px] p-10 max-w-lg w-full relative">
+                            <div id="demoModal" className={`fixed ${isDemoModalOpen ? "flex" : "hidden"} inset-0 bg-black/70 backdrop-blur-sm items-center justify-center z-999 px-6`}>
+                                <div className="bg-slate-950 border border-white/10 rounded-4xl p-10 max-w-lg w-full relative">
                                     <button onClick={closeDemoModal} className="absolute top-5 right-5 text-slate-400 hover:text-white text-xl"><i className="fas fa-times"></i></button>
                                     <h2 className="text-3xl font-semibold mb-4" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Request a Demo</h2>
                                     <p className="text-slate-400 mb-8 leading-relaxed">Fill out the form below and our team will reach out to you.</p>
@@ -143,11 +142,11 @@ const LandingPage = () => {
 
                     <div className="space-y-8">
 
-                        <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[36px] p-10 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
+                        <div className="relative bg-white/3 backdrop-blur-xl border border-white/10 rounded-[36px] p-10 overflow-hidden">
+                            <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
                             <div className="relative z-10">
                                 <div className="flex items-center gap-3 mb-8">
-                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl">💎</div>
+                                    <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl">💎</div>
                                     <h3 className="text-3xl font-semibold" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Why AmethIntel?</h3>
                                 </div>
                                 <div className="space-y-6 text-slate-300 leading-relaxed text-[17px]">
@@ -161,11 +160,11 @@ const LandingPage = () => {
                             </div>
                         </div>
 
-                        <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[36px] p-10 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
+                        <div className="relative bg-white/3 backdrop-blur-xl border border-white/10 rounded-[36px] p-10 overflow-hidden">
+                            <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
                             <div className="relative z-10">
                                 <div className="flex items-center gap-3 mb-10">
-                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl">🧬</div>
+                                    <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl">🧬</div>
                                     <h3 className="text-3xl font-semibold" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>What We Analyze</h3>
                                 </div>
                                 <div className="space-y-5">
@@ -222,8 +221,8 @@ const LandingPage = () => {
                         <h3 className="mt-6 text-4xl md:text-5xl font-semibold leading-tight" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Strategic advantage increasingly depends on connected intelligence.</h3>
                     </div>
                     <div className="mt-16">
-                        <div className="bg-white/[0.03] border border-white/10 rounded-[32px] p-10 text-left">
-                            <p className="text-slate-300 text-lg leading-[2] mb-8">Increasingly, business valuation in biotech and healthtech will depend not only on scientific novelty, but on the ability to demonstrate strategic positioning grounded in evidence.</p>
+                        <div className="bg-white/3 border border-white/10 rounded-4xl p-10 text-left">
+                            <p className="text-slate-300 text-lg leading-loose mb-8">Increasingly, business valuation in biotech and healthtech will depend not only on scientific novelty, but on the ability to demonstrate strategic positioning grounded in evidence.</p>
                             <p className="text-slate-300 text-lg mb-8">This includes understanding:</p>
                             <ul className="space-y-5 text-slate-300 text-lg leading-relaxed">
                                 <li>• whether a therapeutic area is overcrowded or underexplored</li>
@@ -234,15 +233,15 @@ const LandingPage = () => {
                                 <li>• where meaningful differentiation still exists</li>
                             </ul>
                             <div className="mt-10 space-y-8">
-                                <p className="text-slate-300 text-lg leading-[2]">In this environment, isolated datasets are no longer sufficient.</p>
-                                <p className="text-slate-300 text-lg leading-[2]">Organizations will require integrated intelligence systems capable of synthesizing scientific, clinical, regulatory, market, and investment signals together.</p>
+                                <p className="text-slate-300 text-lg leading-loose">In this environment, isolated datasets are no longer sufficient.</p>
+                                <p className="text-slate-300 text-lg leading-loose">Organizations will require integrated intelligence systems capable of synthesizing scientific, clinical, regulatory, market, and investment signals together.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="grid lg:grid-cols-2 gap-12 mt-32">
 
-                    <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-purple-500/10 to-transparent p-12">
+                    <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-linear-to-br from-purple-500/10 to-transparent p-12">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/10 blur-3xl rounded-full"></div>
                         <div className="relative z-10">
                             <span className="text-purple-400 uppercase tracking-[4px] text-sm font-medium">Our Vision</span>
@@ -261,7 +260,7 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-pink-500/10 to-transparent p-12">
+                    <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-linear-to-br from-pink-500/10 to-transparent p-12">
                         <div className="absolute bottom-0 left-0 w-40 h-40 bg-pink-500/10 blur-3xl rounded-full"></div>
                         <div className="relative z-10">
                             <span className="text-pink-400 uppercase tracking-[4px] text-sm font-medium">Philosophy</span>
@@ -818,7 +817,7 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            <section id="waitlist" className="py-24 bg-gradient-to-r from-purple-900/30 to-pink-900/30 border-t border-b border-purple-500/20">
+            <section id="waitlist" className="py-24 bg-linear-to-r from-purple-900/30 to-pink-900/30 border-t border-b border-purple-500/20">
                 <div className="max-w-4xl mx-auto text-center px-6">
                     <h2 className="text-5xl font-semibold mb-6">Be among the first to experience the future of biotech intelligence</h2>
                     <p className="text-xl text-slate-300 mb-10">Join a select group of biotech innovators getting early access to AmethIntel.</p>

@@ -10,7 +10,7 @@ const ChapterPlaceholder = () => {
         <Link to="/ceacam5#chapters" className="text-amethyst hover:text-vermilion transition-colors flex items-center gap-2">
           <i className="fas fa-arrow-left"></i> Back to Report
         </Link>
-        <span className="text-slate-400 uppercase tracking-widest font-semibold capitalize">
+        <span className="text-slate-400  tracking-widest font-semibold capitalize">
           {chapterId?.replace('-', ' ')}
         </span>
       </div>

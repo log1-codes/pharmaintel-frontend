@@ -34,7 +34,7 @@ const ProteinDetailsDashboard = () => {
             <div className="space-y-6">
               <div className="bg-slate-900 border border-white/10 p-6 rounded-3xl h-full flex flex-col">
                 <h4 className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4">Key Structural View</h4>
-                <div className="flex-1 min-h-[200px] bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center relative border border-white/5">
+                <div className="flex-1 min-h-50 bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center relative border border-white/5">
                   <img
                     className="w-full h-full object-cover opacity-80 mix-blend-screen"
                     alt="Protein 3D structure"
@@ -68,7 +68,7 @@ const ProteinDetailsDashboard = () => {
                 <div className="flex-1 bg-purple-500/60 rounded-t-xl relative group h-[85%] hover:bg-purple-500/70 transition-colors cursor-pointer border border-purple-500/40 border-b-0">
                   <div className="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-widest uppercase text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 px-3 py-1.5 rounded-lg border border-white/10 whitespace-nowrap">Phase III</div>
                 </div>
-                <div className="flex-1 bg-gradient-to-t from-purple-500 to-pink-500 rounded-t-xl relative group h-[30%] hover:opacity-90 transition-opacity cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                <div className="flex-1 bg-linear-to-t from-purple-500 to-pink-500 rounded-t-xl relative group h-[30%] hover:opacity-90 transition-opacity cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.3)]">
                   <div className="absolute -top-10 left-1/2 -translate-x-1/2 text-[10px] font-bold tracking-widest uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity bg-slate-800 px-3 py-1.5 rounded-lg border border-white/10 whitespace-nowrap">Approved</div>
                 </div>
               </div>
@@ -94,7 +94,7 @@ const ProteinDetailsDashboard = () => {
         </section>
 
         {/* Biological Details (Masked) */}
-        <section className="relative min-h-[400px] mb-20 overflow-hidden rounded-3xl border border-white/10" id="biological-details">
+        <section className="relative min-h-100 mb-20 overflow-hidden rounded-3xl border border-white/10" id="biological-details">
           <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px]"></div>
           <div className="relative z-0 p-10 opacity-30 select-none pointer-events-none">
             <div className="flex items-center gap-4 mb-8">
@@ -118,7 +118,7 @@ const ProteinDetailsDashboard = () => {
               </div>
               <h3 className="text-2xl font-semibold mb-3 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Premium Intel Locked</h3>
               <p className="text-sm text-slate-400 leading-relaxed mb-8">Access deep biological sequencing, metabolic pathways, and cross-species analysis with our Enterprise tier.</p>
-              <button className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-full hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
+              <button className="w-full py-4 bg-linear-to-r from-purple-600 to-pink-500 text-white font-bold rounded-full hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
                 Upgrade Plan to Unlock
                 <i className="fas fa-bolt text-[14px]"></i>
               </button>
@@ -127,7 +127,7 @@ const ProteinDetailsDashboard = () => {
         </section>
 
         {/* Further Masked Sections */}
-        <div className="space-y-6 opacity-30 grayscale blur-[4px]">
+        <div className="space-y-6 opacity-30 grayscale blur-xs">
           <section className="h-32 bg-slate-900 border border-white/10 rounded-3xl flex items-center px-10">
             <div className="flex items-center gap-5">
               <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-slate-400">
@@ -155,7 +155,7 @@ const ProteinDetailsDashboard = () => {
         </div>
         <nav className="flex-1 space-y-1.5 px-4">
           {/* Executive Summary */}
-          <a className="flex items-center gap-4 px-4 py-3.5 bg-gradient-to-r from-purple-600/20 to-transparent text-purple-300 rounded-2xl border border-purple-500/30 text-sm font-medium transition-all relative overflow-hidden" href="#executive-summary">
+          <a className="flex items-center gap-4 px-4 py-3.5 bg-linear-to-r from-purple-600/20 to-transparent text-purple-300 rounded-2xl border border-purple-500/30 text-sm font-medium transition-all relative overflow-hidden" href="#executive-summary">
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-purple-500 rounded-l-full"></div>
             <span className="material-symbols-outlined text-[18px]">analytics</span>
             <span>Executive Summary</span>
