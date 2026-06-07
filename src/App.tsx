@@ -11,10 +11,19 @@ import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Chapter1 from './pages/Chapter1';
 import ChapterPlaceholder from './pages/ChapterPlaceholder';
+import { useSessionWatcher } from './hooks/useSessionWatcher';
+
+// Mounted inside <Router> so useNavigate works
+const SessionGuard = () => {
+  useSessionWatcher();
+  return null;
+};
 
 function App() {
   return (
     <Router>
+      {/* Runs in the background on every page — detects session conflicts */}
+      <SessionGuard />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<LandingPage />} />

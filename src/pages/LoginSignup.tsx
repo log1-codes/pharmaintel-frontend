@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getDeviceId } from '../utils/device';
 
 const LoginSignup = () => {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
@@ -14,6 +15,13 @@ const LoginSignup = () => {
     const token = localStorage.getItem('token');
     if (token) {
       navigate('/');
+      return;
+    }
+    // Check if the user was kicked out due to a session conflict
+    const authError = sessionStorage.getItem('authError');
+    if (authError) {
+      setError(authError);
+      sessionStorage.removeItem('authError');
     }
   }, [navigate]);
 
@@ -24,7 +32,7 @@ const LoginSignup = () => {
 
     const endpoint = activeTab === 'login' ? '/api/auth/login' : '/api/auth/signup';
     const payload = activeTab === 'login'
-      ? { email, password }
+      ? { email, password, deviceId: getDeviceId() }
       : { name, email, password };
 
     try {
@@ -44,8 +52,9 @@ const LoginSignup = () => {
       if (activeTab === 'login') {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        // Force a full reload so the Header component immediately picks up the new localStorage state
-        window.location.href = '/';
+        // Notify Header (and any listener) that auth state changed
+        window.dispatchEvent(new Event('auth:login'));
+        navigate('/');
       } else {
         setActiveTab('login');
         setError('Registration successful! Please sign in with your new credentials.');
@@ -103,10 +112,16 @@ const LoginSignup = () => {
           </div>
 
           {error && (
-            <div className={`mb-8 p-4 rounded-xl text-sm font-medium border ${error.includes('successful')
-              ? 'bg-green-900/20 border-green-500/30 text-green-400'
-              : 'bg-red-900/20 border-red-500/30 text-red-400'
-              }`}>
+            <div className={`mb-8 p-4 rounded-xl text-sm font-medium border ${
+              error.includes('successful')
+                ? 'bg-green-900/20 border-green-500/30 text-green-400'
+                : error.includes('another device') || error.includes('session')
+                ? 'bg-amber-900/20 border-amber-500/30 text-amber-400'
+                : 'bg-red-900/20 border-red-500/30 text-red-400'
+            }`}>
+              {error.includes('another device') && (
+                <span className="mr-2">⚠️</span>
+              )}
               {error}
             </div>
           )}

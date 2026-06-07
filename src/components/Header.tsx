@@ -1,27 +1,63 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const Header = () => {
   const [user, setUser] = useState<{ name: string } | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  // Helper to read user from localStorage into state
+  const syncUserFromStorage = useCallback(() => {
     const userData = localStorage.getItem('user');
     if (userData) {
       try {
         setUser(JSON.parse(userData));
-      } catch (e) {
-        console.error('Failed to parse user data');
+      } catch {
+        setUser(null);
       }
+    } else {
+      setUser(null);
     }
   }, []);
 
-  const handleLogout = () => {
+  useEffect(() => {
+    // Read on mount
+    syncUserFromStorage();
+
+    // Listen for auth changes dispatched by the session watcher or login flow
+    // This fires when:
+    //   - useSessionWatcher detects SESSION_SUPERSEDED
+    //   - Manual logout
+    window.addEventListener('auth:logout', syncUserFromStorage);
+    window.addEventListener('auth:login', syncUserFromStorage);
+
+    return () => {
+      window.removeEventListener('auth:logout', syncUserFromStorage);
+      window.removeEventListener('auth:login', syncUserFromStorage);
+    };
+  }, [syncUserFromStorage]);
+
+  const handleLogout = async () => {
+    const token = localStorage.getItem('token');
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
+    if (token) {
+      try {
+        await fetch(`${apiBaseUrl}/api/auth/logout`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } catch (error) {
+        console.error('Logout request failed', error);
+      }
+    }
+
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    setUser(null);
+
+    // Notify all listeners (including this Header) to update
+    window.dispatchEvent(new Event('auth:logout'));
+
     navigate('/');
-    window.location.reload(); // Force full reload to clear any protected state
   };
 
   return (
