@@ -224,11 +224,11 @@ const Ceacam5Report = () => {
                 <div className="text-[14px] font-medium text-fog">2026 Deal Structure Analysis<span>ADC licensing benchmarks · China-origin trajectories · CEACAM5 positioning post-Sanofi</span></div>
                 <div className="font-mono text-[10px] tracking-[0.08em] uppercase px-2 py-0.75 rounded-sm mt-0.5 bg-lock-bg text-lock-red border border-[rgba(139,32,32,0.2)] hidden md:block"></div>
               </a>
-              <a className="grid grid-cols-[44px_1fr_auto] gap-4 px-4 py-3.25 border-b border-rule items-center hover:bg-[#223050] transition-colors cursor-pointer no-underline" href="#ch-a">
+              <div className="grid grid-cols-[44px_1fr_auto] gap-4 px-4 py-3.25 border-b border-rule items-center hover:bg-[#223050] transition-colors cursor-pointer" onClick={() => handleReadChapter('/chapters/appendix')}>
                 <div className="font-mono text-[12px] text-accent font-medium">A</div>
                 <div className="text-[14px] font-medium text-fog">Appendix — Full Reference Tables<span>30-programme table · NCT index · deal comparables · patent assignee summary</span></div>
                 <div className="font-mono text-[10px] tracking-[0.08em] uppercase px-2 py-0.75  rounded-sm mt-0.5 bg-lock-bg text-lock-red border border-[rgba(139,32,32,0.2)] hidden md:block">Bundled</div>
-              </a>
+              </div>
             </div>
           </section>
 
@@ -338,6 +338,19 @@ const Ceacam5Report = () => {
                   <div className="text-[12px] text-steel mt-0.75 italic">Where capital is moving — and what a CEACAM5 ADC at Phase 1 POC would actually license for</div>
                 </div>
                 <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
+                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
+              </div>
+            </div>
+
+            {/*  APPENDIX  */}
+            <div className="mb-2" id="ch-a">
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/appendix')}>
+                <div className="font-mono text-[12px] text-accent">A</div>
+                <div className="flex flex-col">
+                  <div className="font-serif text-[18px] text-cream">Appendix — Full Reference Tables & Bibliography</div>
+                  <div className="text-[12px] text-steel mt-0.75 italic">30-programme table · NCT index · deal comparables · patent assignee summary · bibliography & references</div>
+                </div>
+                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Appendix</span></div>
                 <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
             </div>

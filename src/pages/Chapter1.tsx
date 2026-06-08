@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ChapterFooter from '../components/ChapterFooter';
@@ -124,7 +124,7 @@ const references = [
 ];
 
 const TextBlock = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
-  <section className={`space-y-5 text-lg leading-[1.85] text-slate-700 ${className}`}>
+  <section className={`space-y-5 text-lg leading-[1.85] text-slate-700 text-justify ${className}`}>
     {children}
   </section>
 );
@@ -133,8 +133,8 @@ const SectionHeading = ({ children }: { children: ReactNode }) => (
   <h2 className="font-sans text-2xl font-bold leading-tight text-slate-950 md:text-3xl">{children}</h2>
 );
 
-const Subheading = ({ children }: { children: ReactNode }) => (
-  <h3 className="font-sans text-xl font-bold leading-tight text-slate-800">{children}</h3>
+const Subheading = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
+  <h3 className={`font-sans text-lg font-bold leading-tight text-slate-800 ${className}`}>{children}</h3>
 );
 
 const BulletList = ({ items }: { items: ReactNode[] }) => (
@@ -145,15 +145,46 @@ const BulletList = ({ items }: { items: ReactNode[] }) => (
   </ul>
 );
 
-const ExhibitShell = ({ label, title, children }: { label: string; title?: string; children: ReactNode }) => (
-  <section className="overflow-hidden rounded-lg border border-slate-300 bg-white shadow-sm">
-    <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 bg-slate-100 px-5 py-3 font-sans">
-      <span className="text-xs font-bold uppercase tracking-widest text-amethyst">{label}</span>
-      {title && <span className="text-sm font-semibold text-slate-800">{title}</span>}
-    </div>
-    <div className="space-y-6 p-5 md:p-8">{children}</div>
-  </section>
-);
+const ExhibitShell = ({ label, title, children }: { label: string; title?: string; children: ReactNode }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <section className="overflow-hidden rounded-lg border border-amber-200 bg-[#F8E7D7] shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-200/50 bg-[#F5DBC2] px-5 py-3 font-sans">
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-bold uppercase tracking-widest text-amethyst">{label}</span>
+          {title && <span className="text-sm font-semibold text-slate-800">{title}</span>}
+        </div>
+      </div>
+      <div className="relative">
+        <div 
+          className={`transition-all duration-500 ease-in-out overflow-hidden ${
+            isExpanded ? 'max-h-[5000px] p-5 md:p-8 pb-16' : 'max-h-[320px] p-5 md:p-8 pb-24'
+          }`}
+        >
+          <div className="text-sm text-slate-700 space-y-6">
+            {children}
+          </div>
+        </div>
+        
+        {/* Fade overlay when collapsed */}
+        {!isExpanded && (
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F8E7D7] via-[#F8E7D7]/85 to-transparent pointer-events-none" />
+        )}
+        
+        {/* Toggle button */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center z-10">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="px-6 py-2 rounded-full bg-white hover:bg-slate-50 text-amethyst font-sans text-xs font-bold uppercase tracking-wider shadow-sm border border-amber-200/60 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            {isExpanded ? 'Read Less' : 'Read More'}
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Chapter1 = () => {
   useEffect(() => {
@@ -172,7 +203,7 @@ const Chapter1 = () => {
 
       <header className="mx-auto mb-12 max-w-5xl border-b border-amethyst/30 pb-10 text-center">
         <p className="mb-3 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-vermilion">AmethIntel · CEACAM5 Intelligence Report</p>
-        <h1 className="font-sans text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">
+        <h1 className="font-sans text-xl sm:text-2xl md:text-3xl font-bold leading-tight tracking-tight text-slate-950 md:whitespace-nowrap">
           CHAPTER 1 | CEACAM5: A REJUVENATED OPPORTUNITY
         </h1>
       </header>
@@ -218,32 +249,32 @@ const Chapter1 = () => {
           </p>
         </TextBlock>
 
-        <ExhibitShell label="Exhibit 1">
-          <TextBlock className="text-base">
+        <ExhibitShell label="Exhibit 1" title="Structure and Homology">
+          <div className="space-y-4 text-sm leading-relaxed text-slate-700 text-justify">
             <p>
               CEACAM5 is a 180-200 kDa heavily glycosylated protein. Encoded on chromosome 19q13.2 and anchored to the outer leaflet of the plasma membrane via a glycosylphosphatidylinositol (GPI) lipid moiety.<sup>1,2</sup> Its structural organization, seven discrete Ig-fold domains arranged in a fixed linear sequence, directly governs epitope accessibility, cross-reactivity risk, and the practical boundaries of therapeutic targeting.
             </p>
             <p>
               There is a high degree of homology between the members of CEACAM5 family, which makes selectivity an important challenge that has been overcome using various strategies.
             </p>
-          </TextBlock>
+          </div>
 
           <div className="grid gap-5 md:grid-cols-[1fr_1.05fr] md:items-center">
             <figure>
-              <img src="/ch1.png" alt="Human CEACAM family domain architecture" className="w-full rounded-lg border border-slate-200 bg-white" />
+              <img src="/ch1.png" alt="Human CEACAM family domain architecture" className="w-full rounded-lg border border-amber-200 bg-white shadow-sm" />
             </figure>
-            <figure className="space-y-3">
-              <img src="/Pasted image.png" alt="Figure 1 explanation from the draft document" className="w-full rounded-lg border border-slate-200 bg-white" />
+            <figure className="space-y-2">
+              <img src="/Pasted image.png" alt="Figure 1 explanation from the draft document" className="w-full rounded-lg border border-amber-200 bg-white shadow-sm" />
               <figcaption className="font-sans text-xs leading-relaxed text-slate-500">
                 <strong>Figure 1 |</strong> Human CEACAM family proteins, identified as CD66 family members, share a characteristic N-terminal IgV domain and variable IgC2 domains. CEACAM5 and CEACAM6 are GPI-anchored and internalize upon occupancy, enabling toxic payload delivery by antibodies designed for CEACAM5-selective epitopes.
               </figcaption>
             </figure>
           </div>
 
-          <div className="border-t border-slate-200 pt-6">
-            <Subheading>Protein Data Bank Structure</Subheading>
+          <div className="border-t border-amber-200/50 pt-6">
+            <Subheading className="text-slate-900">Protein Data Bank Structure</Subheading>
             <div className="mt-4 grid gap-6 md:grid-cols-[minmax(0,1fr)_280px] md:items-start">
-              <TextBlock className="text-base">
+              <div className="space-y-4 text-sm leading-relaxed text-slate-700 text-justify">
                 <p>
                   The 8BW0 structure (cryo-EM, 3.11 Å) is the first high-resolution view of the A3-B3 domains of human CEACAM5 (CEA) in complex with the Fab of tusamitamab.
                 </p>
@@ -256,13 +287,13 @@ const Chapter1 = () => {
                 <p>
                   Prior structures covered only the N-terminal domain; 8BW0 fills a critical gap for the membrane-proximal domains relevant to therapeutic targeting.
                 </p>
-              </TextBlock>
-              <figure className="space-y-3">
-                <img src="/ch12.jpg" alt="PDB 8BW0 CEACAM5 tusamitamab Fab structure" className="w-full rounded-lg border border-slate-200 bg-white" />
-                <figcaption>
-                  <a href="https://www.rcsb.org/structure/8BW0" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-sans text-sm font-medium text-vermilion transition-colors hover:text-vermilion/70">
+              </div>
+              <figure className="space-y-2">
+                <img src="/ch12.jpg" alt="PDB 8BW0 CEACAM5 tusamitamab Fab structure" className="w-full rounded-lg border border-amber-200 bg-white shadow-sm" />
+                <figcaption className="mt-1">
+                  <a href="https://www.rcsb.org/structure/8BW0" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-sans text-xs font-semibold text-vermilion transition-colors hover:text-vermilion/70">
                     RCSB PDB 8BW0
-                    <ExternalLink size={14} aria-hidden="true" />
+                    <ExternalLink size={12} aria-hidden="true" />
                   </a>
                 </figcaption>
               </figure>
@@ -283,8 +314,8 @@ const Chapter1 = () => {
         </TextBlock>
 
         <ExhibitShell label="Exhibit 2" title="Gene and Protein Basics - Normal Biology and Expression">
-          <div className="grid gap-8 bg-[#F8E7D7] p-4 lg:grid-cols-[0.75fr_1.25fr]">
-            <div className="space-y-5 text-base leading-[1.75] text-slate-700">
+          <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+            <div className="space-y-4 text-sm leading-relaxed text-slate-700 text-justify">
               <p>In healthy adults, CEACAM5 expression is limited and typically low. It appears mainly in:</p>
               <BulletList items={normalExpression} />
 
@@ -298,28 +329,28 @@ const Chapter1 = () => {
               <BulletList items={cancerExpressionSites} />
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {exhibitPrimaryImages.map((image) => (
-                <figure key={image.src}>
-                  <img src={image.src} alt={image.alt} className="w-full rounded-lg border border-slate-200 bg-white shadow-sm" />
+                <figure key={image.src} className="space-y-2">
+                  <img src={image.src} alt={image.alt} className="w-full rounded-lg border border-amber-200 bg-white shadow-sm" />
                   <figcaption className="mt-2 font-sans text-xs leading-relaxed text-slate-500">{image.caption}</figcaption>
                 </figure>
               ))}
             </div>
           </div>
 
-          <div className="border-t border-slate-200 pt-6">
-            <div className="grid gap-6 bg-[#F8E7D7] p-4 md:grid-cols-[0.75fr_1.25fr] md:items-start">
-              <div className="space-y-4 text-base leading-[1.75] text-slate-700">
+          <div className="border-t border-amber-200/50 pt-6">
+            <div className="grid gap-6 md:grid-cols-[0.75fr_1.25fr] md:items-start">
+              <div className="space-y-3 text-sm leading-relaxed text-slate-700 text-justify">
                 <p>In tumors, CEACAM5 contributes to:</p>
                 <BulletList items={tumorRoles} />
                 <p className="italic text-slate-600">
                   It is generally considered <strong>pro-tumorigenic</strong> in most contexts when overexpressed. The expression profile is directly linked to prognosis.
                 </p>
               </div>
-              <div className="space-y-5 font-sans text-sm leading-relaxed text-slate-700">
+              <div className="space-y-3 font-sans text-xs leading-relaxed text-slate-600 text-justify">
                 <p>Higher resolution image of single organoid of normal and cancer cells) CEACAM5 is overexpressed and localizes in the organelles of the cells.</p>
-                <img src="/exhibit25.png" alt="CEACAM5 survival curve" className="w-full max-w-sm rounded-lg border border-slate-200 bg-white shadow-sm" />
+                <img src="/exhibit25.png" alt="CEACAM5 survival curve" className="w-full max-w-sm rounded-lg border border-amber-200 bg-white shadow-sm" />
               </div>
             </div>
           </div>
@@ -367,7 +398,7 @@ const Chapter1 = () => {
           <p>
          Strategic epitope selection represents a key molecular engineering solution to further decouple therapeutic binding from soluble CEACAM5 (sCEA). CEACAM5 comprises six Ig-like domains (N-terminal A1–A3 and membrane-proximal B1–B3), with the GPI anchor at the C-terminus. GPI-PLD-mediated shedding releases the full ectodomain into circulation. Antibodies or bispecifics engineered against   membrane-proximal epitopes   (primarily A2 or B3 domains, located near the shedding site and cell membrane) exhibit strong preferential binding to membrane-anchored CEACAM5 on tumor cells while showing markedly reduced interaction with the shed soluble form. 
           </p>
-          <ul className="space-y-3 border-l-2 border-slate-200 pl-4 text-base leading-[1.75] text-slate-600">
+          <ul className="space-y-3 border-l-2 border-slate-200 pl-4 text-base leading-[1.75] text-slate-600 text-justify">
             {epitopeNotes.map((note, index) => (
               <li key={index}>{note}</li>
             ))}
@@ -382,7 +413,7 @@ const Chapter1 = () => {
            HER2 and EGFR exhibit broader, non-polarized expression across critical normal tissues (HER2 on cardiac myocytes and skin/GI mucosa; EGFR on keratinocytes, GI epithelium, and hepatocytes). This drives well-documented class-effect toxicities: HER2-directed agents cause cardiomyopathy and rash/diarrhea; EGFR inhibitors produce severe cutaneous toxicity, diarrhea, and hypomagnesemia. In contrast, CEACAM5-targeted agents (e.g., Tusamitamab ravtansine/SAR408701 and subsequent molecules) have shown no analogous cardiac, widespread cutaneous, or severe GI on-target toxicities in clinical experience. Observed adverse events (e.g., reversible keratopathy with certain DM4 payloads) are predominantly payload-related rather than antigen-driven. Direct quantitative head-to-head comparisons of normal-tissue binding and toxicity across these targets remain limited in the public literature.
           </p>
 
-          <aside className="rounded-r-lg border-l-4 border-amethyst bg-amethyst/5 p-6">
+          <aside className="rounded-r-lg border-l-4 border-amethyst bg-amethyst/5 p-6 text-justify">
             <h4 className="mb-3 font-sans text-xs font-bold uppercase tracking-wider text-amethyst">Strategic Implications for R&D and BD</h4>
             <p className="font-medium italic text-slate-600">
              CEACAM5 offers a differentiated therapeutic index—high tumor overexpression paired with spatially restricted normal expression—positioning it favorably versus relatively saturated targets such as HER2 (cardiotoxicity constraints) and EGFR (cutaneous/GI liabilities). This supports continued investment in ADCs, bispecifics, and cell therapies, particularly in colorectal, NSCLC, and gastric cancers.  
@@ -395,13 +426,13 @@ const Chapter1 = () => {
           </p>
         </TextBlock>
 
-        <section className="rounded-lg border border-slate-200 bg-white p-6">
-          <h4 className="mb-4 font-sans text-sm font-bold uppercase tracking-wider text-slate-900">Key References</h4>
-          <ol className="list-decimal space-y-2 pl-4 font-sans text-[11px] leading-relaxed text-slate-500">
-            {references.map((reference) => (
-              <li key={reference}>{reference}</li>
-            ))}
-          </ol>
+        <section className="rounded-lg border border-slate-200 bg-white p-6 text-center">
+          <p className="font-sans text-sm text-slate-600">
+            To view the full bibliography, citations, and data indices for this chapter, please visit the{' '}
+            <Link to="/chapters/appendix" className="text-amethyst font-semibold hover:underline">
+              Appendix
+            </Link>.
+          </p>
         </section>
 
         <ChapterFooter />

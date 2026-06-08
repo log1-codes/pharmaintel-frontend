@@ -29,7 +29,7 @@ const LandingPage = () => {
         <>
 
             <header id="home" className="hero-bg min-h-screen flex items-center relative overflow-hidden pt-26">
-                <div className="absolute inset-0 bg-ink/60"></div>
+                <div className="absolute inset-0 bg-ink/15"></div>
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16">
                     <div className="max-w-3xl">
                         <div className="flex items-center gap-3 font-mono text-[11px] tracking-widest text-steel uppercase">

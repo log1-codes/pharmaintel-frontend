@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-surface: #0E1520;
+  --color-surface: #131A2A;
   --color-on-surface: #ffffff;
   
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
 
-  --color-ink: #0E1520;
-  --color-navy: #132035;
-  --color-navy-mid: #1C3050;
+  --color-ink: #131A2A;
+  --color-navy: #1C2B42;
+  --color-navy-mid: #253C5C;
   --color-accent: #D6A869;
   --color-accent-light: #E8C189;
   --color-accent-dim: rgba(214,168,105,0.1);
@@ -30,6 +30,7 @@
   --color-amethyst: #9966CC;
   
   --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Libre Franklin', sans-serif;
   --font-sans: 'Libre Franklin', sans-serif;
   --font-mono: 'DM Mono', monospace;
 }
@@ -55,12 +56,12 @@ body {
 .hero-bg {
   background:
       linear-gradient(to right,
-          rgba(2, 6, 23, 0.96) 0%,
-          rgba(2, 6, 23, 0.88) 22%,
-          rgba(2, 6, 23, 0.70) 38%,
-          rgba(2, 6, 23, 0.28) 55%,
-          rgba(2, 6, 23, 0.10) 70%,
-          rgba(2, 6, 23, 0.04) 100%),
+          rgba(2, 6, 23, 0.45) 0%,
+          rgba(2, 6, 23, 0.35) 22%,
+          rgba(2, 6, 23, 0.22) 38%,
+          rgba(2, 6, 23, 0.12) 55%,
+          rgba(2, 6, 23, 0.05) 70%,
+          rgba(2, 6, 23, 0.02) 100%),
       url("/Gemini_Generated_Image_home_page.png");
 
   background-size: cover;

@@ -10,6 +10,7 @@ import Ceacam5Report from './pages/Ceacam5Report';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Chapter1 from './pages/Chapter1';
+import Appendix from './pages/Appendix';
 import ChapterPlaceholder from './pages/ChapterPlaceholder';
 import { useSessionWatcher } from './hooks/useSessionWatcher';
 
@@ -38,6 +39,7 @@ function App() {
           {/* Protected Chapter Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/chapters/chapter1" element={<Chapter1 />} />
+            <Route path="/chapters/appendix" element={<Appendix />} />
             <Route path="/chapters/:chapterId" element={<ChapterPlaceholder />} />
           </Route>
         </Route>
