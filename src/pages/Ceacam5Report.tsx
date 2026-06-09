@@ -90,7 +90,7 @@ const Ceacam5Report = () => {
               CEACAM5 Therapeutic Landscape & Strategic Outlook
             </h2>
 
-            <div className="max-w-full mt-2.5">
+            <div className="max-w-full mt-2.5 text-justify">
 
               <p>
                 CEACAM5 (carcinoembryonic antigen-related cell adhesion molecule 5, CD66e) is emerging as one of the most commercially important solid tumor targets of the current oncology cycle. Long recognized biologically, but historically constrained by technological limitations, the target now stands at an inflection point where advances in antibody engineering, payload chemistry, linker systems, precision diagnostics, and clinical strategy are converging to unlock clinically and commercially viable therapies.

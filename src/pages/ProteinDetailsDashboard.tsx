@@ -19,7 +19,7 @@ const ProteinDetailsDashboard = () => {
             <div className="bg-slate-900 border border-white/10 p-8 rounded-3xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
               <h3 className="text-xl font-semibold mb-5 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Executive Summary</h3>
-              <p className="text-slate-400 leading-relaxed mb-8">The HER2 protein is a member of the epidermal growth factor receptor family. Overexpression of this protein is known to play an essential role in the pathogenesis and progression of certain aggressive types of breast cancer.</p>
+              <p className="text-slate-400 leading-relaxed mb-8 text-justify">The HER2 protein is a member of the epidermal growth factor receptor family. Overexpression of this protein is known to play an essential role in the pathogenesis and progression of certain aggressive types of breast cancer.</p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-5 bg-white/5 border border-white/5 rounded-2xl">
                   <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block mb-2">Global Market Cap</span>

@@ -2,6 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Disable cookies site-wide
+      try {
+        Object.defineProperty(document, 'cookie', {
+          get: function() {
+            console.warn('Access to document.cookie is disabled.');
+            return '';
+          },
+          set: function(val) {
+            console.warn('Setting document.cookie is disabled.');
+            return '';
+          },
+          configurable: false
+        });
+      } catch (e) {
+        console.error('Failed to disable cookies:', e);
+      }
+
+      // Disable navigator plugins site-wide
+      try {
+        Object.defineProperty(navigator, 'plugins', {
+          get: function() {
+            const emptyPlugins = [];
+            emptyPlugins.item = function() { return null; };
+            emptyPlugins.namedItem = function() { return null; };
+            emptyPlugins.refresh = function() {};
+            return emptyPlugins;
+          },
+          configurable: false
+        });
+        Object.defineProperty(navigator, 'mimeTypes', {
+          get: function() {
+            const emptyMimeTypes = [];
+            emptyMimeTypes.item = function() { return null; };
+            emptyMimeTypes.namedItem = function() { return null; };
+            return emptyMimeTypes;
+          },
+          configurable: false
+        });
+      } catch (e) {
+        console.error('Failed to disable plugins:', e);
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
