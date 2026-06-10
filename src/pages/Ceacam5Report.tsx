@@ -191,7 +191,7 @@ const Ceacam5Report = () => {
               </a>
               <a className="grid grid-cols-[44px_1fr_auto] gap-4 px-4 py-3.25 border-b border-rule items-center hover:bg-[#223050] transition-colors cursor-pointer no-underline" href="#ch-2">
                 <div className="font-mono text-[12px] text-accent font-medium">02</div>
-                <div className="text-[14px] font-medium text-fog">Active Clinical Trial Landscape<span>260+ trials tiered by readout imminence · sponsor commitment signals · kinetic energy analysis</span></div>
+                <div className="text-[14px] font-medium text-fog">Report Methodology &amp; Framework<span>Integrated Clinical Development System™ framework · decision archetypes</span></div>
                 <div className="font-mono text-[10px] tracking-[0.08em] uppercase px-2 py-0.75 rounded-sm mt-0.5 bg-[rgba(200,151,58,0.1)] text-accent-light border border-[rgba(200,151,58,0.25)] hidden md:block">Preview</div>
               </a>
               <a className="grid grid-cols-[44px_1fr_auto] gap-4 px-4 py-3.25 border-b border-rule items-center hover:bg-[#223050] transition-colors cursor-pointer no-underline" href="#ch-3">
@@ -256,8 +256,8 @@ const Ceacam5Report = () => {
               <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter2')}>
                 <div className="font-mono text-[12px] text-accent">02</div>
                 <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Active Clinical Trial Landscape</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">260+ trials — tiered by what actually matters to a BD or investment decision</div>
+                  <div className="font-serif text-[18px] text-cream">Report Methodology &amp; Framework</div>
+                  <div className="text-[12px] text-steel mt-0.75 italic">The Integrated Clinical Development System™ framework and decision archetypes</div>
                 </div>
                 <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
                 <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>

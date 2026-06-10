@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Chapter1 from './pages/Chapter1';
 import Appendix from './pages/Appendix';
 import ChapterPlaceholder from './pages/ChapterPlaceholder';
+import Chapter2 from './pages/Chapter2';
 import { useSessionWatcher } from './hooks/useSessionWatcher';
 
 // Mounted inside <Router> so useNavigate works
@@ -39,6 +40,7 @@ function App() {
           {/* Protected Chapter Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/chapters/chapter1" element={<Chapter1 />} />
+            <Route path="/chapters/chapter2" element={<Chapter2 />} />
             <Route path="/chapters/appendix" element={<Appendix />} />
             <Route path="/chapters/:chapterId" element={<ChapterPlaceholder />} />
           </Route>
