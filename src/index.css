@@ -151,7 +151,23 @@ body {
 }
 
 .chapter-capture-guard {
+  position: relative;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
+
+.watermark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg width='350' height='350' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='50%25' y='50%25' font-size='26' font-weight='600' font-family='system-ui, sans-serif' fill='%239966CC' text-anchor='middle' transform='rotate(-30 175 175)'%3EAmethintel%3C/text%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+

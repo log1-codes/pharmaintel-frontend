@@ -134,6 +134,7 @@ const Chapter2 = () => {
 
   return (
     <div className="chapter-capture-guard min-h-screen bg-offwhite px-4 pb-16 pt-32 font-serif text-slate-800 md:px-8">
+      <div className="watermark-overlay" />
       <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm">
         <Link to="/ceacam5#chapters" className="inline-flex items-center gap-2 text-amethyst transition-colors hover:text-vermilion">
           <ArrowLeft size={16} aria-hidden="true" />
