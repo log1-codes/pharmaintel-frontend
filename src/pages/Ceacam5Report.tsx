@@ -253,10 +253,10 @@ const Ceacam5Report = () => {
 
             {/*  CH 2  */}
             <div className="mb-2" id="ch-2">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter2')}>
+              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" >
                 <div className="font-mono text-[12px] text-accent">02</div>
                 <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Report Methodology &amp; Framework</div>
+                  <div className="font-serif text-[18px] text-cream"> Methodology &amp; Framework</div>
                   <div className="text-[12px] text-steel mt-0.75 italic">The Integrated Clinical Development System™ framework and decision archetypes</div>
                 </div>
                 <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>

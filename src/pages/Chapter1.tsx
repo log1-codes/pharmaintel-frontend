@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ChapterFooter from '../components/ChapterFooter';
 
@@ -158,7 +158,7 @@ const ExhibitShell = ({ label, title, children }: { label: string; title?: strin
       </div>
       <div className="relative">
         <div 
-          className={`transition-all duration-500 ease-in-out overflow-hidden ${
+          className={`exhibit-content-container transition-all duration-500 ease-in-out overflow-hidden ${
             isExpanded ? 'max-h-[5000px] p-5 md:p-8 pb-16' : 'max-h-[320px] p-5 md:p-8 pb-24'
           }`}
         >
@@ -169,11 +169,11 @@ const ExhibitShell = ({ label, title, children }: { label: string; title?: strin
         
         {/* Fade overlay when collapsed */}
         {!isExpanded && (
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F8E7D7] via-[#F8E7D7]/85 to-transparent pointer-events-none" />
+          <div className="exhibit-fade-overlay absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F8E7D7] via-[#F8E7D7]/85 to-transparent pointer-events-none" />
         )}
         
         {/* Toggle button */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center z-10">
+        <div className="exhibit-toggle-btn-container absolute bottom-4 left-0 right-0 flex justify-center z-10">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="px-6 py-2 rounded-full bg-white hover:bg-slate-50 text-amethyst font-sans text-xs font-bold uppercase tracking-wider shadow-sm border border-amber-200/60 transition-all hover:scale-105 active:scale-95 cursor-pointer"
@@ -187,19 +187,72 @@ const ExhibitShell = ({ label, title, children }: { label: string; title?: strin
 };
 
 const Chapter1 = () => {
+  const [userName, setUserName] = useState<string>('');
+
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        if (parsed && parsed.name) {
+          setUserName(parsed.name);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }, []);
+
+  const handleDownload = () => {
+    (window as any).__allowPrint = true;
+
+    const resetPrint = () => {
+      (window as any).__allowPrint = false;
+      window.removeEventListener('afterprint', resetPrint);
+    };
+
+    window.addEventListener('afterprint', resetPrint);
+    window.print();
+  };
+
+  const currentDate = new Date().toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   return (
     <div className="chapter-capture-guard min-h-screen bg-offwhite px-4 pb-16 pt-32 font-serif text-slate-800 md:px-8">
       <div className="watermark-overlay" />
-      <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm">
+      <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm no-print">
         <Link to="/ceacam5#chapters" className="inline-flex items-center gap-2 text-amethyst transition-colors hover:text-vermilion">
           <ArrowLeft size={16} aria-hidden="true" />
           Back to Report
         </Link>
-        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">Chapter 1</span>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={handleDownload}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-amethyst/10 hover:bg-amethyst/20 text-amethyst hover:text-amethyst-dark font-semibold text-xs transition-colors cursor-pointer border-none"
+          >
+            <Download size={14} />
+            Download PDF
+          </button>
+          <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">Chapter 1</span>
+        </div>
+      </div>
+
+      {/* Print-only header with logo, name, user, and date */}
+      <div className="print-only max-w-5xl mx-auto items-center justify-between border-b border-slate-200 pb-4 mb-8 font-sans">
+        <div className="flex items-center gap-3">
+          <img src="/logo.jpeg" alt="AmethIntel Logo" className="h-8 object-contain" />
+          <span className="font-bold text-xl text-slate-900">AmethIntel</span>
+        </div>
+        <div className="text-right text-xs text-slate-500 space-y-1">
+          {userName && <div>Downloaded by: <span className="font-semibold text-slate-800">{userName}</span></div>}
+          <div>Date: <span className="font-semibold text-slate-800">{currentDate}</span></div>
+        </div>
       </div>
 
       <header className="mx-auto mb-12 max-w-5xl border-b border-amethyst/30 pb-10 text-center">

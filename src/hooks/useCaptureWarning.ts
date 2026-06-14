@@ -31,9 +31,18 @@ export const useCaptureWarning = () => {
     };
 
     const blockEvent = (event: Event) => {
+      // Allow printing when the print bypass is active
+      if ((window as any).__allowPrint && (event.type === 'beforeprint' || (event instanceof KeyboardEvent && event.key.toLowerCase() === 'p'))) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
       showWarning();
+    };
+
+    const blockInteraction = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -42,30 +51,22 @@ export const useCaptureWarning = () => {
       }
     };
 
-    const mediaDevices = navigator.mediaDevices as
-      | (MediaDevices & { getDisplayMedia?: MediaDevices['getDisplayMedia'] })
-      | undefined;
-    const originalGetDisplayMedia = mediaDevices?.getDisplayMedia?.bind(mediaDevices);
-
-    if (mediaDevices && originalGetDisplayMedia) {
-      mediaDevices.getDisplayMedia = (() => {
-        showWarning();
-        return Promise.reject(new DOMException('Screen capture is not allowed on this page.', 'NotAllowedError'));
-      }) as MediaDevices['getDisplayMedia'];
-    }
-
     document.addEventListener('keydown', handleKeyDown, true);
     document.addEventListener('contextmenu', blockEvent, true);
+    document.addEventListener('copy', blockInteraction, true);
+    document.addEventListener('cut', blockInteraction, true);
+    document.addEventListener('paste', blockInteraction, true);
+    document.addEventListener('dblclick', blockInteraction, true);
     window.addEventListener('beforeprint', blockEvent, true);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown, true);
       document.removeEventListener('contextmenu', blockEvent, true);
+      document.removeEventListener('copy', blockInteraction, true);
+      document.removeEventListener('cut', blockInteraction, true);
+      document.removeEventListener('paste', blockInteraction, true);
+      document.removeEventListener('dblclick', blockInteraction, true);
       window.removeEventListener('beforeprint', blockEvent, true);
-
-      if (mediaDevices && originalGetDisplayMedia) {
-        mediaDevices.getDisplayMedia = originalGetDisplayMedia;
-      }
     };
   }, []);
 };

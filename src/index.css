@@ -171,3 +171,82 @@ body {
   background-repeat: repeat;
 }
 
+.print-only {
+  display: none !important;
+}
+
+/* Print Stylesheet for PDF generation */
+@media print {
+  .print-only {
+    display: flex !important;
+  }
+  html, body, #root, .flex-col, .flex-1, .chapter-capture-guard {
+    background-color: #FAFAFA !important;
+    color: #0f172a !important;
+    background-image: none !important;
+  }
+
+  /* Hide header/navbar, global footer, back link, download button, and UI items */
+  nav,
+  header,
+  footer.w-full,
+  .no-print,
+  .exhibit-fade-overlay,
+  .exhibit-toggle-btn-container,
+  button {
+    display: none !important;
+  }
+
+  /* Reset layout constraints for print */
+  .chapter-capture-guard {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* Expand all collapsed exhibit shells for full-text printing */
+  .exhibit-content-container {
+    max-height: none !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Re-render the watermark overlay as a fixed background across all printed pages */
+  .watermark-overlay {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100% !important;
+    width: 100% !important;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.12 !important; /* Lighter watermark for high contrast print readability */
+    background-repeat: repeat;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure colors and backgrounds render in the PDF */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Format margins, orientation, and layout */
+  @page {
+    margin: 2cm 1.5cm;
+    size: A4 portrait;
+  }
+
+  /* Avoid orphan headings and break pages gracefully */
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  section, figure, aside, table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
