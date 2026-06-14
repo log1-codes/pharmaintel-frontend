@@ -1,6 +1,71 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+const chaptersData = [
+  {
+    id: 'ch-1',
+    num: '01',
+    title: 'Target Biology & Expression Landscape',
+    desc: 'What CEACAM5 is, where it is expressed, and what that means for therapeutic window design',
+    route: '/chapters/chapter1'
+  },
+  {
+    id: 'ch-2',
+    num: '02',
+    title: 'Methodology & Framework',
+    desc: 'The Integrated Clinical Development System™ framework and decision archetypes',
+    route: '/chapters/chapter2'
+  },
+  {
+    id: 'ch-3',
+    num: '03',
+    title: 'Programme Failure Attribution',
+    desc: 'A diagnostic, not a graveyard — every terminated programme assigned to one of four root causes',
+    route: '/chapters/chapter3'
+  },
+  {
+    id: 'ch-4',
+    num: '04',
+    title: 'Patent Landscape',
+    desc: 'Where entry is blocked, where it is open, and where the real barriers now concentrate',
+    route: '/chapters/chapter4'
+  },
+  {
+    id: 'ch-5',
+    num: '05',
+    title: 'Payload Landscape',
+    desc: 'Why maytansinoid gave way to Topo1i — and what the data says about the next transition',
+    route: '/chapters/chapter5'
+  },
+  {
+    id: 'ch-6',
+    num: '06',
+    title: 'Linker Landscape',
+    desc: 'The linker is where this field will be won — the clinical evidence and the deal data agree',
+    route: '/chapters/chapter6'
+  },
+  {
+    id: 'ch-7',
+    num: '07',
+    title: 'Differentiation for Long-Term Dominance',
+    desc: 'The three-variable framework — and the population sizing that determines the commercial ceiling',
+    route: '/chapters/chapter7'
+  },
+  {
+    id: 'ch-8',
+    num: '08',
+    title: '2026 Deal Structure Analysis',
+    desc: 'Where capital is moving — and what a CEACAM5 ADC at Phase 1 POC would actually license for',
+    route: '/chapters/chapter8'
+  },
+  {
+    id: 'ch-a',
+    num: 'A',
+    title: 'Appendix — Full Reference Tables & Bibliography',
+    desc: '30-programme table · NCT index · deal comparables · patent assignee summary · bibliography & references',
+    route: '/chapters/appendix'
+  }
+];
 
 const Ceacam5Report = () => {
   const [tocActive, setTocActive] = useState(false);
@@ -27,57 +92,36 @@ const Ceacam5Report = () => {
 
   return (
     <>
-
       <div className="pt-26 min-h-screen" style={{ background: 'var(--ink)', color: 'var(--fog)', fontFamily: 'var(--sans)' }}>
-
-
-        {/*  TOP BAR  */}
-
         {/*  HERO  */}
         <section className="pt-14 pb-12">
-          <div className="max-w-260 mx-auto px-12" style={{ "paddingLeft": "0", "paddingRight": "0" }}>
-            <div className="font-mono text-[11px] text-steel uppercase tracking-widest mb-0.75">AmethIntel · Oncology Intelligence Series · 2026</div>
-            <h1 className="font-serif text-[42px] font-normal text-cream leading-[1.2] my-6">CEACAM5: Oncology Target and<br /><em className="font-serif italic text-accent-light">Ramifications for Target Selection Strategy</em></h1>
-            <p className="font-sans text-[12px] uppercase tracking-[0.05em] font-semibold text-accent-light mb-1">A decision-grade intelligence review integrating clinical trial triage, failure attribution, patent landscape, payload and linker analysis, and 2026 deal structure benchmarks — structured for R&amp;D heads, BD leaders, and oncology investment teams.</p>
+          <div className="max-w-260 mx-auto px-4 sm:px-8 md:px-12">
+            <div className="font-mono text-[10px] sm:text-[11px] text-steel uppercase tracking-widest mb-0.75">AmethIntel · Oncology Intelligence Series · 2026</div>
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-[42px] font-normal text-cream leading-[1.2] my-4 sm:my-6">CEACAM5: Oncology Target and<br /><em className="font-serif italic text-accent-light">Ramifications for Target Selection Strategy</em></h1>
+            <p className="font-sans text-[11px] sm:text-[12px] uppercase tracking-[0.05em] font-semibold text-accent-light mb-1">A decision-grade intelligence review integrating clinical trial triage, failure attribution, patent landscape, payload and linker analysis, and 2026 deal structure benchmarks — structured for R&amp;D heads, BD leaders, and oncology investment teams.</p>
 
-            <div className="flex items-center gap-3 font-mono text-[11px] tracking-widest  text-steel uppercase">
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-widest">Publisher</div><div className="font-sans text-[13px] text-fog">AmethIntel</div></div>
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-widest">Pages</div><div className="font-sans text-[13px] text-fog">~80 pp</div></div>
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-widest">Chapters</div><div className="font-sans text-[13px] text-fog">8 + Appendix</div></div>
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-widest">Updated</div><div className="font-sans text-[13px] text-fog">May 2026</div></div>
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-widest">Coverage</div><div className="font-sans text-[13px] text-fog">US · EU · Global</div></div>
-              <div className="flex items-center gap-2"><div className="font-mono text-[10px] text-steel uppercase tracking-widest">Classification</div><div className="font-sans text-[13px] text-fog">Confidential</div></div>
+            <div className="flex flex-wrap items-center gap-3 font-mono text-[10px] sm:text-[11px] tracking-widest text-steel uppercase">
+              <div className="flex items-center gap-2"><span className="text-slate-500 uppercase tracking-widest text-[9px]">Publisher</span><span className="text-fog font-sans normal-case text-xs">AmethIntel</span></div>
+              <div className="flex items-center gap-2"><span className="text-slate-500 uppercase tracking-widest text-[9px]">Pages</span><span className="text-fog font-sans normal-case text-xs">~80 pp</span></div>
+              <div className="flex items-center gap-2"><span className="text-slate-500 uppercase tracking-widest text-[9px]">Chapters</span><span className="text-fog font-sans normal-case text-xs">8 + Appendix</span></div>
+              <div className="flex items-center gap-2"><span className="text-slate-500 uppercase tracking-widest text-[9px]">Updated</span><span className="text-fog font-sans normal-case text-xs">May 2026</span></div>
+              <div className="flex items-center gap-2"><span className="text-slate-500 uppercase tracking-widest text-[9px]">Coverage</span><span className="text-fog font-sans normal-case text-xs">US · EU · Global</span></div>
+              <div className="flex items-center gap-2"><span className="text-slate-500 uppercase tracking-widest text-[9px]">Classification</span><span className="text-fog font-sans normal-case text-xs">Confidential</span></div>
             </div>
 
-            <div className="inline-flex items-center gap-2.5 bg-accent-dim border border-[rgba(200,151,58,0.3)] px-3 py-1.5 rounded-full mb-5.5">
-
-              <div className="font-mono text-[12px] text-accent-light flex items-center gap-1.5">
-                TOC + Executive Summary
-              </div>
-
-              <div className="w-px h-6  bg-[rgba(200,151,58,0.3)]"></div>
-
-              <div className="font-mono text-[12px] text-accent-light flex items-center gap-1.5">
-                Data
-              </div>
-
-              <div className="w-px h-6 bg-[rgba(200,151,58,0.3)]"></div>
-
-              <div className="font-mono text-[12px] text-accent-light flex items-center gap-1.5">
-                Analysis
-              </div>
-
-              <div className="w-px h-6 bg-[rgba(200,151,58,0.3)]"></div>
-
-              <div className="font-mono text-[12px] text-accent-light flex items-center gap-1.5">
-                Projection
-              </div>
-
+            <div className="inline-flex flex-wrap items-center gap-2 sm:gap-2.5 bg-accent-dim border border-[rgba(200,151,58,0.3)] px-3 py-1.5 rounded-full mt-4">
+              <div className="font-mono text-[10px] sm:text-[12px] text-accent-light">TOC + Executive Summary</div>
+              <div className="hidden sm:block w-px h-6 bg-[rgba(200,151,58,0.3)]"></div>
+              <div className="font-mono text-[10px] sm:text-[12px] text-accent-light">Data</div>
+              <div className="hidden sm:block w-px h-6 bg-[rgba(200,151,58,0.3)]"></div>
+              <div className="font-mono text-[10px] sm:text-[12px] text-accent-light">Analysis</div>
+              <div className="hidden sm:block w-px h-6 bg-[rgba(200,151,58,0.3)]"></div>
+              <div className="font-mono text-[10px] sm:text-[12px] text-accent-light">Projection</div>
             </div>
           </div>
         </section>
 
-        <div className="max-w-260 mx-auto px-12">
+        <div className="max-w-260 mx-auto px-4 sm:px-8 md:px-12">
 
           {/*  EXEC SUMMARY  */}
           <section className="py-14 pb-12 border-b border-rule" id="exec-summary">
@@ -234,127 +278,32 @@ const Ceacam5Report = () => {
 
           {/*  CHAPTERS  */}
           <section className="py-14" id="chapters">
-            <div className="font-mono text-[10px] text-accent uppercase tracking-[0.12em] mb-3 flex flex-col gap-3 before:content-[''] before:block before:w-6 before:h-px before:bg-accent">Chapter access — preview free, full content  per chapter</div>
+            <div className="font-mono text-[10px] text-accent uppercase tracking-[0.12em] mb-3 flex flex-col gap-3 before:content-[''] before:block before:w-6 before:h-px before:bg-accent">Chapter access — preview free, full content per chapter</div>
             <h2 className="font-serif text-[22px] font-medium text-cream mb-5" style={{ "marginBottom": "24px" }}>Report Chapters</h2>
             <div className="font-mono text-[12px] text-mist uppercase tracking-widest mb-6 pb-3 border-b border-rule">Click any chapter to expand preview · unlock full content individually or purchase the complete report</div>
 
-            {/*  CH 1  */}
-            <div className="mb-2" id="ch-1">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter1')}>
-                <div className="font-mono text-[12px] text-accent">01</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Target Biology &amp; Expression Landscape</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">What CEACAM5 is, where it is expressed, and what that means for therapeutic window design</div>
+            {chaptersData.map((ch) => (
+              <div className="mb-2" id={ch.id} key={ch.id}>
+                <div 
+                  className="grid grid-cols-[auto_1fr_auto] sm:grid-cols-[56px_1fr_auto_auto] gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" 
+                  onClick={() => handleReadChapter(ch.route)}
+                >
+                  <div className="font-mono text-[12px] text-accent pr-1 sm:pr-0">{ch.num}</div>
+                  <div className="flex flex-col">
+                    <div className="font-serif text-[16px] sm:text-[18px] text-cream">{ch.title}</div>
+                    <div className="text-[11px] sm:text-[12px] text-steel mt-0.75 italic leading-normal">{ch.desc}</div>
+                  </div>
+                  <div className="hidden sm:block font-mono text-[12px] text-steel mt-0.75 text-right">
+                    <span className="text-accent uppercase tracking-wider text-[10px] font-bold">
+                      {ch.num === 'A' ? 'Read Appendix' : 'Read Chapter'}
+                    </span>
+                  </div>
+                  <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">
+                    <i className="fas fa-arrow-right"></i>
+                  </div>
                 </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
               </div>
-            </div>
-
-            {/*  CH 2  */}
-            <div className="mb-2" id="ch-2">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" >
-                <div className="font-mono text-[12px] text-accent">02</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream"> Methodology &amp; Framework</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">The Integrated Clinical Development System™ framework and decision archetypes</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  CH 3  */}
-            <div className="mb-2" id="ch-3">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter3')}>
-                <div className="font-mono text-[12px] text-accent">03</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Programme Failure Attribution</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">A diagnostic, not a graveyard — every terminated programme assigned to one of four root causes</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  CH 4  */}
-            <div className="mb-2" id="ch-4">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter4')}>
-                <div className="font-mono text-[12px] text-accent">04</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Patent Landscape</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">Where entry is blocked, where it is open, and where the real barriers now concentrate</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  CH 5  */}
-            <div className="mb-2" id="ch-5">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter5')}>
-                <div className="font-mono text-[12px] text-accent">05</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Payload Landscape</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">Why maytansinoid gave way to Topo1i — and what the data says about the next transition</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  CH 6  */}
-            <div className="mb-2" id="ch-6">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter6')}>
-                <div className="font-mono text-[12px] text-accent">06</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Linker Landscape</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">The linker is where this field will be won — the clinical evidence and the deal data agree</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  CH 7  */}
-            <div className="mb-2" id="ch-7">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter7')}>
-                <div className="font-mono text-[12px] text-accent">07</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Differentiation for Long-Term Dominance</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">The three-variable framework — and the population sizing that determines the commercial ceiling</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  CH 8  */}
-            <div className="mb-2" id="ch-8">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/chapter8')}>
-                <div className="font-mono text-[12px] text-accent">08</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">2026 Deal Structure Analysis</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">Where capital is moving — and what a CEACAM5 ADC at Phase 1 POC would actually license for</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Chapter</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
-            {/*  APPENDIX  */}
-            <div className="mb-2" id="ch-a">
-              <div className="grid grid-cols-[56px_1fr_auto_auto] gap-4 px-5 py-4 bg-navy border border-rule rounded-[3px] items-center cursor-pointer transition-colors hover:bg-navy-mid" onClick={() => handleReadChapter('/chapters/appendix')}>
-                <div className="font-mono text-[12px] text-accent">A</div>
-                <div className="flex flex-col">
-                  <div className="font-serif text-[18px] text-cream">Appendix — Full Reference Tables & Bibliography</div>
-                  <div className="text-[12px] text-steel mt-0.75 italic">30-programme table · NCT index · deal comparables · patent assignee summary · bibliography & references</div>
-                </div>
-                <div className="font-mono text-[12px] text-steel mt-0.75 text-right"><span className="text-accent uppercase tracking-wider text-[10px] font-bold">Read Appendix</span></div>
-                <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform"><i className="fas fa-arrow-right"></i></div>
-              </div>
-            </div>
-
+            ))}
           </section>
 
           {/*  PRICING  */}
@@ -362,11 +311,11 @@ const Ceacam5Report = () => {
             <div className="font-mono text-[10px] text-accent uppercase tracking-[0.12em] mb-3 flex flex-col gap-3 before:content-[''] before:block before:w-6 before:h-px before:bg-accent">Access options</div>
             <h2 className="font-serif text-[22px] font-medium text-cream mb-5">Licensing &amp; Pricing</h2>
 
-            <div className="grid grid-cols-3 gap-3 mt-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
               <div className="bg-navy-mid border border-rule rounded-[3px] p-6">
                 <div className="font-mono text-[10px] text-steel tracking-widest uppercase mb-2.5">Chapter licence</div>
                 <div className="font-serif text-[32px] text-cream font-medium mb-1"><sub className="text-[14px] font-sans text-steel font-normal">per chapter</sub></div>
-                <div className="text-[13px] text-mist leading-normal   pb-4 border-b border-rule">Access any individual chapter. Purchase only what your analysis requires. Chapters 1–3 are most relevant for target validation; 4–6 for platform and IP strategy; 7–8 for commercial and deal decisions.</div>
+                <div className="text-[13px] text-mist leading-normal pb-4 border-b border-rule">Access any individual chapter. Purchase only what your analysis requires. Chapters 1–3 are most relevant for target validation; 4–6 for platform and IP strategy; 7–8 for commercial and deal decisions.</div>
                 <div className="flex flex-col gap-2 mb-5">
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-normal">Single chapter, unlimited internal use</div>
                   <div className="text-[12px] text-mist flex gap-2 items-baseline leading-normal">No redistribution outside purchasing organisation</div>

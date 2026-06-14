@@ -62,22 +62,22 @@ const Header = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#132035] bg-[#0E1520]/90 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 sm:py-5 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3">
-          <img src="/logo.jpeg" alt="AmethIntel Logo" className="h-10 object-contain" />
-          <span className="font-semibold tracking-tight text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+        <Link to="/" className="flex items-center gap-2 sm:gap-3">
+          <img src="/logo.jpeg" alt="AmethIntel Logo" className="h-8 sm:h-10 object-contain" />
+          <span className="font-semibold tracking-tight text-lg sm:text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             AmethIntel
           </span>
         </Link>
-
+ 
         {/* Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/about" className="nav-link">About Us</Link>
           <a href="/#newsletter" className="nav-link">Newsletter</a>
           <a href="/#takestwo" className="nav-link">Takes Two</a>
-
+ 
           {/* Reports Dropdown */}
           <div className="relative dropdown">
             <button className="nav-link flex items-center gap-2 text-slate-300 hover:text-white">
@@ -94,7 +94,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-
+ 
         {/* Buttons */}
         <div className="flex items-center gap-4">
           {user ? (
@@ -110,11 +110,19 @@ const Header = () => {
               </button>
             </div>
           ) : (
-            <>
-              <Link to="/login" className="btn px-6 py-3 text-sm font-semibold rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center text-white transition">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <a
+                href="/#waitlist"
+                className="flex flex-col justify-center items-center px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-[8px] sm:text-[10px] font-bold text-white rounded-lg sm:rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 hover:scale-105 transition-transform leading-tight uppercase tracking-wider text-center"
+                style={{ boxShadow: '0 4px 12px rgba(192, 38, 211, 0.3)' }}
+              >
+                <span>CEACAM5 Report Releasing</span>
+                <span className="text-[6.5px] sm:text-[7.5px] opacity-90 font-medium tracking-normal normal-case">Sign up for early access</span>
+              </a>
+              <Link to="/login" className="btn px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-xl sm:rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center text-white transition whitespace-nowrap">
                 Login
               </Link>
-            </>
+            </div>
           )}
         </div>
       </div>

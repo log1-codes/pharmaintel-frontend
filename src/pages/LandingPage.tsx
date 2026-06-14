@@ -30,25 +30,25 @@ const LandingPage = () => {
 
             <header id="home" className="hero-bg min-h-screen flex items-center relative overflow-hidden pt-26">
                 <div className="absolute inset-0 bg-ink/15"></div>
-                <div className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16">
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-16 py-12 sm:py-20">
                     <div className="max-w-3xl">
-                        <div className="flex items-center gap-3 font-mono text-[11px] tracking-widest text-steel uppercase">
+                        <div className="flex items-center gap-3 font-mono text-[10px] sm:text-[11px] tracking-widest text-steel uppercase">
                             <span>AmethIntel</span>
                             <span>·</span>
                             <span>INTELLIGENCE LAYER</span>
                         </div>
                         <div className="w-12 h-px bg-accent mt-4 mb-5"></div>
-                        <h1 className="font-serif text-[56px] font-normal text-cream leading-[1.1] my-6">
+                        <h1 className="font-serif text-3xl sm:text-5xl md:text-[56px] font-normal text-cream leading-[1.2] sm:leading-[1.1] my-4 sm:my-6">
                             Connecting Scientific Signals<br /><em className="font-serif italic text-accent-light">to Support Strategy</em>
                         </h1>
-                        <p className="font-sans text-[20px] leading-[1.6] text-mist max-w-175 mb-12">
+                        <p className="font-sans text-base sm:text-lg md:text-[20px] leading-[1.6] text-mist max-w-175 mb-8 sm:mb-12">
                             AmethIntel is a fast way for in-depth collection of publications, patents, clinical development, regulatory intelligence, investment and business activity, and adjacent scientific landscapes to identify strategic opportunities.
                         </p>
-                        <div className="flex flex-wrap gap-5 mt-12">
-                            <a href="#waitlist" className="bg-navy hover:bg-navy-mid text-accent border border-accent/30 font-serif px-8 py-4 text-lg flex items-center gap-3 transition-colors">
+                        <div className="flex flex-wrap gap-4 sm:gap-5 mt-8 sm:mt-12">
+                            <a href="#waitlist" className="bg-navy hover:bg-navy-mid text-accent border border-accent/30 font-serif px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg flex items-center gap-3 transition-colors">
                                 Get Early Access <i className="fas fa-arrow-right"></i>
                             </a>
-                            <a href="#about" className="border border-fog/30 hover:border-fog text-fog font-serif px-8 py-4 text-lg flex items-center gap-3 transition-colors">
+                            <a href="#about" className="border border-fog/30 hover:border-fog text-fog font-serif px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg flex items-center gap-3 transition-colors">
                                 <i className="fas fa-play-circle"></i> Explore Vision
                             </a>
                         </div>
@@ -88,16 +88,16 @@ const LandingPage = () => {
                             <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                             About AmethIntel
                         </span>
-                        <h2 className="mt-8 text-3xl md:text-5xl leading-[1.2] tracking-tight font-semibold max-w-4xl">
-                            <span className="block text-[#ff5b4d] glow-text" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Intelligence Layer for Biotech / Pharma</span>
-                            <span className="block text-[#ff5b4d] glow-text" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>and Healthtech Industries</span>
+                        <h2 className="mt-8 text-2xl md:text-4xl leading-[1.2] tracking-tight font-semibold max-w-3xl">
+                            <span className="block text-[#E6EAF2]" style={{ fontFamily: "'Space Grotesk', sans-serif", textShadow: '0 0 16px rgba(192, 38, 211, 0.22), 0 0 32px rgba(255, 91, 77, 0.12)' }}>Intelligence Layer for Biotech / Pharma</span>
+                            <span className="block text-[#E6EAF2]" style={{ fontFamily: "'Space Grotesk', sans-serif", textShadow: '0 0 16px rgba(192, 38, 211, 0.22), 0 0 32px rgba(255, 91, 77, 0.12)' }}>and Healthtech Industries</span>
                         </h2>
                     </div>
-
+ 
                     <div className="grid lg:grid-cols-2 gap-16 items-start">
-
+ 
                         <div>
-                            <h3 className="text-3xl md:text-4xl font-semibold mb-8 leading-tight" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>
+                            <h3 className="text-xl md:text-2xl font-semibold mb-6 leading-tight text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                 Connected intelligence Showcases Real World Scenario
                             </h3>
                             <div className="space-y-8 text-slate-300 text-lg leading-[1.95]">

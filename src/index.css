@@ -56,13 +56,11 @@ body {
 .hero-bg {
   background:
       linear-gradient(to right,
-          rgba(2, 6, 23, 0.45) 0%,
-          rgba(2, 6, 23, 0.35) 22%,
-          rgba(2, 6, 23, 0.22) 38%,
-          rgba(2, 6, 23, 0.12) 55%,
-          rgba(2, 6, 23, 0.05) 70%,
-          rgba(2, 6, 23, 0.02) 100%),
-      url("/Gemini_Generated_Image_home_page.png");
+          rgba(2, 6, 23, 0.85) 0%,
+          rgba(2, 6, 23, 0.65) 35%,
+          rgba(2, 6, 23, 0.4) 65%,
+          rgba(2, 6, 23, 0.15) 100%),
+      url("/new_home_page.png");
 
   background-size: cover;
   background-position: center;
