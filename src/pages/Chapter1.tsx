@@ -188,33 +188,37 @@ const ExhibitShell = ({ label, title, children }: { label: string; title?: strin
 
 const Chapter1 = () => {
   const [userName, setUserName] = useState<string>('');
+  const [watermarkUrl, setWatermarkUrl] = useState<string>('');
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const userData = localStorage.getItem('user');
+    let displayUsername = 'Guest';
     if (userData) {
       try {
         const parsed = JSON.parse(userData);
-        if (parsed && parsed.name) {
-          setUserName(parsed.name);
+        if (parsed && parsed.username) {
+          displayUsername = parsed.username;
+        } else if (parsed && parsed.name) {
+          displayUsername = parsed.name;
         }
       } catch (e) {
         console.error(e);
       }
     }
+    setUserName(displayUsername);
+
+    const svg = `<svg width="350" height="350" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" font-size="18" font-weight="600" font-family="system-ui, sans-serif" fill="%239966CC" opacity="0.32" text-anchor="middle" transform="rotate(-30 175 175)">licensed to ${displayUsername}</text></svg>`;
+    setWatermarkUrl("data:image/svg+xml;utf8," + encodeURIComponent(svg));
   }, []);
 
   const handleDownload = () => {
     (window as any).__allowPrint = true;
-
-    const resetPrint = () => {
-      (window as any).__allowPrint = false;
-      window.removeEventListener('afterprint', resetPrint);
-    };
-
-    window.addEventListener('afterprint', resetPrint);
     window.print();
+    setTimeout(() => {
+      (window as any).__allowPrint = false;
+    }, 1000);
   };
 
   const currentDate = new Date().toLocaleDateString(undefined, {
@@ -225,14 +229,14 @@ const Chapter1 = () => {
 
   return (
     <div className="chapter-capture-guard min-h-screen bg-offwhite px-4 pb-16 pt-32 font-serif text-slate-800 md:px-8">
-      <div className="watermark-overlay" />
+      <div className="watermark-overlay" style={{ backgroundImage: `url("${watermarkUrl}")` }} />
       <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm no-print">
         <Link to="/ceacam5#chapters" className="inline-flex items-center gap-2 text-amethyst transition-colors hover:text-vermilion">
           <ArrowLeft size={16} aria-hidden="true" />
           Back to Report
         </Link>
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={handleDownload}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-amethyst/10 hover:bg-amethyst/20 text-amethyst hover:text-amethyst-dark font-semibold text-xs transition-colors cursor-pointer border-none"
           >
@@ -250,7 +254,7 @@ const Chapter1 = () => {
           <span className="font-bold text-xl text-slate-900">AmethIntel</span>
         </div>
         <div className="text-right text-xs text-slate-500 space-y-1">
-          {userName && <div>Downloaded by: <span className="font-semibold text-slate-800">{userName}</span></div>}
+          {userName && <div>Licensed to: <span className="font-semibold text-slate-800">{userName}</span></div>}
           <div>Date: <span className="font-semibold text-slate-800">{currentDate}</span></div>
         </div>
       </div>

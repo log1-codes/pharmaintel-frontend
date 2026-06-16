@@ -52,7 +52,6 @@ const LoginSignup = () => {
       if (activeTab === 'login') {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        // Notify Header (and any listener) that auth state changed
         window.dispatchEvent(new Event('auth:login'));
         navigate('/');
       } else {

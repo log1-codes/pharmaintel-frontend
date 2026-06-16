@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-surface: #131A2A;
+  --color-surface: #0E1520;
   --color-on-surface: #ffffff;
   
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
 
-  --color-ink: #131A2A;
-  --color-navy: #1C2B42;
-  --color-navy-mid: #253C5C;
-  --color-accent: #D6A869;
-  --color-accent-light: #E8C189;
-  --color-accent-dim: rgba(214,168,105,0.1);
-  --color-cream: #F2E9DE;
-  --color-fog: #E2E8F0;
-  --color-mist: #94A3B8;
-  --color-steel: #64748B;
-  --color-rule: rgba(214,168,105,0.15);
+  --color-ink: #0E1520;
+  --color-navy: #132035;
+  --color-navy-mid: #1C3050;
+  --color-accent: #C8973A;
+  --color-accent-light: #E8B96A;
+  --color-accent-dim: rgba(200,151,58,0.15);
+  --color-cream: #FAF8F4;
+  --color-fog: #C2CEDB;
+  --color-mist: #8BA0B8;
+  --color-steel: #4A6080;
+  --color-rule: #243248;
   --color-free-bg: rgba(27,107,74,0.1);
-  --color-free-green: #5DCAA5;
+  --color-free-green: #1B6B4A;
   --color-lock-red: #8B2020;
   --color-lock-bg: rgba(139,32,32,0.08);
   --color-chapter-bg: #F7F5F0;
@@ -31,12 +31,28 @@
   
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Libre Franklin', sans-serif;
-  --font-sans: 'Libre Franklin', sans-serif;
   --font-mono: 'DM Mono', monospace;
 }
 
 :root {
   --primary: #C026D3;
+  --ink: #0E1520;
+  --navy: #132035;
+  --navy-mid: #1C3050;
+  --rule: #243248;
+  --steel: #4A6080;
+  --mist: #8BA0B8;
+  --fog: #C2CEDB;
+  --paper: #F4F1EB;
+  --cream: #FAF8F4;
+  --accent: #C8973A;
+  --accent-light: #E8B96A;
+  --accent-dim: rgba(200,151,58,0.15);
+  --free-green: #1B6B4A;
+  --free-bg: rgba(27,107,74,0.1);
+  --lock-red: #8B2020;
+  --lock-bg: rgba(139,32,32,0.08);
+  --chapter-bg: #F7F5F0;
 }
 
 html {
@@ -146,6 +162,13 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+}
+
+.blurred-content {
+  filter: blur(20px) !important;
+  user-select: none !important;
+  pointer-events: none !important;
+  transition: filter 0.15s ease-out;
 }
 
 .chapter-capture-guard {

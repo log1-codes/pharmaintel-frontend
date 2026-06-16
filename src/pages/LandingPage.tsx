@@ -1,10 +1,14 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
     const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
     const [demoSuccess, setDemoSuccess] = useState(false);
     const [waitlistSuccess, setWaitlistSuccess] = useState(false);
+    const [isVisionOpen, setIsVisionOpen] = useState(false);
+    const [waitlistEmail, setWaitlistEmail] = useState('');
+    const [waitlistError, setWaitlistError] = useState('');
 
     const openDemoModal = () => setIsDemoModalOpen(true);
     const closeDemoModal = () => {
@@ -20,9 +24,32 @@ const LandingPage = () => {
         }, 2000);
     };
 
-    const handleWaitlistSubmit = (e: React.FormEvent) => {
+    const handleWaitlistSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setWaitlistSuccess(true);
+        setWaitlistSuccess(false);
+        setWaitlistError('');
+
+        try {
+            const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+            const response = await fetch(`${apiBaseUrl}/api/waitlist`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: waitlistEmail }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setWaitlistSuccess(true);
+                setWaitlistEmail('');
+            } else {
+                setWaitlistError(data.message || 'Something went wrong. Please try again.');
+            }
+        } catch (err) {
+            setWaitlistError('Failed to connect to the server. Please check your network.');
+        }
     };
 
     return (
@@ -38,19 +65,19 @@ const LandingPage = () => {
                             <span>INTELLIGENCE LAYER</span>
                         </div>
                         <div className="w-12 h-px bg-accent mt-4 mb-5"></div>
-                        <h1 className="font-serif text-3xl sm:text-5xl md:text-[56px] font-normal text-cream leading-[1.2] sm:leading-[1.1] my-4 sm:my-6">
-                            Connecting Scientific Signals<br /><em className="font-serif italic text-accent-light">to Support Strategy</em>
+                        <h1 className="text-3xl sm:text-5xl md:text-[56px] font-semibold text-[#ff5b4d] glow-text leading-[1.2] sm:leading-[1.1] my-4 sm:my-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                            Connecting Scientific Signals<br />to Support Strategy
                         </h1>
-                        <p className="font-sans text-base sm:text-lg md:text-[20px] leading-[1.6] text-mist max-w-175 mb-8 sm:mb-12">
+                        <p className="font-sans text-base sm:text-lg md:text-[20px] leading-[1.6] text-slate-200 max-w-175 mb-8 sm:mb-12">
                             AmethIntel is a fast way for in-depth collection of publications, patents, clinical development, regulatory intelligence, investment and business activity, and adjacent scientific landscapes to identify strategic opportunities.
                         </p>
                         <div className="flex flex-wrap gap-4 sm:gap-5 mt-8 sm:mt-12">
-                            <a href="#waitlist" className="bg-navy hover:bg-navy-mid text-accent border border-accent/30 font-serif px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg flex items-center gap-3 transition-colors">
+                            <a href="#waitlist" className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg flex items-center gap-3 transition-colors rounded-3xl">
                                 Get Early Access <i className="fas fa-arrow-right"></i>
                             </a>
-                            <a href="#about" className="border border-fog/30 hover:border-fog text-fog font-serif px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg flex items-center gap-3 transition-colors">
+                            <button onClick={() => setIsVisionOpen(true)} className="border border-white/30 hover:border-white text-white font-medium px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg flex items-center gap-3 transition-colors rounded-3xl cursor-pointer">
                                 <i className="fas fa-play-circle"></i> Explore Vision
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -88,16 +115,16 @@ const LandingPage = () => {
                             <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                             About AmethIntel
                         </span>
-                        <h2 className="mt-8 text-2xl md:text-4xl leading-[1.2] tracking-tight font-semibold max-w-3xl">
-                            <span className="block text-[#E6EAF2]" style={{ fontFamily: "'Space Grotesk', sans-serif", textShadow: '0 0 16px rgba(192, 38, 211, 0.22), 0 0 32px rgba(255, 91, 77, 0.12)' }}>Intelligence Layer for Biotech / Pharma</span>
-                            <span className="block text-[#E6EAF2]" style={{ fontFamily: "'Space Grotesk', sans-serif", textShadow: '0 0 16px rgba(192, 38, 211, 0.22), 0 0 32px rgba(255, 91, 77, 0.12)' }}>and Healthtech Industries</span>
+                        <h2 className="mt-8 text-3xl md:text-5xl leading-[1.2] tracking-tight font-semibold max-w-4xl">
+                            <span className="block text-[#ff5b4d] glow-text" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Intelligence Layer for Biotech / Pharma</span>
+                            <span className="block text-[#ff5b4d] glow-text" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>and Healthtech Industries</span>
                         </h2>
                     </div>
  
                     <div className="grid lg:grid-cols-2 gap-16 items-start">
  
                         <div>
-                            <h3 className="text-xl md:text-2xl font-semibold mb-6 leading-tight text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                            <h3 className="text-3xl md:text-4xl font-semibold mb-8 leading-tight text-white font-heading" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                                 Connected intelligence Showcases Real World Scenario
                             </h3>
                             <div className="space-y-8 text-slate-300 text-lg leading-[1.95]">
@@ -113,34 +140,33 @@ const LandingPage = () => {
                                 </ul>
                                 <p>Backed by deep, hands-on experience in global pharma R&D and manufacturing operations, AmethIntel brings together rigorous data science with real-world industry judgment. We believe superior intelligence doesn’t just de-risk programs — it fundamentally accelerates the delivery of better medicines to patients.</p>
                                 <p>Whether you are steering a biotech or healthtech pipeline, evaluating strategic partnerships, or positioning assets for maximum impact, AmethIntel gives you the edge to see what others miss — and act before they do.</p>
-
+ 
                                 <p className="text-white font-semibold flex flex-wrap items-center gap-3">
                                     Ready to see the signals others miss?
-                                    <button onClick={openDemoModal} className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4">Request a Demo</button>
+                                    <button onClick={openDemoModal} className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4 cursor-pointer bg-transparent border-none p-0 font-semibold">Request a Demo</button>
                                     <span className="text-slate-500">|</span>
-                                    <a href="copy.html" className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4">Explore Our Latest Insights</a>
+                                    <Link to="/ceacam5" className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4">Explore Our Latest Insights</Link>
                                 </p>
                             </div>
-
-
+ 
+ 
                             <div id="demoModal" className={`fixed ${isDemoModalOpen ? "flex" : "hidden"} inset-0 bg-black/70 backdrop-blur-sm items-center justify-center z-999 px-6`}>
                                 <div className="bg-slate-950 border border-white/10 rounded-4xl p-10 max-w-lg w-full relative">
-                                    <button onClick={closeDemoModal} className="absolute top-5 right-5 text-slate-400 hover:text-white text-xl"><i className="fas fa-times"></i></button>
+                                    <button onClick={closeDemoModal} className="absolute top-5 right-5 text-slate-400 hover:text-white text-xl cursor-pointer"><i className="fas fa-times"></i></button>
                                     <h2 className="text-3xl font-semibold mb-4" style={{ "fontFamily": "'Space Grotesk',sans-serif" }}>Request a Demo</h2>
                                     <p className="text-slate-400 mb-8 leading-relaxed">Fill out the form below and our team will reach out to you.</p>
                                     <form id="demoForm" onSubmit={handleDemoSubmit} className="space-y-5">
                                         <input type="text" id="demoName" placeholder="Full Name" required className="w-full bg-slate-900 border border-white/20 rounded-2xl px-5 py-4 outline-none focus:border-purple-400" />
                                         <input type="email" id="demoEmail" placeholder="your@company.com" required className="w-full bg-slate-900 border border-white/20 rounded-2xl px-5 py-4 outline-none focus:border-purple-400" />
                                         <input type="text" id="demoCompany" placeholder="Company / Organization" required className="w-full bg-slate-900 border border-white/20 rounded-2xl px-5 py-4 outline-none focus:border-purple-400" />
-                                        <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 transition text-white font-semibold py-4 rounded-2xl">Submit Request</button>
+                                        <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 transition text-white font-semibold py-4 rounded-2xl cursor-pointer">Submit Request</button>
                                     </form>
                                     <p id="demoSuccess" className={`text-green-400 mt-5 font-semibold ${demoSuccess ? "" : "hidden"}`}></p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="space-y-8">
+ 
+                        <div className="space-y-8">
 
                         <div className="relative bg-white/3 backdrop-blur-xl border border-white/10 rounded-[36px] p-10 overflow-hidden">
                             <div className="absolute inset-0 bg-linear-to-br from-purple-500/10 via-transparent to-pink-500/10"></div>
@@ -210,6 +236,7 @@ const LandingPage = () => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -795,6 +822,21 @@ const LandingPage = () => {
 
                         </a>
 
+                        <a href="https://www.linkedin.com/"
+                            target="_blank"
+                            className="group bg-slate-900 border border-white/10 rounded-3xl p-6 hover:border-purple-500 transition duration-300 hover:-translate-y-2">
+
+                            <div className="flex items-center justify-between mb-5">
+                                <span className="text-purple-400 text-sm font-semibold">Edition 33</span>
+                                <i className="fab fa-linkedin text-2xl text-blue-400"></i>
+                            </div>
+
+                            <h3 className="text-xl font-semibold leading-snug group-hover:text-purple-300 transition">
+                                Edition 33: Connecting Scientific Strategy and Clinical Signals (Coming Soon)
+                            </h3>
+
+                        </a>
+
                     </div>
                 </div>
             </section>
@@ -823,19 +865,37 @@ const LandingPage = () => {
                     <p className="text-xl text-slate-300 mb-10">Join a select group of biotech innovators getting early access to AmethIntel.</p>
                     <form id="waitlistForm" onSubmit={handleWaitlistSubmit} className="max-w-md mx-auto">
                         <div className="flex flex-col sm:flex-row gap-4 items-center">
-                            <input type="email" id="email" placeholder="your@company.com" required className="flex-1 bg-slate-900 border border-white/20 rounded-3xl px-6 py-5 outline-none focus:border-purple-400" />
+                            <input type="email" id="email" value={waitlistEmail} onChange={(e) => setWaitlistEmail(e.target.value)} placeholder="your@company.com" required className="flex-1 bg-slate-900 border border-white/20 rounded-3xl px-6 py-5 outline-none focus:border-purple-400" />
                             <button type="submit" className="btn bg-white text-slate-900 font-semibold px-10 rounded-3xl hover:bg-purple-100">Join Waitlist</button>
                         </div>
                     </form>
                 </div>
                 <p id="successMessage" className={`text-green-400 mt-5 text-lg font-semibold text-left sm:text-center w-full ${waitlistSuccess ? "" : "hidden"}`}>{waitlistSuccess ? "Successfully joined the waitlist!" : ""}</p>
+                <p id="errorMessage" className={`text-red-400 mt-5 text-lg font-semibold text-left sm:text-center w-full ${waitlistError ? "" : "hidden"}`}>{waitlistError}</p>
             </section>
 
-
-
-
-
-
+            {/* Explore Vision Video Modal */}
+            <div id="visionModal" className={`fixed ${isVisionOpen ? "flex" : "hidden"} inset-0 bg-black/80 backdrop-blur-md items-center justify-center z-[1000] px-6`}>
+                <div className="bg-slate-950 border border-white/10 rounded-4xl p-6 sm:p-10 max-w-4xl w-full relative shadow-2xl overflow-hidden">
+                    <button onClick={() => setIsVisionOpen(false)} className="absolute top-5 right-5 text-slate-400 hover:text-white text-xl cursor-pointer transition">
+                        <i className="fas fa-times"></i>
+                    </button>
+                    <h2 className="text-3xl font-semibold mb-2 text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Explore Vision</h2>
+                    <p className="text-slate-400 mb-6 leading-relaxed">A preview of how AmethIntel connects scientific signals to support strategy.</p>
+                    
+                    {/* Placeholder Video Player */}
+                    <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-900 border border-white/10 flex flex-col items-center justify-center p-8 group">
+                        <div className="absolute inset-0 bg-linear-to-br from-purple-900/20 via-transparent to-pink-900/20 z-0"></div>
+                        <div className="relative z-10 flex flex-col items-center text-center">
+                            <div className="w-20 h-20 bg-purple-600/10 border border-purple-500/30 rounded-full flex items-center justify-center mb-6 text-4xl text-purple-400 animate-pulse">
+                                <i className="fas fa-play"></i>
+                            </div>
+                            <h3 className="text-2xl font-semibold text-white mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Vision Video Coming Soon</h3>
+                            <p className="text-slate-400 max-w-md">Our team is finalizing the interactive walkthrough of the AmethIntel platform capabilities. Join our waitlist to stay updated.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </>
     );

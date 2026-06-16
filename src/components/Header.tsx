@@ -74,7 +74,7 @@ const Header = () => {
         {/* Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
           <Link to="/" className="nav-link">Home</Link>
-          <Link to="/about" className="nav-link">About Us</Link>
+          <a href="/#about" className="nav-link">About Us</a>
           <a href="/#newsletter" className="nav-link">Newsletter</a>
           <a href="/#takestwo" className="nav-link">Takes Two</a>
  

@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ChapterFooter from '../components/ChapterFooter';
 
@@ -32,18 +32,58 @@ const chapter1References = [
 ];
 
 const Appendix = () => {
+  const [userName, setUserName] = useState<string>('');
+  const [watermarkUrl, setWatermarkUrl] = useState<string>('');
+
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const userData = localStorage.getItem('user');
+    let displayUsername = 'Guest';
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        if (parsed && parsed.username) {
+          displayUsername = parsed.username;
+        } else if (parsed && parsed.name) {
+          displayUsername = parsed.name;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    setUserName(displayUsername);
+
+    const svg = `<svg width="350" height="350" xmlns="http://www.w3.org/2000/svg"><text x="50%" y="50%" font-size="18" font-weight="600" font-family="system-ui, sans-serif" fill="%239966CC" opacity="0.22" text-anchor="middle" transform="rotate(-30 175 175)">licensed to ${displayUsername}</text></svg>`;
+    setWatermarkUrl("data:image/svg+xml;utf8," + encodeURIComponent(svg));
   }, []);
+
+  const handleDownload = () => {
+    (window as any).__allowPrint = true;
+    window.print();
+    setTimeout(() => {
+      (window as any).__allowPrint = false;
+    }, 1000);
+  };
 
   return (
     <div className="chapter-capture-guard min-h-screen bg-offwhite px-4 pb-16 pt-32 font-serif text-slate-800 md:px-8">
-      <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm">
+      <div className="watermark-overlay" style={{ backgroundImage: `url("${watermarkUrl}")` }} />
+      <div className="mx-auto mb-10 flex max-w-5xl items-center justify-between font-sans text-sm no-print">
         <Link to="/ceacam5#chapters" className="inline-flex items-center gap-2 text-amethyst transition-colors hover:text-vermilion">
           <ArrowLeft size={16} aria-hidden="true" />
           Back to Report
         </Link>
-        <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">Appendix</span>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleDownload}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-amethyst/10 hover:bg-amethyst/20 text-amethyst hover:text-amethyst-dark font-semibold text-xs transition-colors cursor-pointer border-none"
+          >
+            <Download size={14} />
+            Download PDF
+          </button>
+          <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">Appendix</span>
+        </div>
       </div>
 
       <header className="mx-auto mb-12 max-w-5xl border-b border-amethyst/30 pb-10 text-center">

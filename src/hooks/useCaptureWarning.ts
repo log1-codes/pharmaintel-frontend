@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react';
 
-const CAPTURE_WARNING = 'Screenshots and screen recording are not allowed on this page.';
+const CAPTURE_WARNING = 'Screenshots, screen recording, and printing are not allowed on this page.';
 
 const isRestrictedShortcut = (event: KeyboardEvent) => {
   const key = event.key.toLowerCase();
 
   return (
     key === 'printscreen' ||
+    key === 'snapshot' ||
+    key === 'prtscr' ||
+    event.keyCode === 44 ||
     (event.metaKey && event.shiftKey && key === 's') ||
     (event.metaKey && event.shiftKey && ['3', '4', '5'].includes(key)) ||
     ((event.ctrlKey || event.metaKey) && ['p', 's', 'u'].includes(key)) ||
@@ -30,13 +33,28 @@ export const useCaptureWarning = () => {
       window.alert(CAPTURE_WARNING);
     };
 
+    const clearClipboard = async () => {
+      try {
+        await navigator.clipboard.writeText("Content is protected. Screenshots/screen captures are strictly prohibited.");
+      } catch (err) {
+        // Ignore permission errors
+      }
+    };
+
     const blockEvent = (event: Event) => {
       // Allow printing when the print bypass is active
       if ((window as any).__allowPrint && (event.type === 'beforeprint' || (event instanceof KeyboardEvent && event.key.toLowerCase() === 'p'))) {
         return;
       }
+
       event.preventDefault();
       event.stopPropagation();
+      
+      // If it is a printscreen event, attempt to clear the clipboard
+      if (event instanceof KeyboardEvent && (event.key.toLowerCase() === 'printscreen' || event.key.toLowerCase() === 'snapshot' || event.keyCode === 44)) {
+        clearClipboard();
+      }
+
       showWarning();
     };
 
@@ -51,6 +69,14 @@ export const useCaptureWarning = () => {
       }
     };
 
+    const handleBlur = () => {
+      document.body.classList.add('blurred-content');
+    };
+
+    const handleFocus = () => {
+      document.body.classList.remove('blurred-content');
+    };
+
     document.addEventListener('keydown', handleKeyDown, true);
     document.addEventListener('contextmenu', blockEvent, true);
     document.addEventListener('copy', blockInteraction, true);
@@ -58,6 +84,8 @@ export const useCaptureWarning = () => {
     document.addEventListener('paste', blockInteraction, true);
     document.addEventListener('dblclick', blockInteraction, true);
     window.addEventListener('beforeprint', blockEvent, true);
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown, true);
@@ -67,6 +95,9 @@ export const useCaptureWarning = () => {
       document.removeEventListener('paste', blockInteraction, true);
       document.removeEventListener('dblclick', blockInteraction, true);
       window.removeEventListener('beforeprint', blockEvent, true);
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
+      document.body.classList.remove('blurred-content');
     };
   }, []);
 };
