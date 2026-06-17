@@ -70,14 +70,14 @@ const Header = () => {
             AmethIntel
           </span>
         </Link>
- 
+
         {/* Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
           <Link to="/" className="nav-link">Home</Link>
-          <a href="/#about" className="nav-link">About Us</a>
+          <a href="/about" className="nav-link">About Us</a>
           <a href="/#newsletter" className="nav-link">Newsletter</a>
           <a href="/#takestwo" className="nav-link">Takes Two</a>
- 
+
           {/* Reports Dropdown */}
           <div className="relative dropdown">
             <button className="nav-link flex items-center gap-2 text-slate-300 hover:text-white">
@@ -94,7 +94,7 @@ const Header = () => {
             </div>
           </div>
         </div>
- 
+
         {/* Buttons */}
         <div className="flex items-center gap-4">
           {user ? (

@@ -3,7 +3,7 @@
 @theme {
   --color-surface: #0E1520;
   --color-on-surface: #ffffff;
-  
+
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Space Grotesk', sans-serif;
 
@@ -12,23 +12,23 @@
   --color-navy-mid: #1C3050;
   --color-accent: #C8973A;
   --color-accent-light: #E8B96A;
-  --color-accent-dim: rgba(200,151,58,0.15);
+  --color-accent-dim: rgba(200, 151, 58, 0.15);
   --color-cream: #FAF8F4;
   --color-fog: #C2CEDB;
   --color-mist: #8BA0B8;
   --color-steel: #4A6080;
   --color-rule: #243248;
-  --color-free-bg: rgba(27,107,74,0.1);
+  --color-free-bg: rgba(27, 107, 74, 0.1);
   --color-free-green: #1B6B4A;
   --color-lock-red: #8B2020;
-  --color-lock-bg: rgba(139,32,32,0.08);
+  --color-lock-bg: rgba(139, 32, 32, 0.08);
   --color-chapter-bg: #F7F5F0;
 
   /* Chapter Book Colors */
   --color-offwhite: #FAFAFA;
   --color-vermilion: #E34234;
   --color-amethyst: #9966CC;
-  
+
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Libre Franklin', sans-serif;
   --font-mono: 'DM Mono', monospace;
@@ -47,11 +47,11 @@
   --cream: #FAF8F4;
   --accent: #C8973A;
   --accent-light: #E8B96A;
-  --accent-dim: rgba(200,151,58,0.15);
+  --accent-dim: rgba(200, 151, 58, 0.15);
   --free-green: #1B6B4A;
-  --free-bg: rgba(27,107,74,0.1);
+  --free-bg: rgba(27, 107, 74, 0.1);
   --lock-red: #8B2020;
-  --lock-bg: rgba(139,32,32,0.08);
+  --lock-bg: rgba(139, 32, 32, 0.08);
   --chapter-bg: #F7F5F0;
 }
 
@@ -59,24 +59,24 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
+/* body {
   background-color: var(--color-surface);
   color: var(--color-on-surface);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-}
+} */
 
 /* HERO BACKGROUND */
 .hero-bg {
   background:
-      linear-gradient(to right,
-          rgba(2, 6, 23, 0.85) 0%,
-          rgba(2, 6, 23, 0.65) 35%,
-          rgba(2, 6, 23, 0.4) 65%,
-          rgba(2, 6, 23, 0.15) 100%),
-      url("/new_home_page.png");
+    linear-gradient(to right,
+      rgba(2, 6, 23, 0.85) 0%,
+      rgba(2, 6, 23, 0.65) 35%,
+      rgba(2, 6, 23, 0.4) 65%,
+      rgba(2, 6, 23, 0.15) 100%),
+    url("/new_home_page.png");
 
   background-size: cover;
   background-position: center;
@@ -125,8 +125,8 @@ body {
 /* GLOW */
 .glow-text {
   text-shadow:
-      0 0 15px rgba(255, 91, 77, 0.35),
-      0 0 30px rgba(255, 91, 77, 0.2);
+    0 0 15px rgba(255, 91, 77, 0.35),
+    0 0 30px rgba(255, 91, 77, 0.2);
 }
 
 /* BUTTONS */
@@ -201,7 +201,13 @@ body {
   .print-only {
     display: flex !important;
   }
-  html, body, #root, .flex-col, .flex-1, .chapter-capture-guard {
+
+  html,
+  body,
+  #root,
+  .flex-col,
+  .flex-1,
+  .chapter-capture-guard {
     background-color: #FAFAFA !important;
     color: #0f172a !important;
     background-image: none !important;
@@ -241,7 +247,8 @@ body {
     width: 100% !important;
     pointer-events: none;
     z-index: 10;
-    opacity: 0.12 !important; /* Lighter watermark for high contrast print readability */
+    opacity: 0.12 !important;
+    /* Lighter watermark for high contrast print readability */
     background-repeat: repeat;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -260,14 +267,19 @@ body {
   }
 
   /* Avoid orphan headings and break pages gracefully */
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     page-break-after: avoid;
     break-after: avoid;
   }
 
-  section, figure, aside, table {
+  section,
+  figure,
+  aside,
+  table {
     page-break-inside: avoid;
     break-inside: avoid;
   }
 }
-
