@@ -13,9 +13,9 @@ import Chapter1 from './pages/Chapter1';
 import Appendix from './pages/Appendix';
 import ChapterPlaceholder from './pages/ChapterPlaceholder';
 import Chapter2 from './pages/Chapter2';
+import TestHome from './pages/TestHome';
 import { useSessionWatcher } from './hooks/useSessionWatcher';
 
-// Mounted inside <Router> so useNavigate works
 const SessionGuard = () => {
   useSessionWatcher();
   return null;
@@ -27,6 +27,7 @@ function App() {
       {/* Runs in the background on every page — detects session conflicts */}
       <SessionGuard />
       <Routes>
+        <Route path="/test/home" element={<TestHome />} />
         <Route element={<Layout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginSignup />} />

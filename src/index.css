@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Force Tailwind v4 to scan testHomeContent.ts for utility classes.
+   The file contains HTML in a JS template literal string that the
+   automatic content detector may not parse correctly. */
+@source "./pages/testHomeContent.ts";
+
 @theme {
   --color-surface: #0E1520;
   --color-on-surface: #ffffff;
