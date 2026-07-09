@@ -1,53 +1,42 @@
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+
+const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:8080';
 
 const ProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [sessionError, setSessionError] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const validateSession = async () => {
-      const token = localStorage.getItem('token');
+    const validateJWT = () => {
+      const jwt = localStorage.getItem('crosssite_jwt');
 
-      if (!token) {
+      if (!jwt) {
         setIsAuthenticated(false);
         return;
       }
 
       try {
-        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-        const response = await fetch(`${apiBaseUrl}/api/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        // Decode JWT payload (base64) to check expiry
+        const payload = JSON.parse(atob(jwt.split('.')[1]));
+        const now = Math.floor(Date.now() / 1000);
 
-        if (!response.ok) {
-          const data = await response.json().catch(() => ({}));
-
-          // Clear local session data
-          localStorage.removeItem('token');
+        if (payload.exp && payload.exp > now) {
+          setIsAuthenticated(true);
+        } else {
+          // JWT expired — clear and redirect
+          localStorage.removeItem('crosssite_jwt');
           localStorage.removeItem('user');
-
-          if (data.code === 'SESSION_SUPERSEDED') {
-            // Save message for the login page to display
-            sessionStorage.setItem(
-              'authError',
-              'Your session was ended because you logged in from another device.'
-            );
-          }
-
           setIsAuthenticated(false);
-          return;
         }
-
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Session validation failed', error);
+      } catch {
+        // Malformed JWT
+        localStorage.removeItem('crosssite_jwt');
+        localStorage.removeItem('user');
         setIsAuthenticated(false);
       }
     };
 
-    validateSession();
+    validateJWT();
   }, []);
 
   if (isAuthenticated === null) {
@@ -58,7 +47,14 @@ const ProtectedRoute = () => {
     );
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  if (!isAuthenticated) {
+    // Redirect to Website A login instead of internal /login
+    window.location.href = `${WEBSITE_A_URL}/login.html`;
+    return null;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
+

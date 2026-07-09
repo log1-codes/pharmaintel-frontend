@@ -1,9 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
+
+const AUTH_BACKEND_URL = import.meta.env.VITE_AUTH_BACKEND_URL || 'http://localhost:3001';
+const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:8080';
 
 const Header = () => {
   const [user, setUser] = useState<{ name: string } | null>(null);
-  const navigate = useNavigate();
 
   // Helper to read user from localStorage into state
   const syncUserFromStorage = useCallback(() => {
@@ -23,10 +25,7 @@ const Header = () => {
     // Read on mount
     syncUserFromStorage();
 
-    // Listen for auth changes dispatched by the session watcher or login flow
-    // This fires when:
-    //   - useSessionWatcher detects SESSION_SUPERSEDED
-    //   - Manual logout
+    // Listen for auth changes
     window.addEventListener('auth:logout', syncUserFromStorage);
     window.addEventListener('auth:login', syncUserFromStorage);
 
@@ -37,27 +36,15 @@ const Header = () => {
   }, [syncUserFromStorage]);
 
   const handleLogout = async () => {
-    const token = localStorage.getItem('token');
-    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-
-    if (token) {
-      try {
-        await fetch(`${apiBaseUrl}/api/auth/logout`, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      } catch (error) {
-        console.error('Logout request failed', error);
-      }
-    }
-
-    localStorage.removeItem('token');
+    // Clear cross-site JWT and user data
+    localStorage.removeItem('crosssite_jwt');
     localStorage.removeItem('user');
 
-    // Notify all listeners (including this Header) to update
+    // Notify all listeners
     window.dispatchEvent(new Event('auth:logout'));
 
-    navigate('/');
+    // Redirect to Website A login
+    window.location.href = `${WEBSITE_A_URL}/login.html`;
   };
 
   return (
@@ -119,9 +106,6 @@ const Header = () => {
                 <span>CEACAM5 Report Releasing</span>
                 <span className="text-[6.5px] sm:text-[7.5px] opacity-90 font-medium tracking-normal normal-case">Sign up for early access</span>
               </a>
-              <Link to="/login" className="btn px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-xl sm:rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center text-white transition whitespace-nowrap">
-                Login
-              </Link>
             </div>
           )}
         </div>
@@ -131,3 +115,4 @@ const Header = () => {
 };
 
 export default Header;
+

@@ -82,8 +82,8 @@ const Ceacam5Report = () => {
   const navigate = useNavigate();
 
   const handleReadChapter = (chapterRoute: string) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const jwt = localStorage.getItem('crosssite_jwt');
+    if (!jwt) {
       alert("Please login & subscribe to see the chapter content.");
     } else {
       navigate(chapterRoute);
