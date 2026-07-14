@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:8080';
@@ -7,36 +7,27 @@ const ProtectedRoute = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const validateJWT = () => {
-      const jwt = localStorage.getItem('crosssite_jwt');
+    const validateSession = () => {
+      const sessionActive = localStorage.getItem('session_active');
+      const sessionExpiresAt = localStorage.getItem('session_expires_at');
+      const userData = localStorage.getItem('user');
 
-      if (!jwt) {
-        setIsAuthenticated(false);
-        return;
-      }
-
-      try {
-        // Decode JWT payload (base64) to check expiry
-        const payload = JSON.parse(atob(jwt.split('.')[1]));
-        const now = Math.floor(Date.now() / 1000);
-
-        if (payload.exp && payload.exp > now) {
+      if (sessionActive === 'true' && sessionExpiresAt && userData) {
+        const now = Date.now();
+        if (now < Number(sessionExpiresAt)) {
           setIsAuthenticated(true);
-        } else {
-          // JWT expired — clear and redirect
-          localStorage.removeItem('crosssite_jwt');
-          localStorage.removeItem('user');
-          setIsAuthenticated(false);
+          return;
         }
-      } catch {
-        // Malformed JWT
-        localStorage.removeItem('crosssite_jwt');
-        localStorage.removeItem('user');
-        setIsAuthenticated(false);
       }
+
+      // Expired or missing session
+      localStorage.removeItem('user');
+      localStorage.removeItem('session_active');
+      localStorage.removeItem('session_expires_at');
+      setIsAuthenticated(false);
     };
 
-    validateJWT();
+    validateSession();
   }, []);
 
   if (isAuthenticated === null) {
@@ -48,7 +39,7 @@ const ProtectedRoute = () => {
   }
 
   if (!isAuthenticated) {
-    // Redirect to Website A login instead of internal /login
+    // Redirect to Website A login
     window.location.href = `${WEBSITE_A_URL}/login.html`;
     return null;
   }
@@ -57,4 +48,3 @@ const ProtectedRoute = () => {
 };
 
 export default ProtectedRoute;
-

@@ -82,8 +82,12 @@ const Ceacam5Report = () => {
   const navigate = useNavigate();
 
   const handleReadChapter = (chapterRoute: string) => {
-    const jwt = localStorage.getItem('crosssite_jwt');
-    if (!jwt) {
+    const sessionActive = localStorage.getItem('session_active');
+    const sessionExpiresAt = localStorage.getItem('session_expires_at');
+    const now = Date.now();
+    const isSessionValid = sessionActive === 'true' && sessionExpiresAt && now < Number(sessionExpiresAt);
+
+    if (!isSessionValid) {
       alert("Please login & subscribe to see the chapter content.");
     } else {
       navigate(chapterRoute);

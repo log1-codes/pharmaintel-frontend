@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { db } from '../utils/firebase';
 
-const AUTH_BACKEND_URL = import.meta.env.VITE_AUTH_BACKEND_URL || 'http://localhost:3001';
 const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:8080';
 
 /**
  * TicketGate — Guards the entire app.
  *
- * 1. If URL has ?ticket=xxx  → validate ticket with auth-backend → store JWT
- * 2. If JWT exists in storage → check expiry → render children
- * 3. If no ticket & no JWT   → redirect to Website A login
+ * 1. If URL has ?ticket=xxx  → validate ticket with Firestore → store session
+ * 2. If valid session exists in storage → render children
+ * 3. If no ticket & no session → redirect to Website A login
  */
 const TicketGate = ({ children }: { children: React.ReactNode }) => {
     const [state, setState] = useState<'loading' | 'authenticated' | 'redirecting'>('loading');
@@ -19,26 +20,41 @@ const TicketGate = ({ children }: { children: React.ReactNode }) => {
             const urlParams = new URLSearchParams(window.location.search);
             const ticket = urlParams.get('ticket');
 
-            // Case 1: Ticket in URL — validate it
+            // Case 1: Ticket in URL — validate it via Firestore
             if (ticket) {
                 try {
-                    const response = await fetch(`${AUTH_BACKEND_URL}/api/auth/ticket/validate`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ticket }),
-                    });
+                    const ticketRef = doc(db, 'tickets', ticket);
+                    const ticketSnap = await getDoc(ticketRef);
 
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Ticket validation failed');
+                    if (!ticketSnap.exists()) {
+                        throw new Error('Ticket not found or expired');
                     }
 
-                    // Store the RS256 JWT and user info
-                    localStorage.setItem('crosssite_jwt', data.jwt);
-                    localStorage.setItem('user', JSON.stringify(data.user));
+                    const ticketData = ticketSnap.data();
 
-                    // Clean the ticket from URL
+                    if (ticketData.used) {
+                        throw new Error('This ticket has already been used');
+                    }
+
+                    if (Date.now() > ticketData.expiresAt) {
+                        throw new Error('This ticket has expired');
+                    }
+
+                    // Mark as used in Firestore to prevent replay attacks
+                    await updateDoc(ticketRef, { used: true });
+
+                    // Store user details and session duration
+                    const user = {
+                        id: ticketData.uid,
+                        name: ticketData.name,
+                        email: ticketData.email
+                    };
+
+                    localStorage.setItem('user', JSON.stringify(user));
+                    localStorage.setItem('session_active', 'true');
+                    localStorage.setItem('session_expires_at', (Date.now() + 24 * 60 * 60 * 1000).toString()); // 24 hours
+
+                    // Clean the ticket parameter from the URL
                     const cleanUrl = window.location.origin + window.location.pathname;
                     window.history.replaceState({}, '', cleanUrl);
 
@@ -57,30 +73,25 @@ const TicketGate = ({ children }: { children: React.ReactNode }) => {
                 }
             }
 
-            // Case 2: Check for existing JWT
-            const jwt = localStorage.getItem('crosssite_jwt');
-            if (jwt) {
-                // Decode JWT to check expiry (without verification — that's the server's job)
-                try {
-                    const payload = JSON.parse(atob(jwt.split('.')[1]));
-                    const now = Math.floor(Date.now() / 1000);
+            // Case 2: Check for existing session in local storage
+            const sessionActive = localStorage.getItem('session_active');
+            const sessionExpiresAt = localStorage.getItem('session_expires_at');
+            const userData = localStorage.getItem('user');
 
-                    if (payload.exp && payload.exp > now) {
-                        setState('authenticated');
-                        return;
-                    }
-
-                    // JWT expired — clear and redirect
-                    localStorage.removeItem('crosssite_jwt');
-                    localStorage.removeItem('user');
-                } catch {
-                    // Malformed JWT — clear and redirect
-                    localStorage.removeItem('crosssite_jwt');
-                    localStorage.removeItem('user');
+            if (sessionActive === 'true' && sessionExpiresAt && userData) {
+                const now = Date.now();
+                if (now < Number(sessionExpiresAt)) {
+                    setState('authenticated');
+                    return;
                 }
             }
 
-            // Case 3: No ticket, no valid JWT → redirect to Website A
+            // Session expired or missing — clear storage
+            localStorage.removeItem('user');
+            localStorage.removeItem('session_active');
+            localStorage.removeItem('session_expires_at');
+
+            // Case 3: Redirect to Website A
             setState('redirecting');
             window.location.href = `${WEBSITE_A_URL}/login.html`;
         };

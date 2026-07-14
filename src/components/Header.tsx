@@ -36,9 +36,10 @@ const Header = () => {
   }, [syncUserFromStorage]);
 
   const handleLogout = async () => {
-    // Clear cross-site JWT and user data
-    localStorage.removeItem('crosssite_jwt');
+    // Clear cross-site session and user data
     localStorage.removeItem('user');
+    localStorage.removeItem('session_active');
+    localStorage.removeItem('session_expires_at');
 
     // Notify all listeners
     window.dispatchEvent(new Event('auth:logout'));
