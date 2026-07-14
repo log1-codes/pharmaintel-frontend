@@ -44,8 +44,8 @@ const Header = () => {
     // Notify all listeners
     window.dispatchEvent(new Event('auth:logout'));
 
-    // Redirect to Website A login
-    window.location.href = `${WEBSITE_A_URL}/login.html`;
+    // Redirect to Website A login with logout parameter
+    window.location.href = `${WEBSITE_A_URL}/login.html?logout=true`;
   };
 
   return (
@@ -61,26 +61,8 @@ const Header = () => {
 
         {/* Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-          <Link to="/" className="nav-link">Home</Link>
-          <a href="/about" className="nav-link">About Us</a>
-          <a href="/#newsletter" className="nav-link">Newsletter</a>
-          <a href="/#takestwo" className="nav-link">Takes Two</a>
-
-          {/* Reports Dropdown */}
-          <div className="relative dropdown">
-            <button className="nav-link flex items-center gap-2 text-slate-300 hover:text-white">
-              Reports
-              <i className="fas fa-chevron-down text-xs"></i>
-            </button>
-            <div className="dropdown-menu absolute top-full left-0 mt-4 w-56 rounded-2xl border border-[#132035] bg-[#0E1520]/95 backdrop-blur-xl shadow-2xl overflow-hidden z-50">
-              <Link to="/ceacam5" className="block px-5 py-4 text-sm text-slate-300 hover:bg-[#132035] hover:text-white transition">
-                Ceacam5
-              </Link>
-              <a href="/#upcoming" className="block px-5 py-4 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition border-t border-white/5">
-                Upcoming
-              </a>
-            </div>
-          </div>
+          <Link to="/" className="nav-link">Ceacam5 Report</Link>
+          <a href={`${WEBSITE_A_URL}/copy.html`} className="nav-link">Main Site</a>
         </div>
 
         {/* Buttons */}
