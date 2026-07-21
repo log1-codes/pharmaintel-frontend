@@ -24,14 +24,14 @@ describe('TicketGate Authentication flow', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.clearAllMocks();
-    
+
     // Mock window.location redirection
     delete (window as any).location;
     window.location = {
       ...originalLocation,
       href: '',
       search: '',
-      origin: 'http://localhost:5173',
+      origin: 'https://pharmaintel-frontend.vercel.app',
       pathname: '/',
     } as any;
   });
