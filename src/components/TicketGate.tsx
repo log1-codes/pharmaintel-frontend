@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../utils/firebase';
 
-const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:8080';
+const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:5500';
 
 /**
  * TicketGate — Guards the entire app.
  *
- * 1. If URL has ?ticket=xxx  → validate ticket with Firestore → store session
+ * 1. If URL has ?ticket=xxx  → validate ticket via admin-backend → store session
  * 2. If valid session exists in storage → render children
  * 3. If no ticket & no session → redirect to Website A login
  */
@@ -20,39 +18,29 @@ const TicketGate = ({ children }: { children: React.ReactNode }) => {
             const urlParams = new URLSearchParams(window.location.search);
             const ticket = urlParams.get('ticket');
 
-            // Case 1: Ticket in URL — validate it via Firestore
+            // Case 1: Ticket in URL — validate it via admin-backend
             if (ticket) {
                 try {
-                    const ticketRef = doc(db, 'tickets', ticket);
-                    const ticketSnap = await getDoc(ticketRef);
+                    const ADMIN_BACKEND_URL = import.meta.env.VITE_ADMIN_BACKEND_URL || 'http://localhost:3002/api';
+                    
+                    const viewerRes = await fetch(`${ADMIN_BACKEND_URL}/viewer/session`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ticketId: ticket })
+                    });
 
-                    if (!ticketSnap.exists()) {
-                        throw new Error('Ticket not found or expired');
+                    if (!viewerRes.ok) {
+                        const errData = await viewerRes.json();
+                        throw new Error(errData.message || 'Ticket validation failed');
                     }
 
-                    const ticketData = ticketSnap.data();
+                    const viewerData = await viewerRes.json();
 
-                    if (ticketData.used) {
-                        throw new Error('This ticket has already been used');
-                    }
-
-                    if (Date.now() > ticketData.expiresAt) {
-                        throw new Error('This ticket has expired');
-                    }
-
-                    // Mark as used in Firestore to prevent replay attacks
-                    await updateDoc(ticketRef, { used: true });
-
-                    // Store user details and session duration
-                    const user = {
-                        id: ticketData.uid,
-                        name: ticketData.name,
-                        email: ticketData.email
-                    };
-
-                    localStorage.setItem('user', JSON.stringify(user));
+                    // Store user details (including pricingPlan) and session duration
+                    localStorage.setItem('user', JSON.stringify(viewerData.user));
                     localStorage.setItem('session_active', 'true');
                     localStorage.setItem('session_expires_at', (Date.now() + 24 * 60 * 60 * 1000).toString()); // 24 hours
+                    localStorage.setItem('viewer_token', viewerData.viewer_token);
 
                     // Clean the ticket parameter from the URL
                     const cleanUrl = window.location.origin + window.location.pathname;
@@ -73,6 +61,7 @@ const TicketGate = ({ children }: { children: React.ReactNode }) => {
                 }
             }
 
+
             // Case 2: Check for existing session in local storage
             const sessionActive = localStorage.getItem('session_active');
             const sessionExpiresAt = localStorage.getItem('session_expires_at');
@@ -90,6 +79,7 @@ const TicketGate = ({ children }: { children: React.ReactNode }) => {
             localStorage.removeItem('user');
             localStorage.removeItem('session_active');
             localStorage.removeItem('session_expires_at');
+            localStorage.removeItem('viewer_token');
 
             // Case 3: Redirect to Website A
             setState('redirecting');

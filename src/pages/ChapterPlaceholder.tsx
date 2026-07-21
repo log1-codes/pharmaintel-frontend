@@ -1,41 +1,66 @@
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import ChapterFooter from '../components/ChapterFooter';
+import { ArrowLeft } from 'lucide-react';
+import { useChapterPDF } from '../hooks/useChapterPDF';
 
-const ChapterPlaceholder = () => {
+export default function ChapterPlaceholder() {
   const { chapterId } = useParams();
+  const [userName, setUserName] = useState<string>('Guest');
+  const { pdfUrl, loading, error } = useChapterPDF(chapterId || '');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        if (parsed && parsed.name) {
+          setUserName(parsed.name);
+        } else if (parsed && parsed.username) {
+          setUserName(parsed.username);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
 
   return (
-    <div className="min-h-screen bg-offwhite text-slate-800 font-serif pt-32 pb-16 px-6 relative">
-      <div className="max-w-4xl mx-auto mb-12 flex items-center justify-between font-sans text-sm">
-        <Link to="/ceacam5#chapters" className="text-amethyst hover:text-vermilion transition-colors flex items-center gap-2">
-          <i className="fas fa-arrow-left"></i> Back to Report
+    <div className="min-h-screen bg-[#0B0F17] text-slate-200 pt-32 pb-16 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto mb-6 flex items-center justify-between font-sans text-sm">
+        <Link 
+          to="/ceacam5#chapters" 
+          className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-semibold transition"
+        >
+          <ArrowLeft size={16} />
+          Back to Report
         </Link>
-        <span className="text-slate-400  tracking-widest font-semibold capitalize">
-          {chapterId?.replace('-', ' ')}
+        <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+          Licensed to: {userName}
         </span>
       </div>
 
-      <header className="max-w-4xl mx-auto mb-16 pb-12 border-b border-amethyst/30 text-center">
-        <p className="text-vermilion uppercase tracking-[0.2em] text-sm font-semibold mb-4 font-sans">AmethIntel Intelligence Report</p>
-        <h1 className="text-5xl font-bold text-slate-900 tracking-tight leading-tight mb-8" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-          Content Locked / Drafting
-        </h1>
-        <p className="text-xl text-slate-600 max-w-2xl mx-auto font-sans leading-relaxed">
-          This chapter is currently being drafted or requires an upgraded subscription tier to view. Please check back later.
-        </p>
-      </header>
-
-      <div className="max-w-4xl mx-auto flex items-center justify-center py-20">
-        <div className="w-16 h-16 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center">
-          <i className="fas fa-lock text-2xl"></i>
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto">
-        <ChapterFooter />
+      <div className="max-w-7xl mx-auto h-[82vh] rounded-2xl overflow-hidden border border-slate-800 bg-[#131924] shadow-2xl">
+        {loading && (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-4">
+            <div className="w-10 h-10 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-400 text-sm">Loading chapter...</p>
+          </div>
+        )}
+        {error && (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-3 px-8 text-center">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 text-xl">✕</div>
+            <p className="text-red-400 text-sm font-medium">{error}</p>
+          </div>
+        )}
+        {pdfUrl && (
+          <iframe 
+            src={pdfUrl} 
+            className="w-full h-full border-none"
+            title={`${chapterId} PDF Reader`}
+          />
+        )}
       </div>
     </div>
   );
-};
-
-export default ChapterPlaceholder;
+}

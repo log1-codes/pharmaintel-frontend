@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const chaptersData = [
@@ -71,6 +71,21 @@ const Ceacam5Report = () => {
   const [tocActive, setTocActive] = useState(false);
   const [openChapters, setOpenChapters] = useState<Record<string, boolean>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userPlan, setUserPlan] = useState<string>('');
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      try {
+        const parsed = JSON.parse(userData);
+        if (parsed && parsed.pricingPlan) {
+          setUserPlan(parsed.pricingPlan);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
 
   const toggleToc = () => setTocActive(!tocActive);
   const toggleChapter = (id: string) => setOpenChapters(prev => ({ ...prev, [id]: !prev[id] }));
@@ -81,6 +96,42 @@ const Ceacam5Report = () => {
 
   const navigate = useNavigate();
 
+  const isChapterLocked = (route: string) => {
+    const sessionActive = localStorage.getItem('session_active');
+    const sessionExpiresAt = localStorage.getItem('session_expires_at');
+    const now = Date.now();
+    const isSessionValid = sessionActive === 'true' && sessionExpiresAt && now < Number(sessionExpiresAt);
+
+    if (!isSessionValid) return false;
+
+    const userData = localStorage.getItem('user');
+    if (!userData) return true;
+
+    try {
+      const user = JSON.parse(userData);
+      const plan = (user?.pricingPlan || 'Free').toLowerCase();
+
+      if (plan === 'full') return false;
+
+      const isAppendix = route.endsWith('appendix');
+      if (isAppendix) return true;
+
+      const match = route.match(/chapter(\d+)/);
+      if (!match) return true;
+      const num = parseInt(match[1], 10);
+
+      if (plan === 'tier 2') {
+        return num > 6;
+      }
+      if (plan === 'tier 1') {
+        return num > 3;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return true;
+  };
+
   const handleReadChapter = (chapterRoute: string) => {
     const sessionActive = localStorage.getItem('session_active');
     const sessionExpiresAt = localStorage.getItem('session_expires_at');
@@ -89,6 +140,15 @@ const Ceacam5Report = () => {
 
     if (!isSessionValid) {
       alert("Please login & subscribe to see the chapter content.");
+      return;
+    }
+
+    if (isChapterLocked(chapterRoute)) {
+      const userData = localStorage.getItem('user');
+      const user = userData ? JSON.parse(userData) : null;
+      const plan = user?.pricingPlan || 'Free';
+      alert(`This chapter is locked on your current plan (${plan}). Please choose a plan below to upgrade.`);
+      openModal();
     } else {
       navigate(chapterRoute);
     }
@@ -283,7 +343,14 @@ const Ceacam5Report = () => {
           {/*  CHAPTERS  */}
           <section className="py-14" id="chapters">
             <div className="font-mono text-[10px] text-accent uppercase tracking-[0.12em] mb-3 flex flex-col gap-3 before:content-[''] before:block before:w-6 before:h-px before:bg-accent">Chapter access — preview free, full content per chapter</div>
-            <h2 className="font-serif text-[22px] font-medium text-cream mb-5" style={{ "marginBottom": "24px" }}>Report Chapters</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5" style={{ "marginBottom": "24px" }}>
+              <h2 className="font-serif text-[22px] font-medium text-cream m-0">Report Chapters</h2>
+              {userPlan && (
+                <div className="inline-block self-start font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-amber-500 border border-amber-500/30 bg-amber-500/5 px-2.5 py-1 rounded-sm">
+                  Active Subscription: <span className="font-bold text-cream">{userPlan}</span>
+                </div>
+              )}
+            </div>
             <div className="font-mono text-[12px] text-mist uppercase tracking-widest mb-6 pb-3 border-b border-rule">Click any chapter to expand preview · unlock full content individually or purchase the complete report</div>
 
             {chaptersData.map((ch) => (
@@ -298,8 +365,8 @@ const Ceacam5Report = () => {
                     <div className="text-[11px] sm:text-[12px] text-steel mt-0.75 italic leading-normal">{ch.desc}</div>
                   </div>
                   <div className="hidden sm:block font-mono text-[12px] text-steel mt-0.75 text-right">
-                    <span className="text-accent uppercase tracking-wider text-[10px] font-bold">
-                      {ch.num === 'A' ? 'Read Appendix' : 'Read Chapter'}
+                    <span className={`${isChapterLocked(ch.route) ? 'text-red-400' : 'text-accent'} uppercase tracking-wider text-[10px] font-bold`}>
+                      {isChapterLocked(ch.route) ? '🔒 Locked' : (ch.num === 'A' ? 'Read Appendix' : 'Read Chapter')}
                     </span>
                   </div>
                   <div className="w-6 h-6 text-mist flex items-center justify-center transition-transform">

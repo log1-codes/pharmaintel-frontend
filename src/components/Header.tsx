@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 
 const AUTH_BACKEND_URL = import.meta.env.VITE_AUTH_BACKEND_URL || 'http://localhost:3001';
-const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:8080';
+const WEBSITE_A_URL = import.meta.env.VITE_WEBSITE_A_URL || 'http://localhost:5500';
 
 const Header = () => {
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; pricingPlan?: string } | null>(null);
 
   // Helper to read user from localStorage into state
   const syncUserFromStorage = useCallback(() => {
@@ -40,6 +40,7 @@ const Header = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('session_active');
     localStorage.removeItem('session_expires_at');
+    localStorage.removeItem('viewer_token');
 
     // Notify all listeners
     window.dispatchEvent(new Event('auth:logout'));
@@ -69,9 +70,16 @@ const Header = () => {
         <div className="flex items-center gap-4">
           {user ? (
             <div className="flex items-center gap-6">
-              <span className="text-slate-200 font-medium tracking-wide">
-                Welcome, <span className="text-white font-bold">{user.name}</span>
-              </span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-right sm:text-left">
+                <span className="text-slate-200 font-medium tracking-wide">
+                  Welcome, <span className="text-white font-bold">{user.name}</span>
+                </span>
+                {user.pricingPlan && (
+                  <span className="inline-block text-[10px] font-mono uppercase font-bold text-amber-500 border border-amber-500/30 bg-amber-500/5 px-2 py-0.5 rounded-sm">
+                    {user.pricingPlan}
+                  </span>
+                )}
+              </div>
               <button
                 onClick={handleLogout}
                 className="btn px-5 py-2 text-sm font-semibold rounded-2xl border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 text-slate-300 transition-all cursor-pointer"
