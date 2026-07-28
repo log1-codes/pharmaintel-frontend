@@ -45,8 +45,8 @@ const Header = () => {
     // Notify all listeners
     window.dispatchEvent(new Event('auth:logout'));
 
-    // Redirect to Website A login with logout parameter
-    window.location.href = `${WEBSITE_A_URL}/login.html?logout=true`;
+    // Redirect directly to home page /
+    window.location.href = '/';
   };
 
   return (
@@ -62,8 +62,8 @@ const Header = () => {
 
         {/* Nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-          <Link to="/" className="nav-link">Ceacam5 Report</Link>
-          <a href={`${WEBSITE_A_URL}/copy.html`} className="nav-link">Main Site</a>
+          <Link to="/ceacam5" className="nav-link">Ceacam5 Report</Link>
+          <Link to="/" className="nav-link">Main Site</Link>
         </div>
 
         {/* Buttons */}
