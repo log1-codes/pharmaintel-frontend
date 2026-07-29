@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Takes Two data
 const takesTwoData = [
@@ -108,7 +109,7 @@ const Home = () => {
           {/* Nav Links */}
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
             <a href="#home" className="nav-link">Home</a>
-            <a href="#about" className="nav-link">About Us</a>
+            <Link to="/about" className="nav-link">About Us</Link>
             <a href="#newsletter" className="nav-link">Newsletter</a>
             <a href="#takestwo" className="nav-link">Takes Two</a>
 
@@ -274,7 +275,7 @@ const Home = () => {
                 </div>
               )}
             </div>
-
+            http://localhost:5173/#about
             {/* RIGHT SIDE */}
             <div className="space-y-8">
               {/* Why AmethIntel Box */}
@@ -491,7 +492,7 @@ const Home = () => {
             </div>
             <div className="flex flex-wrap justify-center gap-8 text-sm text-slate-400">
               <a href="#home" className="hover:text-white transition">Home</a>
-              <a href="#about" className="hover:text-white transition">About Us</a>
+              <Link to="/about" className="hover:text-white transition">About Us</Link>
               <a href="#newsletter" className="hover:text-white transition">Newsletter</a>
               <a href="#takestwo" className="hover:text-white transition">Takes Two</a>
               <a href="#ceacam5" className="hover:text-white transition">CEACAM5</a>

@@ -8,6 +8,7 @@ import Chapter1 from './pages/Chapter1';
 import Appendix from './pages/Appendix';
 import ChapterPlaceholder from './pages/ChapterPlaceholder';
 import Chapter2 from './pages/Chapter2';
+import AboutPage from './pages/AboutPage';
 
 function App() {
   useEffect(() => {
@@ -44,7 +45,8 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/ceacam5" element={<Ceacam5Report />} />
           <Route path="/report" element={<Ceacam5Report />} />
-          
+          <Route path='/about' element={<AboutPage />} />
+
           {/* Protected Chapter Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/chapters/chapter1" element={<Chapter1 />} />
