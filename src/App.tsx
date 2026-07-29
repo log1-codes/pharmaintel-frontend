@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Ceacam5Report from './pages/Ceacam5Report';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Chapter1 from './pages/Chapter1';
@@ -10,6 +9,10 @@ import ChapterPlaceholder from './pages/ChapterPlaceholder';
 import Chapter2 from './pages/Chapter2';
 import AboutPage from './pages/AboutPage';
 import NewCeacam5Report from './pages/NewCeacam5Report';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import UserDashboard from './pages/UserDashboard';
 function App() {
   useEffect(() => {
     // Automatically seed localStorage with the pre-signed JWT 10-year viewer token on startup.
@@ -40,6 +43,14 @@ function App() {
       <Routes>
         {/* Public Homepage Landing Route */}
         <Route path="/" element={<Home />} />
+        
+        {/* Authentication Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        {/* User Dashboard Route */}
+        <Route path="/dashboard" element={<UserDashboard />} />
 
         {/* Workspace Layout and Report Routes */}
         <Route element={<Layout />}>

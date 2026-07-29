@@ -141,15 +141,11 @@ const Home = () => {
               <span className="text-xs font-medium opacity-90">CEACAM5 Report is Out</span>
               <span className="text-sm font-bold">Click to View</span>
             </button>
-            <button
-              onClick={() => {
-                const el = document.getElementById('waitlist');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }}
+            <Link to="/signup"
               className="btn px-6 py-3 text-sm font-semibold rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center"
             >
               Join Waitlist
-            </button>
+            </Link>
           </div>
         </div>
       </nav>
@@ -275,8 +271,7 @@ const Home = () => {
                 </div>
               )}
             </div>
-            http://localhost:5173/#about
-            {/* RIGHT SIDE */}
+
             <div className="space-y-8">
               {/* Why AmethIntel Box */}
               <div className="relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[36px] p-10 overflow-hidden">
