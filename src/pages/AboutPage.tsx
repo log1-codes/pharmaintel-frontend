@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AboutPage = () => {
   const navigate = useNavigate();
@@ -339,23 +339,9 @@ font-size:15px;
 
 
 
-      <a
-
-        className="cta-home"
-
-        href="index.html"
-
-      >
-
-        <span>
-
-          ←
-
-        </span>
-
+      <Link to="/" className="cta-home">
         Back To Home
-
-      </a>
+      </Link>
 
 
 
