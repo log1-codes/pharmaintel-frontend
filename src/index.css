@@ -77,11 +77,13 @@ html {
 .hero-bg {
   background:
     linear-gradient(to right,
-      rgba(2, 6, 23, 0.85) 0%,
-      rgba(2, 6, 23, 0.65) 35%,
-      rgba(2, 6, 23, 0.4) 65%,
-      rgba(2, 6, 23, 0.15) 100%),
-    url("/new_home_page.png");
+      rgba(2, 6, 23, 0.96) 0%,
+      rgba(2, 6, 23, 0.88) 22%,
+      rgba(2, 6, 23, 0.70) 38%,
+      rgba(2, 6, 23, 0.28) 55%,
+      rgba(2, 6, 23, 0.10) 70%,
+      rgba(2, 6, 23, 0.04) 100%),
+    url("/Gemini_Generated_Image_home_page.png");
 
   background-size: cover;
   background-position: center;
@@ -153,6 +155,24 @@ html {
 .feature-card:hover {
   border-color: rgba(192, 38, 211, 0.5);
   transform: translateY(-5px);
+}
+
+@media(max-width:768px) {
+  .hero-title {
+    font-size: 46px !important;
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+  }
+  .hero-description {
+    font-size: 18px !important;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* Global Material Symbols icon styling */
