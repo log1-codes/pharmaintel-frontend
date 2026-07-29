@@ -9,7 +9,7 @@ import Appendix from './pages/Appendix';
 import ChapterPlaceholder from './pages/ChapterPlaceholder';
 import Chapter2 from './pages/Chapter2';
 import AboutPage from './pages/AboutPage';
-
+import NewCeacam5Report from './pages/NewCeacam5Report';
 function App() {
   useEffect(() => {
     // Automatically seed localStorage with the pre-signed JWT 10-year viewer token on startup.
@@ -43,8 +43,8 @@ function App() {
 
         {/* Workspace Layout and Report Routes */}
         <Route element={<Layout />}>
-          <Route path="/ceacam5" element={<Ceacam5Report />} />
-          <Route path="/report" element={<Ceacam5Report />} />
+          <Route path="/ceacam5" element={<NewCeacam5Report />} />
+          {/* <Route path="/report" element={<Ceacam5Report />} /> */}
           <Route path='/about' element={<AboutPage />} />
 
           {/* Protected Chapter Routes */}
