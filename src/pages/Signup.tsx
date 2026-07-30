@@ -40,18 +40,49 @@ const Signup = () => {
   const handleNext = () => setStep(prev => prev + 1);
   const handleBack = () => setStep(prev => prev - 1);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Basic Validations
+    if (!/^\+?[\d\s\-()]{7,20}$/.test(formData.phone)) {
+      alert("Please enter a valid phone number (digits and standard symbols only).");
+      return;
+    }
+
+    if (!/^[A-Za-z0-9\s-]{3,10}$/.test(formData.zip)) {
+      alert("Please enter a valid postal/ZIP code (3-10 alphanumeric characters).");
+      return;
+    }
+
     if (!formData.acceptTerms) {
       alert("Please accept the Terms & Conditions");
       return;
     }
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || "Signup failed");
+      }
+      
       alert("Sign up successful! Please check your email for verification.");
       navigate('/login');
-    }, 1500);
+    } catch (error: any) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const pricingPlans = [
@@ -136,7 +167,7 @@ const Signup = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">Contact Number</label>
-                    <input name="phone" type="tel" value={formData.phone} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 outline-none transition-all" placeholder="+1 (555) 000-0000" />
+                    <input name="phone" type="tel" required value={formData.phone} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 outline-none transition-all" placeholder="+1 (555) 000-0000" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">User Type</label>
@@ -171,7 +202,7 @@ const Signup = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">Organization Name</label>
-                    <input name="orgName" type="text" value={formData.orgName} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="Company Inc." />
+                    <input name="orgName" type="text" required value={formData.orgName} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="Company Inc." />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">Organization Type</label>
@@ -195,23 +226,23 @@ const Signup = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-slate-300 mb-1">Address</label>
-                    <input name="address" type="text" value={formData.address} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="123 Science Park" />
+                    <input name="address" type="text" required value={formData.address} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="123 Science Park" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">City</label>
-                    <input name="city" type="text" value={formData.city} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="Boston" />
+                    <input name="city" type="text" required value={formData.city} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="Boston" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">State/Region</label>
-                    <input name="state" type="text" value={formData.state} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="MA" />
+                    <input name="state" type="text" required value={formData.state} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="MA" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">Country</label>
-                    <input name="country" type="text" value={formData.country} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="USA" />
+                    <input name="country" type="text" required value={formData.country} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="USA" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-1">Postal/ZIP Code</label>
-                    <input name="zip" type="text" value={formData.zip} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="02115" />
+                    <input name="zip" type="text" required value={formData.zip} onChange={handleChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500/50 outline-none transition-all" placeholder="02115" />
                   </div>
                 </div>
 
