@@ -1,16 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch profile');
+        }
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [navigate]);
 
   const handleLogout = () => {
-    // Add logout logic here
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
   const renderContent = () => {
+    if (loading) return <div className="text-white text-center py-10 animate-pulse">Loading profile...</div>;
+    if (!user) return null;
+
     switch (activeTab) {
       case 'profile':
         return (
@@ -19,19 +54,19 @@ const UserDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Full Name</span>
-                <span className="text-white font-medium">Dr. Jane Smith</span>
+                <span className="text-white font-medium">{user.name}</span>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Email Address</span>
-                <span className="text-white font-medium">jane@organization.com</span>
+                <span className="text-white font-medium">{user.email}</span>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Contact Number</span>
-                <span className="text-white font-medium">+1 (555) 123-4567</span>
+                <span className="text-white font-medium">{user.phone}</span>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">User Type</span>
-                <span className="text-white font-medium">Organization</span>
+                <span className="text-white font-medium">{user.userType}</span>
               </div>
             </div>
           </div>
@@ -43,19 +78,19 @@ const UserDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Organization Name</span>
-                <span className="text-white font-medium">PharmaCorp Inc.</span>
+                <span className="text-white font-medium">{user.orgName}</span>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Organization Type</span>
-                <span className="text-white font-medium">Pharma</span>
+                <span className="text-white font-medium">{user.orgType}</span>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Department</span>
-                <span className="text-white font-medium">Oncology R&D</span>
+                <span className="text-white font-medium">{user.department || 'N/A'}</span>
               </div>
               <div className="bg-white/5 p-4 rounded-xl border border-white/10 md:col-span-2">
                 <span className="text-xs text-slate-400 uppercase tracking-wider block mb-1">Address</span>
-                <span className="text-white font-medium block">123 Science Park, Boston, MA, USA, 02115</span>
+                <span className="text-white font-medium block">{user.address}, {user.city}, {user.state}, {user.country}, {user.zip}</span>
               </div>
             </div>
           </div>
@@ -97,7 +132,7 @@ const UserDashboard = () => {
                 <span className="text-sm text-slate-400 text-center">Chapters Unlocked</span>
               </div>
               <div className="bg-gradient-to-br from-white/10 to-white/5 p-6 rounded-2xl border border-white/10 flex flex-col justify-center items-center">
-                <span className="text-4xl font-bold text-white mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Tier 1</span>
+                <span className="text-4xl font-bold text-white mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{user.selectedPlan}</span>
                 <span className="text-sm text-slate-400 text-center">Current Plan Level</span>
               </div>
             </div>
@@ -140,7 +175,7 @@ const UserDashboard = () => {
             <span className="font-semibold tracking-tight text-xl hidden sm:block" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</span>
           </Link>
           <div className="flex items-center gap-4">
-            <div className="text-sm text-slate-300 hidden sm:block">Welcome, <span className="text-white font-medium">Dr. Jane Smith</span></div>
+            <div className="text-sm text-slate-300 hidden sm:block">Welcome, <span className="text-white font-medium">{user?.name || 'User'}</span></div>
             <button onClick={handleLogout} className="text-sm font-medium text-slate-400 hover:text-white transition px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5">
               Logout
             </button>
