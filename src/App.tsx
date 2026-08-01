@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import UserDashboard from './pages/UserDashboard';
+
 function App() {
   useEffect(() => {
     // Automatically seed localStorage with the pre-signed JWT 10-year viewer token on startup.
@@ -54,12 +55,11 @@ function App() {
 
         {/* Workspace Layout and Report Routes */}
         <Route element={<Layout />}>
-          <Route path="/ceacam5" element={<NewCeacam5Report />} />
-          {/* <Route path="/report" element={<Ceacam5Report />} /> */}
           <Route path='/about' element={<AboutPage />} />
 
           {/* Protected Chapter Routes */}
           <Route element={<ProtectedRoute />}>
+            <Route path="/ceacam5" element={<NewCeacam5Report />} />
             <Route path="/chapters/chapter1" element={<Chapter1 />} />
             <Route path="/chapters/chapter2" element={<Chapter2 />} />
             <Route path="/chapters/appendix" element={<Appendix />} />

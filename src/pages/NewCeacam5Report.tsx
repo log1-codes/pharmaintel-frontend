@@ -1,12 +1,142 @@
+import { useState, useEffect } from 'react';
+
 const NewCeacam5Report = () => {
-    // Placeholder functions to prevent reference errors in your onClick handlers
-    const openModal = (target: any) => console.log('Open modal:', target);
-    const closeModal = () => console.log('Close modal');
+    const [chaptersData, setChaptersData] = useState<any[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [purchaseTarget, setPurchaseTarget] = useState<any>(null);
+    const [loadingPurchase, setLoadingPurchase] = useState(false);
+    
+    // Track which chapter is expanded
+    const [openChapterId, setOpenChapterId] = useState<string | null>(null);
+
+    useEffect(() => {
+        fetchChapters();
+    }, []);
+
+    const fetchChapters = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chapters`, {
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            });
+            if (res.ok) {
+                const data = await res.json();
+                console.log('Fetched chapters:', data);
+                setChaptersData(data);
+            }
+        } catch (err) {
+            console.error('Failed to fetch chapters', err);
+        }
+    };
+
+    const getChapterDb = (chapterNumber: number) => {
+        return chaptersData.find((c: any) => {
+            return String(c.num) === String(chapterNumber) || 
+                   String(c.id).toLowerCase() === `chapter${chapterNumber}` ||
+                   String(c.id).toLowerCase() === `ch-${chapterNumber}` ||
+                   String(c.id) === String(chapterNumber);
+        });
+    };
+
+    const isUnlocked = (chapterNumber: number) => {
+        const dbChap = getChapterDb(chapterNumber);
+        console.log(`isUnlocked(${chapterNumber}):`, dbChap);
+        return dbChap?.isAccessible || false;
+    };
+
+
+    const openModal = (target: any) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Please log in first to purchase chapters.');
+            return;
+        }
+        setPurchaseTarget(target);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setPurchaseTarget(null);
+    };
+
     const closeModalOutside = (e: any) => {
         if (e.target.id === 'modal') closeModal();
     };
-    const submitRequest = () => console.log('Submit request');
-    const toggleChapter = (element: any) => console.log('Toggle chapter', element);
+
+    const submitRequest = async () => {
+        if (!purchaseTarget || purchaseTarget === 'full' || purchaseTarget === 'enterprise' || purchaseTarget === 'chapter') {
+            alert('Simulated Request Sent!');
+            closeModal();
+            return;
+        }
+
+        // For specific chapters
+        try {
+            setLoadingPurchase(true);
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chapters/${purchaseTarget}/purchase`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (res.ok) {
+                alert('Purchase successful!');
+                await fetchChapters();
+            } else {
+                alert('Purchase failed');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Error processing purchase');
+        } finally {
+            setLoadingPurchase(false);
+            closeModal();
+        }
+    };
+
+    const [pdfUrls, setPdfUrls] = useState<{[key: number]: string}>({});
+    const [loadingPdf, setLoadingPdf] = useState<{[key: number]: boolean}>({});
+
+    const loadInlinePdf = async (chapterNumber: number) => {
+        if (pdfUrls[chapterNumber] || loadingPdf[chapterNumber]) return;
+
+        try {
+            setLoadingPdf(prev => ({ ...prev, [chapterNumber]: true }));
+            const token = localStorage.getItem('token');
+            if (!token) {
+               setLoadingPdf(prev => ({ ...prev, [chapterNumber]: false }));
+               return;
+            }
+            const dbChap = getChapterDb(chapterNumber);
+            if (!dbChap) {
+                console.error("Chapter not found in DB data");
+                setLoadingPdf(prev => ({ ...prev, [chapterNumber]: false }));
+                return;
+            }
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chapters/${dbChap.id}/pdf`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            
+            if (res.ok) {
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                setPdfUrls(prev => ({ ...prev, [chapterNumber]: url }));
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoadingPdf(prev => ({ ...prev, [chapterNumber]: false }));
+        }
+    };
+
+    const toggleChapter = (elementId: string, chapterNumber?: number) => {
+        const isOpening = openChapterId !== elementId;
+        console.log('Toggling chapter:', elementId, chapterNumber, 'isUnlocked:', chapterNumber !== undefined ? isUnlocked(chapterNumber) : false);
+        setOpenChapterId(isOpening ? elementId : null);
+    };
 
     return (
         <>
@@ -1112,7 +1242,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
                     {/* CH 1 */}
                     <div className="chapter-block" id="ch-1">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-1' ? 'open' : ''}`} onClick={() => toggleChapter('ch-1', 1)}>
                             <div className="ch-num">01</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Target Biology &amp; Expression Landscape</div>
@@ -1121,7 +1251,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-1' ? 'open' : ''}`}>
+                            {pdfUrls[1] || loadingPdf[1] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[1] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[1] ? (
+                                        <iframe src={pdfUrls[1]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 1 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(1)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — key findings</div>
                                 <div className="preview-bullets">
@@ -1132,7 +1274,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(1) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1143,17 +1285,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 1: Target Biology')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(1) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(1) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(1)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(1)}>Unlock Chapter {loadingPurchase && purchaseTarget === 1 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 2 */}
                     <div className="chapter-block" id="ch-2">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-2' ? 'open' : ''}`} onClick={() => toggleChapter('ch-2', 2)}>
                             <div className="ch-num">02</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Active Clinical Trial Landscape</div>
@@ -1162,7 +1310,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-2' ? 'open' : ''}`}>
+                            {pdfUrls[2] || loadingPdf[2] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[2] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[2] ? (
+                                        <iframe src={pdfUrls[2]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 2 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(2)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — key findings</div>
                                 <div className="preview-bullets">
@@ -1173,7 +1333,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(2) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1184,17 +1344,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 2: Clinical Trial Landscape')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(2) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(2) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(2)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(2)}>Unlock Chapter {loadingPurchase && purchaseTarget === 2 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 3 */}
                     <div className="chapter-block" id="ch-3">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-3' ? 'open' : ''}`} onClick={() => toggleChapter('ch-3', 3)}>
                             <div className="ch-num">03</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Programme Failure Attribution</div>
@@ -1203,7 +1369,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-3' ? 'open' : ''}`}>
+                            {pdfUrls[3] || loadingPdf[3] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[3] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[3] ? (
+                                        <iframe src={pdfUrls[3]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 3 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(3)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — key findings</div>
                                 <div className="preview-bullets">
@@ -1214,7 +1392,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(3) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1225,17 +1403,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 3: Failure Attribution')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(3) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(3) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(3)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(3)}>Unlock Chapter {loadingPurchase && purchaseTarget === 3 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 4 */}
                     <div className="chapter-block" id="ch-4">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-4' ? 'open' : ''}`} onClick={() => toggleChapter('ch-4', 4)}>
                             <div className="ch-num">04</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Patent Landscape</div>
@@ -1244,7 +1428,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-4' ? 'open' : ''}`}>
+                            {pdfUrls[4] || loadingPdf[4] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[4] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[4] ? (
+                                        <iframe src={pdfUrls[4]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 4 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(4)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — selected signals</div>
                                 <div className="preview-bullets">
@@ -1254,7 +1450,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(4) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1265,17 +1461,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 4: Patent Landscape')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(4) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(4) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(4)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(4)}>Unlock Chapter {loadingPurchase && purchaseTarget === 4 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 5 */}
                     <div className="chapter-block" id="ch-5">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-5' ? 'open' : ''}`} onClick={() => toggleChapter('ch-5', 5)}>
                             <div className="ch-num">05</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Payload Landscape</div>
@@ -1284,7 +1486,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-5' ? 'open' : ''}`}>
+                            {pdfUrls[5] || loadingPdf[5] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[5] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[5] ? (
+                                        <iframe src={pdfUrls[5]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 5 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(5)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — selected signals</div>
                                 <div className="preview-bullets">
@@ -1294,7 +1508,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(5) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1305,17 +1519,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 5: Payload Landscape')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(5) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(5) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(5)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(5)}>Unlock Chapter {loadingPurchase && purchaseTarget === 5 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 6 */}
                     <div className="chapter-block" id="ch-6">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-6' ? 'open' : ''}`} onClick={() => toggleChapter('ch-6', 6)}>
                             <div className="ch-num">06</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Linker Landscape</div>
@@ -1324,7 +1544,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-6' ? 'open' : ''}`}>
+                            {pdfUrls[6] || loadingPdf[6] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[6] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[6] ? (
+                                        <iframe src={pdfUrls[6]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 6 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(6)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — selected signals</div>
                                 <div className="preview-bullets">
@@ -1334,7 +1566,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(6) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1345,17 +1577,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 6: Linker Landscape')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(6) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(6) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(6)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(6)}>Unlock Chapter {loadingPurchase && purchaseTarget === 6 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 7 */}
                     <div className="chapter-block" id="ch-7">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-7' ? 'open' : ''}`} onClick={() => toggleChapter('ch-7', 7)}>
                             <div className="ch-num">07</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">Differentiation for Long-Term Dominance</div>
@@ -1364,7 +1602,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-7' ? 'open' : ''}`}>
+                            {pdfUrls[7] || loadingPdf[7] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[7] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[7] ? (
+                                        <iframe src={pdfUrls[7]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 7 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(7)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — selected signals</div>
                                 <div className="preview-bullets">
@@ -1374,7 +1624,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(7) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1385,17 +1635,23 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 7: Differentiation Framework')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(7) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(7) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(7)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(7)}>Unlock Chapter {loadingPurchase && purchaseTarget === 7 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 
                     {/* CH 8 */}
                     <div className="chapter-block" id="ch-8">
-                        <div className="chapter-head" onClick={(e) => toggleChapter(e.currentTarget)}>
+                        <div className={`chapter-head ${openChapterId === 'ch-8' ? 'open' : ''}`} onClick={() => toggleChapter('ch-8', 8)}>
                             <div className="ch-num">08</div>
                             <div className="ch-head-content">
                                 <div className="ch-title">2026 Deal Structure Analysis</div>
@@ -1404,7 +1660,19 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="ch-price"><span>or included in full</span></div>
                             <div className="ch-toggle">+</div>
                         </div>
-                        <div className="chapter-body">
+                        <div className={`chapter-body ${openChapterId === 'ch-8' ? 'open' : ''}`}>
+                            {pdfUrls[8] || loadingPdf[8] ? (
+                                <div style={{ padding: '20px' }}>
+                                    {loadingPdf[8] ? (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading secure PDF...</div>
+                                    ) : pdfUrls[8] ? (
+                                        <iframe src={pdfUrls[8]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title="Chapter 8 PDF" />
+                                    ) : (
+                                        <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--lock-red)' }}>Failed to load PDF. <button onClick={() => loadInlinePdf(8)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                                    )}
+                                </div>
+                            ) : (
+                                <>
                             <div className="preview-zone">
                                 <div className="preview-label">Free preview — selected signals</div>
                                 <div className="preview-bullets">
@@ -1414,7 +1682,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                             <div className="paywall-zone">
                                 <div className="pw-left">
-                                    <div className="pw-lock">Full content locked</div>
+                                    <div className="pw-lock">{isUnlocked(8) ? "Content Unlocked" : "Full content locked"}</div>
                                     <div className="pw-hidden">
                                         <div className="pw-line"></div>
                                         <div className="pw-line"></div>
@@ -1425,11 +1693,17 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                                 <div className="pw-right">
                                     <div className="pw-price"></div>
-                                    <div className="pw-sublabel">Single chapter licence</div>
-                                    <button className="btn-unlock" onClick={() => openModal('Chapter 8: Deal Structure Analysis')}>Unlock Chapter</button>
+                                    <div className="pw-sublabel">{isUnlocked(8) ? "Access Granted" : "Single chapter licence"}</div>
+                                    {isUnlocked(8) ? (
+                                        <button className="btn-unlock" onClick={() => loadInlinePdf(8)}>Read Chapter</button>
+                                    ) : (
+                                        <button className="btn-unlock" onClick={() => openModal(8)}>Unlock Chapter {loadingPurchase && purchaseTarget === 8 ? '...' : ''}</button>
+                                    )}
                                     <button className="btn-unlock-outline" onClick={() => openModal('full')}>Full Report — </button>
                                 </div>
                             </div>
+                        </>
+                    )}
                         </div>
                     </div>
 

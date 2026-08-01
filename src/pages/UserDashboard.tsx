@@ -98,23 +98,22 @@ const UserDashboard = () => {
       case 'chapters':
         return (
           <div className="space-y-6 animate-in fade-in">
-            <h3 className="text-xl font-semibold text-white border-b border-white/10 pb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Requested Chapters</h3>
-            <div className="space-y-4">
-              {[
-                { id: 1, name: 'Chapter 1: Target Biology', status: 'Approved', date: '2026-05-12' },
-                { id: 2, name: 'Chapter 2: Methodology', status: 'Pending', date: '2026-05-14' },
-                { id: 3, name: 'Chapter 4: Patent Landscape', status: 'Approved', date: '2026-05-15' }
-              ].map(chapter => (
-                <div key={chapter.id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex items-center justify-between">
-                  <div>
-                    <h4 className="text-white font-medium">{chapter.name}</h4>
-                    <span className="text-xs text-slate-400">Requested on: {chapter.date}</span>
-                  </div>
-                  <span className={`text-xs px-3 py-1 rounded-full font-medium ${chapter.status === 'Approved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'}`}>
-                    {chapter.status}
-                  </span>
-                </div>
-              ))}
+            <div className="flex justify-between items-center border-b border-white/10 pb-4">
+              <h3 className="text-xl font-semibold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>CEACAM5 Report</h3>
+              <button onClick={() => navigate('/ceacam5')} className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-purple-500/20 transition">
+                View All Chapters
+              </button>
+            </div>
+            <div className="bg-white/5 p-6 rounded-xl border border-white/10 text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl mx-auto flex items-center justify-center mb-4 border border-purple-500/30">
+                <svg className="w-8 h-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <p className="text-slate-300 mb-6 max-w-md mx-auto">Access your CEACAM5 Report chapters, including your unlocked content and free preview sections.</p>
+              <button onClick={() => navigate('/ceacam5')} className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white font-medium transition">
+                Open Report Viewer
+              </button>
             </div>
           </div>
         );
