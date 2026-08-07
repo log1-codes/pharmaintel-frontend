@@ -1047,14 +1047,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <h1 className="hero-title">CEACAM5: Oncology Target and<br /><em>Ramifications for Target Selection Strategy</em></h1>
                     <p className="hero-sub">A decision-grade intelligence review integrating clinical trial triage, failure attribution, patent landscape, payload and linker analysis, and 2026 deal structure benchmarks — structured for R&amp;D heads, BD leaders, and oncology investment teams.</p>
 
-                    <div className="hero-meta">
-                        <div className="meta-item"><div className="meta-label">Publisher</div><div className="meta-val">AmethIntel</div></div>
-                        <div className="meta-item"><div className="meta-label">Pages</div><div className="meta-val">~80 pp</div></div>
-                        <div className="meta-item"><div className="meta-label">Chapters</div><div className="meta-val">8 + Appendix</div></div>
-                        <div className="meta-item"><div className="meta-label">Updated</div><div className="meta-val">May 2026</div></div>
-                        <div className="meta-item"><div className="meta-label">Coverage</div><div className="meta-val">US · EU · Global</div></div>
-                        <div className="meta-item"><div className="meta-label">classNameification</div><div className="meta-val">Confidential</div></div>
-                    </div>
+
 
                     <div className="pricing-pill">
 
@@ -1177,7 +1170,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
                 {/* TOC — FREE */}
                 <section className="free-section" id="toc">
-                    <div className="section-label">Free access <span className="free-badge" style={{ marginLeft: '8px' }}>Open</span></div>
+
                     <h2 className="section-title">Table of Contents</h2>
 
                     <div className="toc-grid">
@@ -1236,9 +1229,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
                 {/* CHAPTERS */}
                 <section className="chapters-section" id="chapters">
-                    <div className="section-label">Chapter access — preview free, full content  per chapter</div>
-                    <h2 className="section-title" style={{ marginBottom: '24px' }}>Report Chapters</h2>
-                    <div className="chapters-label">Click any chapter to expand preview · unlock full content individually or purchase the complete report</div>
+
 
                     {/* CH 1 */}
                     <div className="chapter-block" id="ch-1">

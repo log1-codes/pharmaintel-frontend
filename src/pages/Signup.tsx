@@ -87,28 +87,28 @@ const Signup = () => {
 
   const pricingPlans = [
     {
-      id: 'Free',
-      name: 'Free Access',
-      desc: 'Access to executive summary.',
-      price: '$0',
-    },
-    {
-      id: 'Tier 1',
-      name: 'Tier 1',
-      desc: 'Chapter 1 and 2 (Research outlook).',
+      id: 'Chapters',
+      name: 'Chapters',
+      desc: 'Selected individual chapters (e.g. Target Biology & Clinical Trial Landscape).',
       price: 'Contact Us',
     },
     {
-      id: 'Tier 2',
-      name: 'Tier 2',
-      desc: 'Chapter 1 to 5 (Research and business outlook).',
+      id: 'Blocks',
+      name: 'Blocks',
+      desc: 'Multi-chapter blocks (Chapters 1 to 6: Target Biology, Trials, Failure Attribution, Patent, Payload & Linker).',
       price: 'Contact Us',
     },
     {
-      id: 'Full',
-      name: 'Full Access',
-      desc: 'Entire report (Research, Business and competition outlook along with expert analysis).',
+      id: 'Full Report',
+      name: 'Full Report',
+      desc: 'Complete report (All 8 chapters + Appendix reference tables + competitive intelligence).',
       price: 'Contact Us',
+    },
+    {
+      id: 'Enterprise',
+      name: 'Enterprise',
+      desc: 'Full platform access, multi-user license, custom scenario briefings & full dataset export.',
+      price: 'Enterprise',
     }
   ];
 

@@ -54,7 +54,12 @@ const analyzeItems = [
 
 const Home = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [waitlistData, setWaitlistData] = useState({
+    fullName: '',
+    email: '',
+    company: '',
+    role: ''
+  });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
@@ -64,15 +69,26 @@ const Home = () => {
   const [demoSuccess, setDemoSuccess] = useState('');
   const [navDropdownOpen, setNavDropdownOpen] = useState(false);
 
-  const handleWaitlistSubmit = (e: React.FormEvent) => {
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!waitlistData.email.trim()) return;
     setIsLoading(true);
-    setTimeout(() => {
-      setMessage('Successfully joined the waitlist!');
-      setEmail('');
+    try {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: waitlistData.email,
+          fullName: waitlistData.fullName,
+          company: waitlistData.company,
+          role: waitlistData.role
+        })
+      }).catch(() => {});
+      setMessage('Successfully joined the waitlist! We will be in touch shortly.');
+      setWaitlistData({ fullName: '', email: '', company: '', role: '' });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleDemoSubmit = (e: React.FormEvent) => {
@@ -110,7 +126,7 @@ const Home = () => {
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
             <a href="#home" className="nav-link">Home</a>
             <Link to="/about" className="nav-link">About Us</Link>
-            <a href="#newsletter" className="nav-link">Newsletter</a>
+            <Link to="/newsletter" className="nav-link">Newsletter</Link>
             <a href="#takestwo" className="nav-link">Takes Two</a>
 
             {/* Reports Dropdown */}
@@ -163,13 +179,12 @@ const Home = () => {
               AmethIntel is a fast way for in-depth collection of publications, patents, clinical development, regulatory intelligence, investment and business activity, and adjacent scientific landscapes to identify strategic opportunities.
             </p>
             <div className="hero-buttons flex flex-wrap gap-5 mt-12">
-              <a
-                href="#waitlist"
-                className="btn px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-3xl text-lg flex items-center gap-3"
-                onClick={(e) => { e.preventDefault(); document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' }); }}
+              <Link
+                to="/login"
+                className="btn px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-3xl text-lg flex items-center gap-3 shadow-lg shadow-purple-600/30"
               >
-                Get Early Access <i className="fas fa-arrow-right"></i>
-              </a>
+                Login <i className="fas fa-arrow-right"></i>
+              </Link>
               <a
                 href="#about"
                 className="btn px-8 py-4 border border-white/30 hover:border-white rounded-3xl text-lg flex items-center gap-3"
@@ -245,7 +260,13 @@ const Home = () => {
 
                 <p className="text-white font-semibold flex flex-wrap items-center gap-3">
                   Ready to see the signals others miss?
-                  <button onClick={() => setShowDemoModal(true)} className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4">Request a Demo</button>
+                  <a
+                    href="#waitlist"
+                    onClick={(e) => { e.preventDefault(); document.getElementById('waitlist')?.scrollIntoView({ behavior: 'smooth' }); }}
+                    className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4 cursor-pointer"
+                  >
+                    Request a Demo
+                  </a>
                   <span className="text-slate-500">|</span>
                   <button onClick={handleNavToReport} className="text-purple-400 hover:text-purple-300 transition underline underline-offset-4">Explore Our Latest Insights</button>
                 </p>
@@ -284,10 +305,10 @@ const Home = () => {
                   <div className="space-y-6 text-slate-300 leading-relaxed text-[17px]">
                     <p>Amethyst is a precious stone, which the Greeks believed prevents from being drunk. Today too much information is intoxicating and suffocating, biotech and healthtech unicorns need an Amethyst to prevent being drunk.</p>
                     <p>We believe the intel we are aiming will occupy a central space in future of biotech and healthtech, so named the company after Amethyst.</p>
-                    <a href="#about" className="text-purple-400 hover:text-purple-300 transition inline-flex items-center gap-2 font-medium">
+                    <Link to="/about" className="text-purple-400 hover:text-purple-300 transition inline-flex items-center gap-2 font-medium">
                       Click here for full story and Management Team
                       <span className="text-xl">→</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -388,7 +409,13 @@ const Home = () => {
       <section id="newsletter" className="py-32 bg-slate-900 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-5xl font-semibold mb-6">Newsletter</h2>
-          <p className="text-slate-400 text-xl max-w-3xl mx-auto">Stay updated with scientific signals, biotech intelligence, emerging opportunities, and strategic insights from AmethIntel.</p>
+          <p className="text-slate-400 text-xl max-w-3xl mx-auto mb-8">Stay updated with scientific signals, biotech intelligence, emerging opportunities, and strategic insights from AmethIntel.</p>
+          <Link
+            to="/newsletter"
+            className="inline-flex items-center gap-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-4 rounded-3xl transition shadow-lg shadow-purple-600/25 text-lg"
+          >
+            Explore Intelligence Newsletter <i className="fas fa-arrow-right"></i>
+          </Link>
         </div>
       </section>
 
@@ -443,32 +470,102 @@ const Home = () => {
       </section>
 
       {/* ========== WAITLIST ========== */}
-      <section id="waitlist" className="py-24 bg-gradient-to-r from-purple-900/30 to-pink-900/30 border-t border-b border-purple-500/20">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-5xl font-semibold mb-6">Be among the first to experience the future of biotech intelligence</h2>
-          <p className="text-xl text-slate-300 mb-10">Join a select group of biotech innovators getting early access to AmethIntel.</p>
-          <form onSubmit={handleWaitlistSubmit} className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@company.com"
-                required
-                className="flex-1 bg-slate-900 border border-white/20 rounded-3xl px-6 py-5 outline-none focus:border-purple-400"
-              />
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="btn bg-white text-slate-900 font-semibold px-10 rounded-3xl hover:bg-purple-100 py-5 disabled:opacity-70"
-              >
-                {isLoading ? 'Joining...' : 'Join Waitlist'}
-              </button>
-            </div>
-          </form>
-          {message && (
-            <p className="text-green-400 mt-5 text-lg font-semibold">{message}</p>
-          )}
+      <section id="waitlist" className="py-28 bg-gradient-to-r from-purple-950/50 via-slate-900 to-pink-950/50 border-t border-b border-purple-500/20 relative">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-purple-500/10 border border-purple-500/20 text-purple-300 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+              Priority Access
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+              Experience the Future of Biotech Intelligence
+            </h2>
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto">
+              Join visionary biotech leaders, BD strategists, and oncology investors securing early access to AmethIntel.
+            </p>
+          </div>
+
+          <div className="bg-slate-900/80 border border-white/10 backdrop-blur-xl rounded-[32px] p-8 md:p-12 shadow-2xl">
+            {message ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
+                <h3 className="text-2xl font-bold mb-2 text-white">Thank You for Joining!</h3>
+                <p className="text-slate-300 text-base">{message}</p>
+                <div className="mt-6">
+                  <Link to="/login" className="text-purple-400 hover:text-purple-300 text-sm font-semibold underline underline-offset-4">
+                    Sign in to your account →
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleWaitlistSubmit} className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      value={waitlistData.fullName}
+                      onChange={(e) => setWaitlistData(prev => ({ ...prev, fullName: e.target.value }))}
+                      placeholder="Dr. Jane Doe"
+                      required
+                      className="w-full bg-slate-950 border border-white/15 rounded-2xl px-5 py-4 text-white placeholder-slate-500 outline-none focus:border-purple-400 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Work Email *</label>
+                    <input
+                      type="email"
+                      value={waitlistData.email}
+                      onChange={(e) => setWaitlistData(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="jane.doe@company.com"
+                      required
+                      className="w-full bg-slate-950 border border-white/15 rounded-2xl px-5 py-4 text-white placeholder-slate-500 outline-none focus:border-purple-400 transition"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Company / Organization *</label>
+                    <input
+                      type="text"
+                      value={waitlistData.company}
+                      onChange={(e) => setWaitlistData(prev => ({ ...prev, company: e.target.value }))}
+                      placeholder="Biopharma / Investment Firm"
+                      required
+                      className="w-full bg-slate-950 border border-white/15 rounded-2xl px-5 py-4 text-white placeholder-slate-500 outline-none focus:border-purple-400 transition"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Area of Interest / Role</label>
+                    <input
+                      type="text"
+                      value={waitlistData.role}
+                      onChange={(e) => setWaitlistData(prev => ({ ...prev, role: e.target.value }))}
+                      placeholder="e.g. Oncology BD / R&D Strategy / Investor"
+                      className="w-full bg-slate-950 border border-white/15 rounded-2xl px-5 py-4 text-white placeholder-slate-500 outline-none focus:border-purple-400 transition"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white font-semibold rounded-2xl transition shadow-lg shadow-purple-500/25 disabled:opacity-50 text-base"
+                  >
+                    {isLoading ? 'Submitting...' : 'Join Waitlist'}
+                  </button>
+
+                  <p className="text-slate-400 text-sm">
+                    Already have access?{' '}
+                    <Link to="/login" className="text-purple-400 hover:text-purple-300 font-semibold underline underline-offset-4">
+                      Log in here
+                    </Link>
+                  </p>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       </section>
 
@@ -488,7 +585,7 @@ const Home = () => {
             <div className="flex flex-wrap justify-center gap-8 text-sm text-slate-400">
               <a href="#home" className="hover:text-white transition">Home</a>
               <Link to="/about" className="hover:text-white transition">About Us</Link>
-              <a href="#newsletter" className="hover:text-white transition">Newsletter</a>
+              <Link to="/newsletter" className="hover:text-white transition">Newsletter</Link>
               <a href="#takestwo" className="hover:text-white transition">Takes Two</a>
               <a href="#ceacam5" className="hover:text-white transition">CEACAM5</a>
               <a href="#upcoming" className="hover:text-white transition">Upcoming</a>
