@@ -1,16 +1,28 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NewCeacam5Report = () => {
+    const navigate = useNavigate();
     const [chaptersData, setChaptersData] = useState<any[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [purchaseTarget, setPurchaseTarget] = useState<any>(null);
     const [loadingPurchase, setLoadingPurchase] = useState(false);
+    const [userName, setUserName] = useState<string>('Guest');
     
     // Track which chapter is expanded
     const [openChapterId, setOpenChapterId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchChapters();
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setUserName(parsedUser.name || parsedUser.username || 'Guest');
+            } catch (err) {
+                console.warn('Unable to parse stored user', err);
+            }
+        }
     }, []);
 
     const fetchChapters = async () => {
@@ -99,6 +111,12 @@ const NewCeacam5Report = () => {
 
     const [pdfUrls, setPdfUrls] = useState<{[key: number]: string}>({});
     const [loadingPdf, setLoadingPdf] = useState<{[key: number]: boolean}>({});
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/login');
+    };
 
     const loadInlinePdf = async (chapterNumber: number) => {
         if (pdfUrls[chapterNumber] || loadingPdf[chapterNumber]) return;
@@ -254,6 +272,14 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
   transition: color 0.2s;
 }
 .top-nav a:hover { color: var(--cream); }
+.nav-greeting {
+  color: var(--mist);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.btn-logout,
 .btn-purchase {
   background: var(--accent);
   color: var(--ink);
@@ -268,6 +294,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
   border-radius: 2px;
   transition: background 0.2s;
 }
+.btn-logout:hover,
 .btn-purchase:hover { background: var(--accent-light); }
 
 /* ─── HERO ─── */
@@ -1024,12 +1051,11 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                 <div id="bbai-overlay" aria-hidden="true"></div>
                 <div id="bbai-watermark"><div className="bbai-text" id="bbai-watermark-text">Viewer</div></div>
                 <div className="logo">
-                    <a href="https://amethintel.com" style={{ color: 'inherit', textDecoration: 'none' }}>AmethIntel</a>
+                    <a href="/" style={{ color: 'inherit', textDecoration: 'none' }}>AmethIntel</a>
                 </div>
 
                 <nav className="top-nav">
-                    {/* Back to Home - Only show on report pages */}
-                    <a href="https://amethintel.com" className="home-link">
+                    <a href="/" className="home-link">
                         ← Back to Home
                     </a>
 
@@ -1037,7 +1063,8 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <a href="#toc">Contents</a>
                     <a href="#chapters">Chapters</a>
                     <a href="#pricing">Pricing</a>
-                    <button className="btn-purchase" onClick={() => openModal('full')}>Purchase Full Report</button>
+                    <span className="nav-greeting">Hello, {userName}</span>
+                    <button className="btn-logout" onClick={handleLogout}>Logout</button>
                 </nav>
             </header>
             {/* HERO */}
