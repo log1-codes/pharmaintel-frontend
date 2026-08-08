@@ -1049,7 +1049,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
 
 
-                    <div className="pricing-pill">
+                    {/* <div className="pricing-pill">
 
                         <div className="price-item">
                             TOC + Executive Summary
@@ -1073,7 +1073,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             Projection
                         </div>
 
-                    </div>
+                    </div> */}
                 </div>
             </section>
 
@@ -1169,7 +1169,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                 </section>
 
                 {/* TOC — FREE */}
-                <section className="free-section" id="toc">
+                {/* <section className="free-section" id="toc">
 
                     <h2 className="section-title">Table of Contents</h2>
 
@@ -1225,10 +1225,11 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             <div className="toc-status status-paid">Bundled</div>
                         </a>
                     </div>
-                </section>
+                </section> */}
 
                 {/* CHAPTERS */}
                 <section className="chapters-section" id="chapters">
+                    <h2 style={{color:"orange",  fontSize :"14px", margin:"20px"}}>Report Chapters</h2>
 
 
                     {/* CH 1 */}
