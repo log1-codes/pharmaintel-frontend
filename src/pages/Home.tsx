@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 // Takes Two data
@@ -54,6 +54,7 @@ const analyzeItems = [
 
 const Home = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [waitlistData, setWaitlistData] = useState({
     fullName: '',
     email: '',
@@ -106,6 +107,15 @@ const Home = () => {
   const handleNavToReport = () => {
     navigate('/ceacam5');
   };
+
+  useEffect(() => {
+    if (location.hash === '#takestwo') {
+      const section = document.getElementById('takestwo');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [location.hash]);
 
   return (
     <div className="bg-[#020617] text-white min-h-screen" style={{ fontFamily: "'Inter', sans-serif" }}>
