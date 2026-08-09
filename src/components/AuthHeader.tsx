@@ -57,7 +57,7 @@ const AuthHeader = () => {
         {/* Center: Nav links */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
           <Link to="/#home" className="nav-link hover:text-white transition-colors">Home</Link>
-          <Link to="/#about" className="nav-link hover:text-white transition-colors">About Us</Link>
+          <Link to="/about" className="nav-link hover:text-white transition-colors">About Us</Link>
           <Link to="/newsletter" className="nav-link hover:text-white transition-colors">Newsletter</Link>
           <Link to="/#takestwo" className="nav-link hover:text-white transition-colors">Takes Two</Link>
 
