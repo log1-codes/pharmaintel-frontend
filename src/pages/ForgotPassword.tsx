@@ -43,18 +43,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[#020617] text-white flex items-center justify-center pt-24 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-purple-600/10 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-md w-full space-y-8 relative z-10">
         <div>
-          <Link to="/" className="flex items-center justify-center gap-3 cursor-pointer">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-            </div>
-            <span className="font-semibold tracking-tight text-3xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</span>
-          </Link>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2 className="text-center text-3xl font-bold tracking-tight text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             {step === 1 ? "Reset your password" : step === 2 ? "Verify OTP" : "Create new password"}
           </h2>
           <p className="mt-2 text-center text-sm text-slate-400">

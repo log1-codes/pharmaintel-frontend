@@ -113,19 +113,13 @@ const Signup = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[#020617] text-white pt-24 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Background decorations */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-purple-600/10 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-3xl mx-auto space-y-8 relative z-10 mt-10">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center justify-center gap-3 cursor-pointer">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-            </div>
-            <span className="font-semibold tracking-tight text-3xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</span>
-          </Link>
-          <h2 className="mt-6 text-3xl font-bold tracking-tight text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          <h2 className="text-3xl font-bold tracking-tight text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
             Create your account
           </h2>
           <p className="mt-2 text-sm text-slate-400">

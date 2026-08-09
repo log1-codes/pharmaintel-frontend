@@ -67,7 +67,6 @@ const Home = () => {
   const [demoEmail, setDemoEmail] = useState('');
   const [demoCompany, setDemoCompany] = useState('');
   const [demoSuccess, setDemoSuccess] = useState('');
-  const [navDropdownOpen, setNavDropdownOpen] = useState(false);
 
   const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,61 +109,6 @@ const Home = () => {
 
   return (
     <div className="bg-[#020617] text-white min-h-screen" style={{ fontFamily: "'Inter', sans-serif" }}>
-
-      {/* ========== NAVBAR ========== */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-            </div>
-            <span className="font-semibold tracking-tight text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</span>
-          </div>
-
-          {/* Nav Links */}
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#home" className="nav-link">Home</a>
-            <Link to="/about" className="nav-link">About Us</Link>
-            <Link to="/newsletter" className="nav-link">Newsletter</Link>
-            <a href="#takestwo" className="nav-link">Takes Two</a>
-
-            {/* Reports Dropdown */}
-            <div
-              className="relative dropdown"
-              onMouseEnter={() => setNavDropdownOpen(true)}
-              onMouseLeave={() => setNavDropdownOpen(false)}
-            >
-              <button className="nav-link flex items-center gap-2 text-slate-300 hover:text-white">
-                Reports
-                <i className="fas fa-chevron-down text-xs"></i>
-              </button>
-              {navDropdownOpen && (
-                <div className="absolute top-full left-0 mt-4 w-56 rounded-2xl border border-white/10 bg-slate-900/95 backdrop-blur-xl shadow-2xl overflow-hidden z-50">
-                  <button onClick={handleNavToReport} className="block w-full text-left px-5 py-4 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition">Ceacam5</button>
-                  <a href="#upcoming" className="block px-5 py-4 text-sm text-slate-300 hover:bg-white/5 hover:text-white transition border-t border-white/5">Upcoming</a>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handleNavToReport}
-              className="btn px-6 py-3 text-sm font-semibold rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white shadow-lg shadow-purple-500/20 inline-flex flex-col items-center justify-center leading-tight text-center"
-            >
-              <span className="text-xs font-medium opacity-90">CEACAM5 Report is Out</span>
-              <span className="text-sm font-bold">Click to View</span>
-            </button>
-            <Link to="/signup"
-              className="btn px-6 py-3 text-sm font-semibold rounded-2xl border border-white/20 hover:border-purple-400 inline-flex items-center justify-center"
-            >
-              Join Waitlist
-            </Link>
-          </div>
-        </div>
-      </nav>
 
       {/* ========== HERO SECTION ========== */}
       <header id="home" className="hero-bg min-h-screen flex items-center relative overflow-hidden">

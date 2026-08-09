@@ -46,32 +46,9 @@ const Newsletter = () => {
   ];
 
   return (
-    <div className="bg-[#020617] text-white min-h-screen relative overflow-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="bg-[#020617] text-white min-h-screen relative overflow-hidden pt-24" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* Background glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-purple-600/15 blur-[140px] rounded-full pointer-events-none"></div>
-
-      {/* Top Navigation Bar */}
-      <nav className="border-b border-white/10 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-            </div>
-            <span className="font-semibold tracking-tight text-2xl" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm font-medium text-slate-300 hover:text-white transition">
-              ← Back to Home
-            </Link>
-            <Link
-              to="/login"
-              className="px-5 py-2.5 text-sm font-semibold rounded-2xl bg-purple-600 hover:bg-purple-700 text-white transition shadow-lg shadow-purple-500/20"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
-      </nav>
 
       {/* Main Content */}
       <div className="max-w-5xl mx-auto px-6 py-16">

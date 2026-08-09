@@ -7,22 +7,12 @@ const NewCeacam5Report = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [purchaseTarget, setPurchaseTarget] = useState<any>(null);
     const [loadingPurchase, setLoadingPurchase] = useState(false);
-    const [userName, setUserName] = useState<string>('Guest');
     
     // Track which chapter is expanded
     const [openChapterId, setOpenChapterId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchChapters();
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                const parsedUser = JSON.parse(storedUser);
-                setUserName(parsedUser.name || parsedUser.username || 'Guest');
-            } catch (err) {
-                console.warn('Unable to parse stored user', err);
-            }
-        }
     }, []);
 
     const fetchChapters = async () => {
@@ -112,11 +102,6 @@ const NewCeacam5Report = () => {
     const [pdfUrls, setPdfUrls] = useState<{[key: number]: string}>({});
     const [loadingPdf, setLoadingPdf] = useState<{[key: number]: boolean}>({});
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/login');
-    };
 
     const loadInlinePdf = async (chapterNumber: number) => {
         if (pdfUrls[chapterNumber] || loadingPdf[chapterNumber]) return;
@@ -182,10 +167,7 @@ const NewCeacam5Report = () => {
   --mono: 'DM Mono', monospace;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
-body {
+.report-container {
   background: var(--ink);
   color: var(--fog);
   font-family: var(--sans);
@@ -1044,29 +1026,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
   }
 }
 `}</style>
-
-
-            <header className="top-bar">
-
-                <div id="bbai-overlay" aria-hidden="true"></div>
-                <div id="bbai-watermark"><div className="bbai-text" id="bbai-watermark-text">Viewer</div></div>
-                <div className="logo">
-                    <a href="/" style={{ color: 'inherit', textDecoration: 'none' }}>AmethIntel</a>
-                </div>
-
-                <nav className="top-nav">
-                    <a href="/" className="home-link">
-                        ← Back to Home
-                    </a>
-
-                    <a href="#exec-summary">Summary</a>
-                    <a href="#toc">Contents</a>
-                    <a href="#chapters">Chapters</a>
-                    <a href="#pricing">Pricing</a>
-                    <span className="nav-greeting">Hello, {userName}</span>
-                    <button className="btn-logout" onClick={handleLogout}>Logout</button>
-                </nav>
-            </header>
+            <div className="report-container">
             {/* HERO */}
             <section className="hero">
                 <div className="content-wrap" style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -1864,7 +1824,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <div className="modal-note">No payment is processed here. You will receive an invoice by email within one business day. Access is granted on payment confirmation.</div>
                 </div>
             </div>
-
+            </div>
         </>
     );
 };

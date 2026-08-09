@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
@@ -35,12 +35,6 @@ const UserDashboard = () => {
     };
     fetchProfile();
   }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
 
   const renderContent = () => {
     if (loading) return <div className="text-white text-center py-10 animate-pulse">Loading profile...</div>;
@@ -163,25 +157,7 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white flex flex-col" style={{ fontFamily: "'Inter', sans-serif" }}>
-      {/* Navbar */}
-      <nav className="border-b border-white/10 bg-slate-950/70 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3 cursor-pointer">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">A</span>
-            </div>
-            <span className="font-semibold tracking-tight text-xl hidden sm:block" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AmethIntel</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-slate-300 hidden sm:block">Welcome, <span className="text-white font-medium">{user?.name || 'User'}</span></div>
-            <button onClick={handleLogout} className="text-sm font-medium text-slate-400 hover:text-white transition px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5">
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
-
+    <div className="min-h-screen bg-[#020617] text-white flex flex-col pt-24" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 md:grid-cols-4 gap-8">
         
         {/* Sidebar */}
