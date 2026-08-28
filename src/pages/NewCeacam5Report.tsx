@@ -10,6 +10,8 @@ const NewCeacam5Report = () => {
     
     // Track which chapter is expanded
     const [openChapterId, setOpenChapterId] = useState<string | null>(null);
+    // Track which chapter's summary is expanded
+    const [openSummaryId, setOpenSummaryId] = useState<string | null>(null);
 
     useEffect(() => {
         fetchChapters();
@@ -102,6 +104,25 @@ const NewCeacam5Report = () => {
     const [pdfUrls, setPdfUrls] = useState<{[key: number]: string}>({});
     const [loadingPdf, setLoadingPdf] = useState<{[key: number]: boolean}>({});
 
+    // ─── Summary PDF state ───
+    const [summaryUrls, setSummaryUrls] = useState<{[key: number]: string}>({});
+    const [loadingSummary, setLoadingSummary] = useState<{[key: number]: boolean}>({});
+
+    // Returns true if the chapter has a summary available (from API data)
+    const hasSummary = (chapterNumber: number) => {
+        const dbChap = getChapterDb(chapterNumber);
+        return dbChap?.has_summary === true;
+    };
+
+    // Toggle chapter summary visibility; loads PDF on first open
+    const toggleSummary = (chapterNumber: number) => {
+        const key = `summary-${chapterNumber}`;
+        const isOpening = openSummaryId !== key;
+        setOpenSummaryId(isOpening ? key : null);
+        if (isOpening) {
+            loadSummaryPdf(chapterNumber);
+        }
+    };
 
     const loadInlinePdf = async (chapterNumber: number) => {
         if (pdfUrls[chapterNumber] || loadingPdf[chapterNumber]) return;
@@ -135,11 +156,44 @@ const NewCeacam5Report = () => {
         }
     };
 
+    const loadSummaryPdf = async (chapterNumber: number) => {
+        if (summaryUrls[chapterNumber] || loadingSummary[chapterNumber]) return;
+
+        try {
+            setLoadingSummary(prev => ({ ...prev, [chapterNumber]: true }));
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoadingSummary(prev => ({ ...prev, [chapterNumber]: false }));
+                return;
+            }
+            const dbChap = getChapterDb(chapterNumber);
+            if (!dbChap) {
+                console.error('Chapter not found in DB data for summary');
+                setLoadingSummary(prev => ({ ...prev, [chapterNumber]: false }));
+                return;
+            }
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/chapters/${dbChap.id}/summary`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.ok) {
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                setSummaryUrls(prev => ({ ...prev, [chapterNumber]: url }));
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoadingSummary(prev => ({ ...prev, [chapterNumber]: false }));
+        }
+    };
+
     const toggleChapter = (elementId: string, chapterNumber?: number) => {
         const isOpening = openChapterId !== elementId;
         console.log('Toggling chapter:', elementId, chapterNumber, 'isUnlocked:', chapterNumber !== undefined ? isUnlocked(chapterNumber) : false);
         setOpenChapterId(isOpening ? elementId : null);
     };
+
 
     return (
         <>
@@ -614,6 +668,64 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
   display: none;
 }
 .chapter-body.open { display: block; }
+
+/* ─── SUMMARY STRIP ─── */
+.summary-strip {
+  padding: 10px 20px 10px 76px;
+  border-top: 1px solid var(--rule);
+  background: rgba(200,151,58,0.04);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.btn-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(200,151,58,0.35);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-summary:hover { background: var(--accent-dim); border-color: var(--accent); }
+.btn-summary.active { background: var(--accent-dim); border-color: var(--accent); }
+.summary-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.summary-panel {
+  padding: 16px 20px 20px 76px;
+  background: rgba(200,151,58,0.02);
+  border-top: 1px solid rgba(200,151,58,0.12);
+}
+.summary-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0.75;
+}
+.summary-panel iframe {
+  width: 100%;
+  height: 700px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: white;
+}
 
 .preview-zone {
   padding: 20px 20px 0 76px;
@@ -1275,6 +1387,30 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — visible only when logged in and summary exists */}
+                    {localStorage.getItem('token') && hasSummary(1) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-1' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(1)}
+                            >
+                                ◆ {openSummaryId === 'summary-1' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(1) && openSummaryId === 'summary-1' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 1 — Summary PDF</div>
+                            {loadingSummary[1] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[1] ? (
+                                <iframe src={summaryUrls[1]} title="Chapter 1 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(1)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
@@ -1334,10 +1470,33 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — ch-2 */}
+                    {localStorage.getItem('token') && hasSummary(2) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-2' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(2)}
+                            >
+                                ◆ {openSummaryId === 'summary-2' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(2) && openSummaryId === 'summary-2' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 2 — Summary PDF</div>
+                            {loadingSummary[2] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[2] ? (
+                                <iframe src={summaryUrls[2]} title="Chapter 2 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(2)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
-                    {/* CH 3 */}
                     <div className="chapter-block" id="ch-3">
                         <div className={`chapter-head ${openChapterId === 'ch-3' ? 'open' : ''}`} onClick={() => toggleChapter('ch-3', 3)}>
                             <div className="ch-num">03</div>
@@ -1393,10 +1552,33 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — ch-3 */}
+                    {localStorage.getItem('token') && hasSummary(3) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-3' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(3)}
+                            >
+                                ◆ {openSummaryId === 'summary-3' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(3) && openSummaryId === 'summary-3' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 3 — Summary PDF</div>
+                            {loadingSummary[3] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[3] ? (
+                                <iframe src={summaryUrls[3]} title="Chapter 3 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(3)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
-                    {/* CH 4 */}
                     <div className="chapter-block" id="ch-4">
                         <div className={`chapter-head ${openChapterId === 'ch-4' ? 'open' : ''}`} onClick={() => toggleChapter('ch-4', 4)}>
                             <div className="ch-num">04</div>
@@ -1451,10 +1633,33 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — ch-4 */}
+                    {localStorage.getItem('token') && hasSummary(4) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-4' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(4)}
+                            >
+                                ◆ {openSummaryId === 'summary-4' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(4) && openSummaryId === 'summary-4' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 4 — Summary PDF</div>
+                            {loadingSummary[4] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[4] ? (
+                                <iframe src={summaryUrls[4]} title="Chapter 4 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(4)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
-                    {/* CH 5 */}
                     <div className="chapter-block" id="ch-5">
                         <div className={`chapter-head ${openChapterId === 'ch-5' ? 'open' : ''}`} onClick={() => toggleChapter('ch-5', 5)}>
                             <div className="ch-num">05</div>
@@ -1509,10 +1714,33 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — ch-5 */}
+                    {localStorage.getItem('token') && hasSummary(5) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-5' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(5)}
+                            >
+                                ◆ {openSummaryId === 'summary-5' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(5) && openSummaryId === 'summary-5' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 5 — Summary PDF</div>
+                            {loadingSummary[5] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[5] ? (
+                                <iframe src={summaryUrls[5]} title="Chapter 5 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(5)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
-                    {/* CH 6 */}
                     <div className="chapter-block" id="ch-6">
                         <div className={`chapter-head ${openChapterId === 'ch-6' ? 'open' : ''}`} onClick={() => toggleChapter('ch-6', 6)}>
                             <div className="ch-num">06</div>
@@ -1567,10 +1795,33 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — ch-6 */}
+                    {localStorage.getItem('token') && hasSummary(6) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-6' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(6)}
+                            >
+                                ◆ {openSummaryId === 'summary-6' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(6) && openSummaryId === 'summary-6' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 6 — Summary PDF</div>
+                            {loadingSummary[6] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[6] ? (
+                                <iframe src={summaryUrls[6]} title="Chapter 6 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(6)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
-                    {/* CH 7 */}
                     <div className="chapter-block" id="ch-7">
                         <div className={`chapter-head ${openChapterId === 'ch-7' ? 'open' : ''}`} onClick={() => toggleChapter('ch-7', 7)}>
                             <div className="ch-num">07</div>
@@ -1625,10 +1876,33 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                             </div>
                         </>
                     )}
+                    {/* Summary strip — ch-7 */}
+                    {localStorage.getItem('token') && hasSummary(7) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-7' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(7)}
+                            >
+                                ◆ {openSummaryId === 'summary-7' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(7) && openSummaryId === 'summary-7' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 7 — Summary PDF</div>
+                            {loadingSummary[7] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[7] ? (
+                                <iframe src={summaryUrls[7]} title="Chapter 7 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(7)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
+                    )}
                         </div>
                     </div>
 
-                    {/* CH 8 */}
                     <div className="chapter-block" id="ch-8">
                         <div className={`chapter-head ${openChapterId === 'ch-8' ? 'open' : ''}`} onClick={() => toggleChapter('ch-8', 8)}>
                             <div className="ch-num">08</div>
@@ -1682,6 +1956,30 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                                 </div>
                             </div>
                         </>
+                    )}
+                    {/* Summary strip — ch-8 */}
+                    {localStorage.getItem('token') && hasSummary(8) && (
+                        <div className="summary-strip">
+                            <button
+                                className={`btn-summary ${openSummaryId === 'summary-8' ? 'active' : ''}`}
+                                onClick={() => toggleSummary(8)}
+                            >
+                                ◆ {openSummaryId === 'summary-8' ? 'Hide' : 'View'} Chapter Summary
+                            </button>
+                            <span className="summary-badge">Included with login</span>
+                        </div>
+                    )}
+                    {localStorage.getItem('token') && hasSummary(8) && openSummaryId === 'summary-8' && (
+                        <div className="summary-panel">
+                            <div className="summary-label">Chapter 8 — Summary PDF</div>
+                            {loadingSummary[8] ? (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--mist)', fontStyle: 'italic', fontSize: '13px' }}>Loading summary...</div>
+                            ) : summaryUrls[8] ? (
+                                <iframe src={summaryUrls[8]} title="Chapter 8 Summary" />
+                            ) : (
+                                <div style={{ textAlign: 'center', padding: '30px 0', color: 'var(--lock-red)', fontSize: '12px' }}>Failed to load summary. <button onClick={() => loadSummaryPdf(8)} style={{ textDecoration: 'underline', background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer' }}>Retry</button></div>
+                            )}
+                        </div>
                     )}
                         </div>
                     </div>
