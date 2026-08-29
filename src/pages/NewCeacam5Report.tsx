@@ -1214,7 +1214,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
 
           <section className="chapters-section" id="chapters">
-            <h2 style={{ color: "orange", fontSize: "14px", margin: "20px" }}>Report Summaries</h2>
+            <h2 style={{ color: "orange", fontSize: "14px", margin: "20px" }}>Section Summaries</h2>
 
             {summariesData.filter(s => parseInt(s.num) >= 1).length === 0 ? (
               <div style={{ color: 'var(--mist)', padding: '20px' }}>No report summaries available.</div>
@@ -1288,17 +1288,17 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
             <div className="contact-links">
 
-              <a href="mailto:akash@amethintel.com"
+              <a href="mailto:Akash@amethintel.com"
                 style={{ display: 'block', color: 'white', marginBottom: '10px', textDecoration: 'none' }}>
 
-                akash@amethintel.com
+                Akash@amethintel.com
 
               </a>
 
-              <a href="mailto:akash.m@hb-022.com"
+              <a href="mailto:Greg.schneider@amethintel.com"
                 style={{ display: 'block', color: 'white', textDecoration: 'none' }}>
 
-                akash.m@hb-022.com
+                Greg.schneider@amethintel.com
 
               </a>
 
