@@ -14,6 +14,8 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import UserDashboard from './pages/UserDashboard';
 import Newsletter from './pages/Newsletter';
+// import RequestSection from './pages/RequestSection';
+import RequestSection from './pages/RequestSection';
 import AuditTracker from './components/AuditTracker';
 
 function App() {
@@ -35,6 +37,7 @@ function App() {
           {/* Protected Chapter Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/ceacam5" element={<NewCeacam5Report />} />
+            <Route path="/request-section" element={<RequestSection />} />
             <Route path="/chapters/chapter1" element={<Chapter1 />} />
             <Route path="/chapters/chapter2" element={<Chapter2 />} />
             <Route path="/chapters/appendix" element={<Appendix />} />

@@ -1089,11 +1089,11 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                       <iframe src={summaryUrls[summary.id]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
                       <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                        <button 
-                          onClick={() => alert(`I want the complete copy of this executive summary`)}
+                        <button
+                          onClick={() => navigate(`/request-section?section=${encodeURIComponent(summary.title)}`)}
                           style={{ padding: '12px 24px', backgroundColor: 'var(--accent)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
                         >
-                          Request Complete Copy
+                          Request Full Section
                         </button>
                       </div>
                     </div>
@@ -1209,11 +1209,11 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                       <iframe src={summaryUrls[summary.id]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
                       <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                        <button 
-                          onClick={() => alert(`I want the complete copy of this executive summary`)}
+                        <button
+                          onClick={() => navigate(`/request-section?section=${encodeURIComponent(summary.title)}`)}
                           style={{ padding: '12px 24px', backgroundColor: 'var(--accent)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
                         >
-                          Request Complete Copy
+                          Request Full Section
                         </button>
                       </div>
                     </div>
@@ -1270,11 +1270,11 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                           <iframe src={summaryUrls[summary.id]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
                           <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                            <button 
-                              onClick={() => alert(`I want the complete copy of this section`)}
+                            <button
+                              onClick={() => navigate(`/request-section?section=${encodeURIComponent(summary.title)}`)}
                               style={{ padding: '12px 24px', backgroundColor: 'var(--accent)', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
                             >
-                              Request Complete Copy
+                              Request Full Section
                             </button>
                           </div>
                         </div>
