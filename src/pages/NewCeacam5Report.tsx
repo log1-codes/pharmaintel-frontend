@@ -1081,7 +1081,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading PDF...</div>
                   ) : summaryUrls[summary.id] ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                      <iframe src={summaryUrls[summary.id]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
+                      <iframe src={`${summaryUrls[summary.id]}#toolbar=0&navpanes=0&scrollbar=0`} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
                       <div style={{ textAlign: 'center', marginTop: '10px' }}>
                         <button
                           onClick={() => navigate(`/request-section?section=${encodeURIComponent(summary.title)}`)}
@@ -1220,7 +1220,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                     <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading Preface PDF...</div>
                   ) : summaryUrls[summary.id] ? (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                      <iframe src={summaryUrls[summary.id]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
+                      <iframe src={`${summaryUrls[summary.id]}#toolbar=0&navpanes=0&scrollbar=0`} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
                       <div style={{ textAlign: 'center', marginTop: '10px' }}>
                         <button
                           onClick={() => navigate(`/request-section?section=${encodeURIComponent(summary.title)}`)}
@@ -1300,7 +1300,7 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                         <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--mist)', fontStyle: 'italic' }}>Loading summary PDF...</div>
                       ) : summaryUrls[summary.id] ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                          <iframe src={summaryUrls[summary.id]} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
+                          <iframe src={`${summaryUrls[summary.id]}#toolbar=0&navpanes=0&scrollbar=0`} style={{ width: '100%', height: '800px', border: 'none', borderRadius: '8px', backgroundColor: 'white' }} title={`Summary ${summary.num}`} />
                           <div style={{ textAlign: 'center', marginTop: '10px' }}>
                             <button
                               onClick={() => navigate(`/request-section?section=${encodeURIComponent(summary.title)}`)}

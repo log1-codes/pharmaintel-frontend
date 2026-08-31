@@ -10,6 +10,7 @@ const isRestrictedShortcut = (event: KeyboardEvent) => {
     key === 'snapshot' ||
     key === 'prtscr' ||
     event.keyCode === 44 ||
+    (event.shiftKey && key === 'printscreen') ||
     (event.metaKey && event.shiftKey && key === 's') ||
     (event.metaKey && event.shiftKey && ['3', '4', '5'].includes(key)) ||
     ((event.ctrlKey || event.metaKey) && ['p', 's', 'u'].includes(key)) ||
@@ -24,11 +25,7 @@ export const useCaptureWarning = () => {
   useEffect(() => {
     const showWarning = () => {
       const now = Date.now();
-
-      if (now - lastWarningAtRef.current < 1200) {
-        return;
-      }
-
+      if (now - lastWarningAtRef.current < 1200) return;
       lastWarningAtRef.current = now;
       window.alert(CAPTURE_WARNING);
     };
@@ -36,23 +33,42 @@ export const useCaptureWarning = () => {
     const clearClipboard = async () => {
       try {
         await navigator.clipboard.writeText("Content is protected. Screenshots/screen captures are strictly prohibited.");
-      } catch (err) {
-        // Ignore permission errors
-      }
+      } catch (err) { /* ignore */ }
+    };
+
+    // Direct synchronous DOM manipulation — fastest possible hide,
+    // bypasses React's render cycle entirely.
+    const hideContent = () => {
+      document.documentElement.style.setProperty('visibility', 'hidden', 'important');
+      document.documentElement.style.setProperty('opacity', '0', 'important');
+    };
+
+    const showContent = () => {
+      document.documentElement.style.removeProperty('visibility');
+      document.documentElement.style.removeProperty('opacity');
     };
 
     const blockEvent = (event: Event) => {
-      // Allow printing when the print bypass is active
       if ((window as any).__allowPrint && (event.type === 'beforeprint' || (event instanceof KeyboardEvent && event.key.toLowerCase() === 'p'))) {
         return;
       }
 
       event.preventDefault();
       event.stopPropagation();
-      
-      // If it is a printscreen event, attempt to clear the clipboard
-      if (event instanceof KeyboardEvent && (event.key.toLowerCase() === 'printscreen' || event.key.toLowerCase() === 'snapshot' || event.keyCode === 44)) {
-        clearClipboard();
+      event.stopImmediatePropagation();
+
+      if (event instanceof KeyboardEvent) {
+        const key = event.key.toLowerCase();
+        if (key === 'printscreen' || key === 'snapshot' || key === 'prtscr' || event.keyCode === 44) {
+          // Immediately blank screen, clear clipboard, then restore and warn
+          hideContent();
+          clearClipboard();
+          setTimeout(() => {
+            showContent();
+            showWarning();
+          }, 600);
+          return;
+        }
       }
 
       showWarning();
@@ -61,23 +77,29 @@ export const useCaptureWarning = () => {
     const blockInteraction = (event: Event) => {
       event.preventDefault();
       event.stopPropagation();
+      event.stopImmediatePropagation();
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (isRestrictedShortcut(event)) {
-        blockEvent(event);
-      }
+      if (isRestrictedShortcut(event)) blockEvent(event);
     };
 
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (isRestrictedShortcut(event)) blockEvent(event);
+    };
+
+    // Window blur = OS-level screenshot tool stole focus (Snipping Tool, GNOME Screenshot).
+    // Immediately hide the entire page so whatever gets captured is blank.
     const handleBlur = () => {
-      document.body.classList.add('blurred-content');
+      hideContent();
     };
 
     const handleFocus = () => {
-      document.body.classList.remove('blurred-content');
+      showContent();
     };
 
     document.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('keyup', handleKeyUp, true);
     document.addEventListener('contextmenu', blockEvent, true);
     document.addEventListener('copy', blockInteraction, true);
     document.addEventListener('cut', blockInteraction, true);
@@ -89,6 +111,7 @@ export const useCaptureWarning = () => {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('keyup', handleKeyUp, true);
       document.removeEventListener('contextmenu', blockEvent, true);
       document.removeEventListener('copy', blockInteraction, true);
       document.removeEventListener('cut', blockInteraction, true);
@@ -97,8 +120,7 @@ export const useCaptureWarning = () => {
       window.removeEventListener('beforeprint', blockEvent, true);
       window.removeEventListener('blur', handleBlur);
       window.removeEventListener('focus', handleFocus);
-      document.body.classList.remove('blurred-content');
+      showContent();
     };
   }, []);
 };
-

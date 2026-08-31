@@ -60,10 +60,12 @@ const Appendix = () => {
 
   const handleDownload = () => {
     (window as any).__allowPrint = true;
+    document.body.classList.add('print-enabled');
     window.print();
     setTimeout(() => {
       (window as any).__allowPrint = false;
-    }, 1000);
+      document.body.classList.remove('print-enabled');
+    }, 500);
   };
 
   return (
@@ -119,7 +121,7 @@ const Appendix = () => {
           <h2 className="text-xl font-bold text-slate-900 pb-2 border-b border-slate-100">
             Reference Tables & Indices
           </h2>
-          
+
           <div className="space-y-4">
             <h3 className="text-base font-semibold text-slate-800">30-Programme Reference Table</h3>
             <p className="text-sm text-slate-500 leading-relaxed">

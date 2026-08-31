@@ -190,10 +190,10 @@ html {
 }
 
 .blurred-content {
-  filter: blur(20px) !important;
+  filter: blur(40px) !important;
+  opacity: 0 !important;
   user-select: none !important;
   pointer-events: none !important;
-  transition: filter 0.15s ease-out;
 }
 
 .chapter-capture-guard {
@@ -223,6 +223,10 @@ html {
 
 /* Print Stylesheet for PDF generation */
 @media print {
+  body:not(.print-enabled) {
+    display: none !important;
+  }
+
   .print-only {
     display: flex !important;
   }
