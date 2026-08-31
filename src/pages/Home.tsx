@@ -83,7 +83,7 @@ const Home = () => {
           company: waitlistData.company,
           role: waitlistData.role
         })
-      }).catch(() => {});
+      }).catch(() => { });
       setMessage('Successfully joined the waitlist! We will be in touch shortly.');
       setWaitlistData({ fullName: '', email: '', company: '', role: '' });
     } finally {
@@ -142,7 +142,7 @@ const Home = () => {
               <a
                 href="#about"
                 className="btn px-8 py-4 border border-white/30 hover:border-white rounded-3xl text-lg flex items-center gap-3"
-                onClick={(e) => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }}
+                onClick={() => navigate("/about")}
               >
                 <i className="fas fa-play-circle"></i> Explore Vision
               </a>
@@ -360,7 +360,7 @@ const Home = () => {
       </section>
 
       {/* ========== NEWSLETTER ========== */}
-      <section id="newsletter" className="py-32 bg-slate-900 border-t border-white/10">
+      {/* <section id="newsletter" className="py-32 bg-slate-900 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-5xl font-semibold mb-6">Newsletter</h2>
           <p className="text-slate-400 text-xl max-w-3xl mx-auto mb-8">Stay updated with scientific signals, biotech intelligence, emerging opportunities, and strategic insights from AmethIntel.</p>
@@ -371,7 +371,7 @@ const Home = () => {
             Explore Intelligence Newsletter <i className="fas fa-arrow-right"></i>
           </Link>
         </div>
-      </section>
+      </section> */}
 
       {/* ========== TAKES TWO ========== */}
       <section id="takestwo" className="py-32 bg-slate-950 border-t border-white/10">
@@ -539,7 +539,7 @@ const Home = () => {
             <div className="flex flex-wrap justify-center gap-8 text-sm text-slate-400">
               <a href="#home" className="hover:text-white transition">Home</a>
               <Link to="/about" className="hover:text-white transition">About Us</Link>
-              <Link to="/newsletter" className="hover:text-white transition">Newsletter</Link>
+              {/* <Link to="/newsletter" className="hover:text-white transition">Newsletter</Link> */}
               <a href="#takestwo" className="hover:text-white transition">Takes Two</a>
               <a href="#ceacam5" className="hover:text-white transition">CEACAM5</a>
               <a href="#upcoming" className="hover:text-white transition">Upcoming</a>

@@ -1018,8 +1018,8 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
         {/* HERO */}
         <section className="hero">
           <div className="content-wrap" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <div className="hero-eyebrow">AmethIntel · Oncology Intelligence Series · 2026</div>
-            <h1 className="hero-title">CEACAM5: Oncology Target and<br /><em>Ramifications for Target Selection Strategy</em></h1>
+            <div className="hero-eyebrow">A Ten Year Leadership is Designed, it is not a given.</div>
+            <h1 className="hero-title">CEACAM5 : Study of Clinical Trials,<br /><em>Intellectual Property, and Diagnostics - Status and Opportunities</em></h1>
             <p className="hero-sub">A decision-grade intelligence review integrating clinical trial triage, failure attribution, patent landscape, payload and linker analysis, and 2026 deal structure benchmarks — structured for R&amp;D heads, BD leaders, and oncology investment teams.</p>
 
 
