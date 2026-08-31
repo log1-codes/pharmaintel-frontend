@@ -1024,31 +1024,6 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
 
 
 
-            {/* <div className="pricing-pill">
-
-                        <div className="price-item">
-                            TOC + Executive Summary
-                        </div>
-
-                        <div className="price-divider"></div>
-
-                        <div className="price-item">
-                            Data
-                        </div>
-
-                        <div className="price-divider"></div>
-
-                        <div className="price-item">
-                            Analysis
-                        </div>
-
-                        <div className="price-divider"></div>
-
-                        <div className="price-item">
-                            Projection
-                        </div>
-
-                    </div> */}
           </div>
         </section>
 
@@ -1062,22 +1037,41 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                   <div className="ch-title">{summary.title}</div>
                 </div>
                 {summaryUrls[summary.id] && (
-                  <a
-                    href={summaryUrls[summary.id]}
-                    download={`${summary.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`}
-                    style={{
-                      backgroundColor: 'var(--accent)',
-                      color: 'white',
-                      padding: '4px 10px',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      textDecoration: 'none',
-                      fontWeight: 'bold',
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Download PDF
-                  </a>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                    <a
+                      href={summaryUrls[summary.id]}
+                      download={`${summary.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`}
+                      style={{
+                        backgroundColor: 'var(--accent)',
+                        color: 'white',
+                        padding: '4px 10px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        textDecoration: 'none',
+                        fontWeight: 'bold',
+                        textAlign: 'center'
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Download PDF
+                    </a>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); navigate(`/request-section?section=${encodeURIComponent(summary.title)}`); }}
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: 'var(--accent)',
+                        border: '1px solid var(--accent)',
+                        padding: '3px 10px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        textAlign: 'center'
+                      }}
+                    >
+                      Download Full Section
+                    </button>
+                  </div>
                 )}
                 <div className="ch-toggle">+</div>
               </div>
@@ -1182,22 +1176,41 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                   <div className="ch-title">{summary.title}</div>
                 </div>
                 {summaryUrls[summary.id] && (
-                  <a
-                    href={summaryUrls[summary.id]}
-                    download={`${summary.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`}
-                    style={{
-                      backgroundColor: 'var(--accent)',
-                      color: 'white',
-                      padding: '4px 10px',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      textDecoration: 'none',
-                      fontWeight: 'bold',
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Download PDF
-                  </a>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                    <a
+                      href={summaryUrls[summary.id]}
+                      download={`${summary.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`}
+                      style={{
+                        backgroundColor: 'var(--accent)',
+                        color: 'white',
+                        padding: '4px 10px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        textDecoration: 'none',
+                        fontWeight: 'bold',
+                        textAlign: 'center'
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Download PDF
+                    </a>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); navigate(`/request-section?section=${encodeURIComponent(summary.title)}`); }}
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: 'var(--accent)',
+                        border: '1px solid var(--accent)',
+                        padding: '3px 10px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        textAlign: 'center'
+                      }}
+                    >
+                      Download Full Section
+                    </button>
+                  </div>
                 )}
                 <div className="ch-toggle">+</div>
               </div>
@@ -1243,22 +1256,41 @@ img, svg, video, canvas, iframe { user-drag: none !important; -webkit-user-drag:
                       <div className="ch-title">{summary.title}</div>
                     </div>
                     {summaryUrls[summary.id] && (
-                      <a
-                        href={summaryUrls[summary.id]}
-                        download={`${summary.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`}
-                        style={{
-                          backgroundColor: 'var(--accent)',
-                          color: 'white',
-                          padding: '4px 10px',
-                          borderRadius: '4px',
-                          fontSize: '12px',
-                          textDecoration: 'none',
-                          fontWeight: 'bold',
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Download PDF
-                      </a>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                        <a
+                          href={summaryUrls[summary.id]}
+                          download={`${summary.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`}
+                          style={{
+                            backgroundColor: 'var(--accent)',
+                            color: 'white',
+                            padding: '4px 10px',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            textDecoration: 'none',
+                            fontWeight: 'bold',
+                            textAlign: 'center'
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Download PDF
+                        </a>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); navigate(`/request-section?section=${encodeURIComponent(summary.title)}`); }}
+                          style={{
+                            backgroundColor: 'transparent',
+                            color: 'var(--accent)',
+                            border: '1px solid var(--accent)',
+                            padding: '3px 10px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            textAlign: 'center'
+                          }}
+                        >
+                          Download Full Section
+                        </button>
+                      </div>
                     )}
                     <div className="ch-toggle">+</div>
                   </div>
